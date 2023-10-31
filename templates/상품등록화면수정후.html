@@ -15,13 +15,22 @@
         <a href="#">회원가입/로그인</a>
         <a href="#">마이페이지</a>
     </div>
+
+
     <div class="container">
         <h2>상품 이미지</h2>
         <div class="image-upload">
             <button class="image-upload-button">+</button>
         </div>
-        <h3>상품명</h3>
-        <input type="text" placeholder="20자 이내로 입력하세요">
+
+        <!-- 상품명 입력란 -->
+        <div>
+            <h3>상품명</h3>
+            <label for="product-title">상품명(글제목)</label>
+            <input type="text" id="product-title" name="product-title" required placeholder="20자 이내로 입력하세요">
+        </div>
+        <br>
+
         <h3>거래방식 * 가능한 거래방식에 모두 체크해주세요.</h3>
         <input type="radio" name="transaction" value="직거래"> 직거래
         <input type="radio" name="transaction" value="택배거래"> 택배거래
@@ -37,35 +46,54 @@
             경매
         </label>
         <br>
+
+
         <!-- 추가 입력 필드 (일반거래 및 경매 정보) -->
         <div id="normal-fields" style="display:none;">
-            <input type="datetime-local" id="normal-price-time" name="normal-price-time">
-            <br>
-            <label for="normal-price-amount">판매가</label>
-            <input type="number" id="normal-price-amount" name="normal-price-amount">
+            <label for="normal-price">판매가</label>
+            <input type="number" id="normal-price" name="normal-price">
             <br>
         </div>
 
+
         <div id="auction-fields" style="display:none;">
-            <label for="auction-end-time">경매마감일</label>
+            <label for="auction-end-date">경매마감일</label>
             <input type="datetime-local" id="auction-end-time" name="auction-end-time">
             <br>
             <label for="auction-min-bid">최저낙찰가</label>
             <input type="number" id="auction-min-bid" name="auction-min-bid">
             <br>
-            <label for "auction-max-bid">최고낙찰가</label>
+            <label for="auction-max-bid">최고낙찰가</label>
             <input type="number" id="auction-max-bid" name="auction-max-bid">
             <br>
         </div>
 
+        <!-- 상세설명 입력란 -->
         <h3>상세 설명</h3>
-        <input type="text" placeholder="(20-500자)">
-        <textarea class="description-textarea"></textarea>
-        <button class="submit-button">등록</button>
+        <label for="product-description"></label>
+        <textarea id="product-description" name="product-description" rows="15" cols="50" required
+            placeholder="(20-500자)"></textarea>
+        <br>
+
+        <!-- 회원아이디 (자동 기록) -->
+        <input type="hidden" id="user-id" name="user-id" value="사용자아이디">
+        <br>
+
+        <!-- 글작성날짜 (자동 기록) -->
+        <input type="hidden" id="post-date" name="post-date">
+        <br>
+
+        <!-- 제출 버튼 -->
+        <button class="submit-button" type="submit">상품 등록</button>
+
+
     </div>
+
+
+
     <div class="footer">
-        <p>상품 등록</p>
-        <p>상품 등록 설명</p>
+        <p>감자마켓</p>
+        <p>감자마켓 설명</p>
         <p>Address</p>
         <p>Contact</p>
         <p>All Rights Reserved</p>
