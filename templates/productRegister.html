@@ -11,7 +11,7 @@
 <!-- <form action="/submit" method="post"> -->
     
 <!-- result 페이지용 -->
-    <form action="/productSubmitResult" method="post">
+    <form method="post" enctype="multipart/form-data" action="/productSubmitResult">
         <!-- 상품명 입력란 -->
         <label for="product-title">상품명(글제목)</label>
         <input type="text" id="product-title" name="product-title" required>
@@ -48,6 +48,12 @@
         <label for="product-description">상세설명</label>
         <textarea id="product-description" name="product-description" rows="4" required></textarea>
         <br>
+        
+        <!-- 이미지 첨부란 -->
+        <div>
+            <label for="img">사진 첨부</label>
+            <input type="file" name="file"/><br><br>
+        </div>
 
         <!-- 회원아이디 (자동 기록) -->
         <input type="hidden" id="user-id" name="user-id" value="사용자아이디">
