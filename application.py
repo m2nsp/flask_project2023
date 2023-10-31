@@ -37,7 +37,7 @@ def submitProduct():
         if price_method == "일반거래":
             print("판매가:", normal_price)
         elif price_method == "경매":
-            print("경매마김일:", auction_end_time)
+            print("경매마감일:", auction_end_time)
             print("최저낙찰가:", auction_min_bid)
             print("최고낙찰가:", auction_max_bid)
         
@@ -56,10 +56,12 @@ def reviewRegister():
 def myReview():
     return render_template("myReview.html")
 
-@application.route("/productSubmitResult")
+@application.route("/productSubmitResult", methods=['POST'])
 def productSubmitResult():
-    return render_template("productSubmitResult.html")
-
+    image_file=request.files["file"]
+    image_file.save("static/images/{}".format(image_file.filename))
+    data = request.form
+    return render_template("productSubmitResult.html", data=data, img_path="static/images/{}".format(image_file.filename))
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
