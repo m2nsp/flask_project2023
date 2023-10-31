@@ -50,7 +50,7 @@
         <br>
 
         <!-- 글작성날짜 (자동 기록) -->
-        <input type="hidden" id="post-date" name="post-date" value="<?php echo date('Y-m-d H:i:s'); ?>">
+        <input type="hidden" id="post-date" name="post-date">
         <br>
 
         <!-- 제출 버튼 -->
@@ -58,6 +58,7 @@
     </form>
 
     <script>
+        // 가격방식 선택에 따른 추가입력필드 바꾸기
         const normalRadio = document.getElementById('normal');
         const auctionRadio = document.getElementById('auction');
         const normalFields = document.getElementById('normal-fields');
@@ -76,7 +77,17 @@
                 normalFields.style.display = 'none';
             }
         });
+        
+        //작성날짜
+        const currentDateTime = new Date();
+        const year = currentDateTime.getFullYear();
+        const month = String(currentDateTime.getMonth() + 1).padStart(2, '0'); // Adding 1 to month because it's 0-based
+        const date = String(currentDateTime.getDate()).padStart(2, '0');
+        const hour = String(currentDateTime.getHours()).padStart(2, '0');
+        const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
 
+        const formattedDateTime = `${year}-${month}-${date} ${hour}:${minutes}`;
+        document.getElementById("post-date").value = formattedDateTime;
     </script>
 </body>
 </html>
