@@ -17,6 +17,10 @@
         <p>판매가: {{ data['normal-price'] }}</p>
     {% endif %}
 
+    <p>
+        <img src="{{img_path}}"/>
+    </p>
+
     {% if data['price-method'] == "경매" %}
         <p>경매마감일: {{ data['auction-end-time'] }}</p>
         <p>최저낙찰가: {{ data['auction-min-bid'] }}</p>
