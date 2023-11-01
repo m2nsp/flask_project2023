@@ -1,98 +1,65 @@
-body {
-    font-family: Arial, sans-serif;
-}
+from flask import Flask, render_template, request
 
-.navbar {
-    background-color: #F6E7E6;
-    color: #2D2D2D;
-    text-align: center;
-    padding: 10px 0;
-}
+application = Flask(__name__)
 
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 20px;
-}
+@application.route("/", methods=['GET', 'POST'])
+def hello():
+    return render_template("home.html")
 
-.second-navbar {
-    background-color: #E5C3A6;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-}
+@application.route("/productList")
+def productList():
+    return render_template("productList.html")
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
+@application.route("/productRegister")
+def productRegister():
+    return render_template("productRegister.html")
 
-.image-upload {
-    text-align: center;
-    border: 2px dashed #ccc;
-    padding: 30px;
-    margin: 20px 0;
-}
+@application.route("/submit", methods=['POST'])
+def submitProduct():
+    if request.method == "POST":
+        product_title = request.form.get("product-title")
+        price_method = request.form.get("price-method")
+        product_description = request.form.get("product-description")
+        user_id = request.form.get("user-id")
+        post_date = request.form.get("post-date")
 
-.image-upload-button {
-    background-color: #943F2F;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        if price_method == "일반거래":
+            normal_price = request.form.get("normal-price")
+        elif price_method == "경매":
+            auction_end_time = request.form.get("auction-end-time")
+            auction_min_bid = request.form.get("auction-min-bid")
+            auction_max_bid = request.form.get("auction-max-bid")
 
-.input-with-unit {
-    display: flex;
-    align-items: center;
-}
+        #터미널에 데이터값 출력
+        print("상품명(글제목):", product_title)
+        print("가격방식:", price_method)
 
-.input-with-unit input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
+        if price_method == "일반거래":
+            print("판매가:", normal_price)
+        elif price_method == "경매":
+            print("경매마감일:", auction_end_time)
+            print("최저낙찰가:", auction_min_bid)
+            print("최고낙찰가:", auction_max_bid)
+        
+        print("상세설명:", product_description)
+        print("글작성날짜:", post_date)
 
-.input-with-unit::after {
-    content: '원';
-    margin-left: 5px;
-}
+    return "상품이 성공적으로 등록되었습니다."
 
-.product-description {
-    height: 300px;
-    width: 100%;
-    resize: vertical;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
 
-.submit-button {
-    display: block;
-    margin: 20px auto;
-    background-color: #F8D57E;
-    color: #2D2D2D;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-.footer {
-    border-top: 1px solid #ccc;
-    padding: 20px 0;
-    text-align: center;
-}
+@application.route("/reviewRegister")
+def reviewRegister():
+    return render_template("reviewRegister.html")
 
-label {
-    margin-right: 20px; /* 오른쪽 여백을 20px로 설정 */
-}
+@application.route("/myReview")
+def myReview():
+    return render_template("myReview.html")
 
-.purple-box {
-    background-color: #F7F5FD; /* 연보라색 배경 */
-    color: #2D2D2D; /* 텍스트 색상을 검은색으로 설정 */
-    padding: 20px;
-    margin-top: 20px;
-}
+@application.route("/productSubmitResult", methods=['POST'])
+def productSubmitResult():
+    data = request.form
+    return render_template("productSubmitResult.html", data=data)
+
+if __name__ == "__main__":
+    application.run(host='0.0.0.0')

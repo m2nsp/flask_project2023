@@ -7,6 +7,10 @@
     <h1>상품 등록 결과</h1>
 
     <p>상품명(글제목): {{ data['product-title'] }}</p>
+    <p>
+        {{ data['file'] }}</p>
+    </p>
+    <p>거래방식: {{ data['transaction'] }}</p>
     <p>가격방식: {{ data['price-method'] }}</p>
 
     {% if data['price-method'] == "일반거래" %}

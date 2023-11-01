@@ -86,22 +86,13 @@
             cursor: pointer;
         }
 
-        .footer {
-            border-top: 1px solid #ccc;
-            padding: 20px 0;
-            text-align: center;
-        }
-
         label {
             margin-right: 20px;
-            /* 오른쪽 여백을 20px로 설정 */
         }
 
         .purple-box {
             background-color: #F7F5FD;
-            /* 연보라색 배경 */
             color: #2D2D2D;
-            /* 텍스트 색상을 검은색으로 설정 */
             padding: 20px;
             margin-top: 20px;
         }
@@ -118,73 +109,108 @@
         <a href="#">마이페이지</a>
     </div>
 
-    <!-- 상품명 입력란 -->
-    <div>
-        <h3>상품명</h3>
-        <label for="product-title">상품명(글제목)</label>
-        <input type="text" id="product-title" name="product-title" required placeholder="20자 이내로 입력하세요">
+    <div class="container">
+    <!-- 터미널 출력 확인용 -->
+    <!-- <form action="/submit" method="post"> -->
+
+    <!-- result 페이지용 -->
+    <form action="/productSubmitResult" method="post">
+            <div>
+                <h3>상품명</h3>
+                <label for="product-title">상품명(글제목)</label>
+                <input type="text" id="product-title" name="product-title" required placeholder="20자 이내로 입력하세요">
+            </div>
+        
+             <div>
+                <label for="img">사진 첨부</label>
+                <input type="file" name="file" /><br><br>
+            </div>
+        
+            <br>
+
+            <h3>거래방식 * 가능한 거래방식에 모두 체크해주세요.</h3>
+            <input type="radio" name="transaction" value="직거래"> 직거래
+            <input type="radio" name="transaction" value="택배거래"> 택배거래
+            <input type="radio" name="transaction" value="비대면상자"> 비대면상자
+
+            <h3>가격방식</h3>
+            <label>
+                <input type="radio" id="normal" name="price-method" value="일반거래" required>
+                일반거래
+            </label>
+            <label>
+                <input type="radio" id="auction" name="price-method" value="경매">
+                경매
+            </label>
+            <br>
+
+            <div id="normal-fields" style="display:none;">
+                <label for="normal-price">판매가</label>
+                <input type="number" id="normal-price" name="normal-price">
+                <br>
+            </div>
+
+            <div id="auction-fields" style="display:none;">
+                <label for="auction-end-time">경매마감일</label>
+                <input type="datetime-local" id="auction-end-time" name="auction-end-time">
+                <br>
+                <label for="auction-min-bid">최저낙찰가</label>
+                <input type="number" id="auction-min-bid" name="auction-min-bid">
+                <br>
+                <label for="auction-max-bid">최고낙찰가</label>
+                <input type="number" id="auction-max-bid" name="auction-max-bid">
+                <br>
+            </div>
+
+            <h3>상세 설명</h3>
+            <label for="product-description"></label>
+            <textarea id="product-description" name="product-description" rows="15" cols="50" required
+                placeholder="(20-500자)"></textarea>
+            <br>
+
+            <input type="hidden" id="user-id" name="user-id" value="사용자아이디">
+            <br>
+
+            <input type="hidden" id="post-date" name="post-date">
+            <br>
+
+            <button class="submit-button" type="submit">상품 등록</button>
+        </form>
+
+        <a href="/productSubmitResult">상품 등록 결과 확인</a>
     </div>
-    <br>
 
-    <h3>거래방식 * 가능한 거래방식에 모두 체크해주세요.</h3>
-    <input type="radio" name="transaction" value="직거래"> 직거래
-    <input type="radio" name="transaction" value="택배거래"> 택배거래
-    <input type="radio" name="transaction" value="비대면상자"> 비대면상자
+    <script>
+        const normalRadio = document.getElementById('normal');
+        const auctionRadio = document.getElementById('auction');
+        const normalFields = document.getElementById('normal-fields');
+        const auctionFields = document.getElementById('auction-fields');
 
-    <h3>가격방식</h3>
-    <label>
-        <input type="radio" id="normal" name="price-method" value="일반거래" required>
-        일반거래
-    </label>
-    <label>
-        <input type="radio" id="auction" name="price-method" value="경매">
-        경매
-    </label>
-    <br>
+        normalRadio.addEventListener('change', () => {
+            if (normalRadio.checked) {
+                normalFields.style.display = 'block';
+                auctionFields.style.display = 'none';
+            }
+        });
 
-    <!-- 추가 입력 필드 (일반거래 및 경매 정보) -->
-    <div id="normal-fields" style="display:none;">
-        <label for="normal-price">판매가</label>
-        <input type="number" id="normal-price" name="normal-price">
-        <br>
-    </div>
+        auctionRadio.addEventListener('change', () => {
+            if (auctionRadio.checked) {
+                auctionFields.style.display = 'block';
+                normalFields.style.display = 'none';
+            }
+        });
 
-    <div id="auction-fields" style="display:none;">
-        <label for="auction-end-date">경매마감일</label>
-        <input type="datetime-local" id="auction-end-time" name="auction-end-time">
-        <br>
-        <label for="auction-min-bid">최저낙찰가</label>
-        <input type="number" id="auction-min-bid" name="auction-min-bid">
-        <br>
-        <label for="auction-max-bid">최고낙찰가</label>
-        <input type="number" id="auction-max-bid" name="auction-max-bid">
-        <br>
-    </div>
+        const currentDateTime = new Date();
+        const year = currentDateTime.getFullYear();
+        const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
+        const date = String(currentDateTime.getDate()).padStart(2, '0');
+        const hour = String(currentDateTime.getHours()).padStart(2, '0');
+        const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
 
-    <!-- 상세설명 입력란 -->
-    <h3>상세 설명</h3>
-    <label for="product-description"></label>
-    <textarea id="product-description" name="product-description" rows="15" cols="50" required
-        placeholder="(20-500자)"></textarea>
-    <br>
+        const formattedDateTime = `${year}-${month}-${date} ${hour}:${minutes}`;
+        document.getElementById("post-date").value = formattedDateTime;
+    </script>
 
-    <!-- 이미지 첨부란 -->
-    <div>
-        <label for="img">사진 첨부</label>
-        <input type="file" name="file" /><br><br>
-    </div>
-
-    <!-- 회원아이디 (자동 기록) -->
-    <input type="hidden" id="user-id" name="user-id" value="사용자아이디">
-    <br>
-
-    <!-- 글작성날짜 (자동 기록) -->
-    <input type="hidden" id="post-date" name="post-date">
-    <br>
-
-    <!-- 제출 버튼 -->
-    <form action="/submit" method="post">
-        <button class="submit-button" type="submit">상품 등록</button>
 </body>
 
 </html>

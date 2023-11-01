@@ -22,17 +22,23 @@ def submitProduct():
         product_description = request.form.get("product-description")
         user_id = request.form.get("user-id")
         post_date = request.form.get("post-date")
+        transaction = request.form.get("transaction")
 
         if price_method == "일반거래":
             normal_price = request.form.get("normal-price")
+            auction_end_time = None
+            auction_min_bid = None
+            auction_max_bid = None
         elif price_method == "경매":
+            normal_price = None
             auction_end_time = request.form.get("auction-end-time")
             auction_min_bid = request.form.get("auction-min-bid")
             auction_max_bid = request.form.get("auction-max-bid")
 
-        #터미널에 데이터값 출력
+        # 터미널에 데이터 출력
         print("상품명(글제목):", product_title)
         print("가격방식:", price_method)
+        print("거래방식:", transaction)
 
         if price_method == "일반거래":
             print("판매가:", normal_price)
