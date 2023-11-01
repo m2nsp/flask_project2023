@@ -30,21 +30,36 @@ def submitProduct():
             auction_min_bid = request.form.get("auction-min-bid")
             auction_max_bid = request.form.get("auction-max-bid")
 
-        #터미널에 데이터값 출력
-        print("상품명(글제목):", product_title)
-        print("가격방식:", price_method)
+    #     #터미널에 데이터값 출력
+    #     print("상품명(글제목):", product_title)
+    #     print("가격방식:", price_method)
 
-        if price_method == "일반거래":
-            print("판매가:", normal_price)
-        elif price_method == "경매":
-            print("경매마감일:", auction_end_time)
-            print("최저낙찰가:", auction_min_bid)
-            print("최고낙찰가:", auction_max_bid)
+    #     if price_method == "일반거래":
+    #         print("판매가:", normal_price)
+    #     elif price_method == "경매":
+    #         print("경매마감일:", auction_end_time)
+    #         print("최저낙찰가:", auction_min_bid)
+    #         print("최고낙찰가:", auction_max_bid)
         
-        print("상세설명:", product_description)
-        print("글작성날짜:", post_date)
+    #     print("상세설명:", product_description)
+    #     print("글작성날짜:", post_date)
 
-    return "상품이 성공적으로 등록되었습니다."
+    # return "상품이 성공적으로 등록되었습니다."
+
+# 데이터를 딕셔너리로 패키징
+        data = {
+            "product-title": product_title,
+            "price-method": price_method,
+            "normal-price": normal_price if price_method == "일반거래" else None,
+            "auction-end-time": auction_end_time if price_method == "경매" else None,
+            "auction-min-bid": auction_min_bid if price_method == "경매" else None,
+            "auction-max-bid": auction_max_bid if price_method == "경매" else None,
+            "product-description": product_description,
+            "post-date": post_date,
+        }
+
+        # 데이터를 productSubmitResult.html로 전달
+        return render_template("productSubmitResult.html", data=data)
 
 
 
