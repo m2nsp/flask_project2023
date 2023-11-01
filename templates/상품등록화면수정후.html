@@ -119,6 +119,17 @@
                 normalFields.style.display = 'none';
             }
         });
+
+         //작성날짜
+        const currentDateTime = new Date();
+        const year = currentDateTime.getFullYear();
+        const month = String(currentDateTime.getMonth() + 1).padStart(2, '0'); // Adding 1 to month because it's 0-based
+        const date = String(currentDateTime.getDate()).padStart(2, '0');
+        const hour = String(currentDateTime.getHours()).padStart(2, '0');
+        const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
+
+        const formattedDateTime = `${year}-${month}-${date} ${hour}:${minutes}`;
+        document.getElementById("post-date").value = formattedDateTime;
     </script>
 </body>
 
