@@ -2,33 +2,143 @@
 <html>
 <head>
     <title>상품 등록 결과</title>
+    <style>
+        ul{
+            list-style-type: None;
+            margin: 0;
+            padding:0;
+            overflow: hidden;
+            background-color: #F6E7E6;
+        }
+        li{
+            float: left;
+        }
+        li a{
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: None;
+        }
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+    
+        .active{
+            background-color: #F6E7E6;
+        }
+  
+        .navbar {
+            background-color: #F6E7E6;
+            margin: 0; /* 이 부분을 추가하여 margin을 0으로 설정합니다 */
+            padding: 0;
+          
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between; /* 왼쪽과 오른쪽을 공간을 균등하게 배치 */
+            align-items: center; /* 아이템을 수직 가운데 정렬 */
+            padding: 10px; /* 내용 주위에 간격 추가 */
+            background-color: white;
+        }
+
+        .text-section {
+            flex: 1; /* 공간을 남은 공간에 맞게 분배 */
+            margin: 20px; /* 여백 추가 */
+        }
+
+        .contents-of-purchase{
+            padding: 30px;
+            
+        }
+
+        .transaction, .price-method {
+            margin-right: 20px; /* 간격을 조절할 수 있는 값으로 설정 */
+        }
+
+    </style>
 </head>
 <body>
-    <h1>상품 등록 결과</h1>
 
-    <p>상품명(글제목): {{ data['product-title'] }}</p>
-    <p>
-        {{ data['file'] }}</p>
-    </p>
-    <p>거래방식: {{ data['transaction'] }}</p>
-    <p>가격방식: {{ data['price-method'] }}</p>
+    <nav class="navbar">
+        <div class="navbar_logo">
+            <a href="">Ewha GamjaMarket</a>
+        </div>
+        <ul class="navbar__menu">
+            <li><a href="/productList">product list</a></li>
+            <li><a href="/myReview">my review</a></li>
+            <li><a href="/productRegister">register products</a></li>
+            <li><a href="/reviewRegister">register reviews</a></li>
+            <li><a href="/productSubmitResult">result</a></li>
+        </ul>
+        <a href="#" class="navbar__toggleBtn">
+            <i class="fas fa-bars"></i>
+        </a>
+    </nav>
 
-    {% if data['price-method'] == "일반거래" %}
-        <p>판매가: {{ data['normal-price'] }}</p>
-    {% endif %}
 
-    <p>
-        <img src="{{img_path}}"/>
-    </p>
+    <h2>상품 등록 결과</h2>
 
-    {% if data['price-method'] == "경매" %}
-        <p>경매마감일: {{ data['auction-end-time'] }}</p>
-        <p>최저낙찰가: {{ data['auction-min-bid'] }}</p>
-        <p>최고낙찰가: {{ data['auction-max-bid'] }}</p>
-    {% endif %}
+    <div class="contents-of-purchase">
+        <p style="font-size: 15px;">상품명(글제목): {{ data['product-title'] }}</p>
+        <p style="font-size: 30px;">
+            {{ data['file'] }}</p>
+        </p>
+    </div>
+    
+    <div class="contents-of-purchase" style="display: inline-flex;">
+        <div class="transaction">
+            <p style="font-size: 15px;">거래방식</p>
+            <p style="font-size: 30px;">      {{ data['transaction'] }}</p>
+        </div>
+        <div class="price-method">
+            <p style="font-size: 15px;">가격방식<p>
+            <p style="font-size: 30px;">      {{ data['price-method'] }}</p>
+        </div>
+    </div>
 
-    <p>상세설명: {{ data['product-description'] }}</p>
-    <p>글작성날짜: {{ data['post-date'] }}</p>
 
+    <div class="contents-of-purchase">
+        {% if data['price-method'] == "일반거래" %}
+        <p style="font-size: 15px;">판매가</p>
+        <p style="font-size: 30px;"> {{ data['normal-price'] }}</p>
+        {% endif %}
+    </div>
+
+    <div class="contents-of-purchase">
+        {% if data['price-method'] == "경매" %}
+        <p style="font-size: 15px;">경매마감일</p>
+        <p style="font-size: 30px;"> {{ data['auction-end-time'] }}</p>
+        <p style="font-size: 15px;">최저낙찰가</p>
+        <p style="font-size: 30px;" >{{ data['auction-min-bid'] }}</p>
+        <p style="font-size: 15px;">최고낙찰가</p>
+        <p style="font-size: 30px;">{{ data['auction-max-bid'] }}</p>
+        {% endif %}
+    </div>    
+
+    <div class="contents-of-purchase">
+        <p>상세설명: {{ data['product-description'] }}</p>
+        <p>글작성날짜: {{ data['post-date'] }}</p>
+
+    </div>
+
+    <footer>
+        <div class="text-section">
+            <p><h3>감자마켓</h3></p>
+            <p>여기에는 감자마켓의 설립 모토와 제공 서비
+                스에 대한 설명이 들어갑니다. 뭘 써야할까
+                찐감자 맛있겠다 휴게소 감자 감자칩 프라이
+                감자
+            </p>
+
+            <p>2023PotatoMarket. All rights reserved</p>
+        </div>
+        <div class="text-section">
+            <p>address</p>
+            <p> 우편번호 123456</p>
+            <p>contact</p>
+        </div>
+    </footer>
 </body>
 </html>
