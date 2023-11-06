@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; height: 100vh;">상품 결제 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        nav {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;
+            color: #000000;
+        }
+
+        nav li {
+            margin: 0 100px;
+        }
+
+        nav input {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1200px;
+            height: 20px;
+        }
+
+        .search-button {
+            background-color: #F6E7E6;
+            color: #000000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        header {
+            padding-top: 40px;
+            padding-left: 40px;
+            padding-bottom: 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+        }
+
+        .all-part {
+            display: flex;
+        }
+
+        .left-part {
+            margin-left: 320px;
+            padding-top: 50px;
+            float: left;
+        }
+
+        .right-part {
+            margin-right: 500px;
+            padding-top: 50px;
+            float: right;
+        }
+
+        .about-item {
+            display: flex;
+            margin-bottom: 100px;
+        }
+
+        .image-container {
+            background-color: gray;
+            width: 470px;
+            height: 400px;
+        }
+
+        .item-info {
+            margin-left: 50px;
+        }
+
+        .r-1 button, .r-2 button, .r-3 button {
+            border: #000000 solid 1px;
+            border-radius: 5px;
+            background-color: white;
+            width: 200px;
+            height: 60px;
+            font-size: 20px;
+            margin-right: 60px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 20px;
+            margin-right: 100px;
+        }
+
+        .purchase-item {
+            border: none;
+            border-radius: 5px;
+            background-color: #F8D57E;
+            padding: 10px 20px;
+            font-size: 20px;
+            width: 470px;
+            height: 70px;
+            margin-top: 80px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2 style="padding-top: 40px; padding-left: 40px; padding-bottom: 20px; background-color: #F6E7E6; color: #000000;">GamjaMarket</h2>
+        <nav>
+            <ul>
+                <li><a href="#">홈</a></li>
+                <input type="text" placeholder="찾으시는 상품명을 입력하세요">
+                <button class="search-button">검색</button>
+                <li><a href="login.html">회원가입/로그인</a></li>
+                <li><a href="mypage-profile.html">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+    <form method="post" enctype="multipart/form-data" action="/submit_item_post">
+        <div>
+            <label for="img" style="font-family: Arial, sans-serif; font-size: 20px;">상품이미지:</label><br>
+            <input type="file" name="file" style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
+        </div>
+        <div>
+            <label for="tit" style="font-family: Arial, sans-serif; font-size: 20px;">글 제목(상품명)</label><br>
+            <input type="text" name="tit" id="tit" required style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
+        </div>
+        <div>
+            <label for="way" style="font-family: Arial, sans-serif; font-size: 20px;">거래 방식</label><br>
+            <input type="checkbox" name="직거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 직거래
+            <input type="checkbox" name="택배거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 택배거래
+            <input type="checkbox" name="비대면상자" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 비대면 상자
+            <br>
+        </div>
+        <h3 style="font-family: Arial, sans-serif; font-size: 20px;">가격방식</h3>
+        <label>
+            <input type="radio" id="normal" name="price-method" value="일반거래" required style="font-family: Arial, sans-serif; font-size: 20px;">
+            일반거래
+        </label>
+        <label>
+            <input type="radio" id="auction" name="price-method" value="경매" style="font-family: Arial, sans-serif; font-size: 20px;">
+            경매
+        </label>
+        <br>
+        <div id="normal-fields" style="display:none;">
+            <label for="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">판매가</label>
+            <input type="number" id="normal-price" name="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">
+            <br>
+        </div>
+        <div id="auction-fields" style="display:none;">
+            <label for="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">경매마감일</label>
+            <input type="datetime-local" id="auction-end-time" name="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">
+            <br>
+            <label for="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최저낙찰가</label>
+            <input type="number" id="auction-min-bid" name="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
+            <br>
+            <label for="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최고낙찰가</label>
+            <input type="number" id="auction-max-bid" name="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
+            <br>
+        </div>
+        <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상세 설명</h3>
+        <label for="product-description" style="font-family: Arial, sans-serif; font-size: 20px;"></label>
+        <textarea id="product-description" name="product-description" rows="15" cols="50" required style="font-family: Arial, sans-serif; font-size: 20px;" placeholder="(20-500자)"></textarea>
+        <br>
+        <input type="hidden" id="user-id" name="user-id" value="사용자아이디">
+        <br>
+        <input type="hidden" id="post-date" name="post-date">
+        <br>
+        <button class="submit-button" type="submit" style="font-family: Arial, sans-serif; font-size: 20px;">상품 등록</button>
+    </form>
+    <script>
+        const normalRadio = document.getElementById('normal');
+        const auctionRadio = document.getElementById('auction');
+        const normalFields = document.getElementById('normal-fields');
+        const auctionFields = document.getElementById('auction-fields');
+
+        normalRadio.addEventListener('change', () => {
+            if (normalRadio.checked) {
+                normalFields.style.display = 'block';
+                auctionFields.style.display = 'none';
+            }
+        });
+
+        auctionRadio.addEventListener('change', () => {
+            if (auctionRadio.checked) {
+                auctionFields.style.display = 'block';
+                normalFields.style.display = 'none';
+            }
+        });
+
+        const currentDateTime = new Date();
+        const year = currentDateTime.getFullYear();
+        const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
+        const date = String(currentDateTime.getDate()).padStart(2, '0');
+        const hour = String(currentDateTime.getHours()).padStart(2, '0');
+        const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
+
+        const formattedDateTime = `${year}-${month}-${date} ${hour}:${minutes}`;
+        document.getElementById("post-date").value = formattedDateTime;
+    </script>
+</body>
+</html>
