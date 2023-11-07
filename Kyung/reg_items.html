@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; height: 100vh;">상품 결제 페이지</title>
+    <title style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; height: 100vh;">상품 등록</title>
     <style>
+        *{
+            margin: 0 auto;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
+            background-color: white;
+            margin: 0 auto;
             padding: 0;
             height: 100vh;
         }
@@ -61,46 +66,8 @@
             color: #000000;
         }
 
-        .all-part {
-            display: flex;
-        }
-
-        .left-part {
-            margin-left: 320px;
-            padding-top: 50px;
-            float: left;
-        }
-
-        .right-part {
-            margin-right: 500px;
-            padding-top: 50px;
-            float: right;
-        }
-
-        .about-item {
-            display: flex;
-            margin-bottom: 100px;
-        }
-
-        .image-container {
-            background-color: gray;
-            width: 470px;
-            height: 400px;
-        }
-
-        .item-info {
-            margin-left: 50px;
-        }
-
-        .r-1 button, .r-2 button, .r-3 button {
-            border: #000000 solid 1px;
-            border-radius: 5px;
-            background-color: white;
-            width: 200px;
-            height: 60px;
-            font-size: 20px;
-            margin-right: 60px;
-            margin-bottom: 30px;
+        article{
+            margin: 0 auto;
         }
 
         label {
@@ -122,6 +89,26 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        .submit-button {
+            display: block;
+            margin: 20px auto;
+            background-color: #F8D57E;
+            color: #2D2D2D;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .product-description {
+            height: 300px;
+            width: 100%;
+            resize: vertical;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
     </style>
 </head>
 <body>
@@ -137,58 +124,66 @@
             </ul>
         </nav>
     </header>
-    <form method="post" enctype="multipart/form-data" action="/submit_item_post">
-        <div>
-            <label for="img" style="font-family: Arial, sans-serif; font-size: 20px;">상품이미지:</label><br>
-            <input type="file" name="file" style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
-        </div>
-        <div>
-            <label for="tit" style="font-family: Arial, sans-serif; font-size: 20px;">글 제목(상품명)</label><br>
-            <input type="text" name="tit" id="tit" required style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
-        </div>
-        <div>
-            <label for="way" style="font-family: Arial, sans-serif; font-size: 20px;">거래 방식</label><br>
-            <input type="checkbox" name="직거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 직거래
-            <input type="checkbox" name="택배거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 택배거래
-            <input type="checkbox" name="비대면상자" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 비대면 상자
+    <article>
+        <form method="post" enctype="multipart/form-data" action="/submit_item_post">
+            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상품 이미지</h3>
+            <div>
+                <label for="img" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
+                <input type="file" name="file" style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
+            </div>
+            <br><br>
+            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">글 제목(상품명)</h3>
+            <div>
+                <label for="tit" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
+                <input type="text" name="tit" id="tit" required style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
+            </div>
             <br>
-        </div>
-        <h3 style="font-family: Arial, sans-serif; font-size: 20px;">가격방식</h3>
-        <label>
-            <input type="radio" id="normal" name="price-method" value="일반거래" required style="font-family: Arial, sans-serif; font-size: 20px;">
-            일반거래
-        </label>
-        <label>
-            <input type="radio" id="auction" name="price-method" value="경매" style="font-family: Arial, sans-serif; font-size: 20px;">
-            경매
-        </label>
-        <br>
-        <div id="normal-fields" style="display:none;">
-            <label for="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">판매가</label>
-            <input type="number" id="normal-price" name="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">
+            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">거래 방식</h3>
+            <div>
+                <label for="way" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
+                <input type="checkbox" name="직거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 직거래
+                <input type="checkbox" name="택배거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 택배거래
+                <input type="checkbox" name="비대면상자" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 비대면 상자
+            </div>
+            <br> <br>
+            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">가격방식</h3>
+            <label>
+                <input type="radio" id="normal" name="price-method" value="일반거래" required style="font-family: Arial, sans-serif; font-size: 20px;">
+                일반거래
+            </label>
+            <label>
+                <input type="radio" id="auction" name="price-method" value="경매" style="font-family: Arial, sans-serif; font-size: 20px;">
+                경매
+            </label>
+            <br> <br>
+            <div id="normal-fields" style="display:none;">
+                <label for="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">판매가</label>
+                <input type="number" id="normal-price" name="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">
+                <br> <br>
+            </div>
+            <div id="auction-fields" style="display:none;">
+                <label for="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">경매마감일</label>
+                <input type="datetime-local" id="auction-end-time" name="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">
+                <br>
+                <label for="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최저낙찰가</label>
+                <input type="number" id="auction-min-bid" name="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
+                <br>
+                <label for="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최고낙찰가</label>
+                <input type="number" id="auction-max-bid" name="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
+                <br>
+            </div>
+            <br> <br>
+            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상세 설명</h3>
+            <label for="product-description" style="font-family: Arial, sans-serif; font-size: 20px;"></label>
+            <textarea id="product-description" name="product-description" rows="15" cols="50" required style="font-family: Arial, sans-serif; font-size: 20px;" placeholder="(20-500자)"></textarea>
             <br>
-        </div>
-        <div id="auction-fields" style="display:none;">
-            <label for="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">경매마감일</label>
-            <input type="datetime-local" id="auction-end-time" name="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">
+            <input type="hidden" id="user-id" name="user-id" value="사용자아이디">
             <br>
-            <label for="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최저낙찰가</label>
-            <input type="number" id="auction-min-bid" name="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
+            <input type="hidden" id="post-date" name="post-date">
             <br>
-            <label for="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최고낙찰가</label>
-            <input type="number" id="auction-max-bid" name="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
-            <br>
-        </div>
-        <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상세 설명</h3>
-        <label for="product-description" style="font-family: Arial, sans-serif; font-size: 20px;"></label>
-        <textarea id="product-description" name="product-description" rows="15" cols="50" required style="font-family: Arial, sans-serif; font-size: 20px;" placeholder="(20-500자)"></textarea>
-        <br>
-        <input type="hidden" id="user-id" name="user-id" value="사용자아이디">
-        <br>
-        <input type="hidden" id="post-date" name="post-date">
-        <br>
-        <button class="submit-button" type="submit" style="font-family: Arial, sans-serif; font-size: 20px;">상품 등록</button>
-    </form>
+            <button class="submit-button" type="submit" style="font-family: Arial, sans-serif; font-size: 20px;">상품 등록</button>
+        </form>
+    </article>
     <script>
         const normalRadio = document.getElementById('normal');
         const auctionRadio = document.getElementById('auction');
