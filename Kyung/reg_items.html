@@ -67,27 +67,16 @@
         }
 
         article{
+            height: 100%;
+            width: 70%;
             margin: 0 auto;
+            padding-bottom: 12px;
+            text-align: left;
         }
 
         label {
             font-size: 20px;
             margin-right: 100px;
-        }
-
-        .purchase-item {
-            border: none;
-            border-radius: 5px;
-            background-color: #F8D57E;
-            padding: 10px 20px;
-            font-size: 20px;
-            width: 470px;
-            height: 70px;
-            margin-top: 80px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
         }
 
         .submit-button {
@@ -109,6 +98,10 @@
             border-radius: 3px;
         }
 
+        input[type=checkbox] + label {
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
@@ -126,27 +119,37 @@
     </header>
     <article>
         <form method="post" enctype="multipart/form-data" action="/submit_item_post">
+            <br><br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상품 이미지</h3>
             <div>
                 <label for="img" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
-                <input type="file" name="file" style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
+                <input type="file" name="img" style="font-family: Arial, sans-serif; font-size: 20px;" onchange="readURL(this);" >
+                <br><br>
+                <img id="preview" />
             </div>
             <br><br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">글 제목(상품명)</h3>
             <div>
                 <label for="tit" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
-                <input type="text" name="tit" id="tit" required style="font-family: Arial, sans-serif; font-size: 20px;"><br><br>
+                <input type="text" name="tit" id="tit" required style="font-family: Arial, sans-serif; font-size: 20px; width: 650px; height: 30px;"><br><br>
             </div>
             <br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">거래 방식</h3>
             <div>
-                <label for="way" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
-                <input type="checkbox" name="직거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 직거래
-                <input type="checkbox" name="택배거래" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 택배거래
-                <input type="checkbox" name="비대면상자" value="on" style="font-family: Arial, sans-serif; font-size: 20px;"> 비대면 상자
+                <div style="font-size: 20px;"">
+                    <input type="checkbox" id="cb1" value="dirG" name="dirG">
+                    <label for="cb1">직거래</label>
+                    <input type="checkbox" id="cb2" value="tG" name="tG">
+                    <label for="cb2">택배거래</label>
+                    <input type="checkbox" id="cb3" value="bdG" name="bdG">
+                    <label for="cb3">비대면상자</label>
+                    
+
+                </div>
+                
             </div>
             <br> <br>
-            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">가격방식</h3>
+            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">가격 방식</h3>
             <label>
                 <input type="radio" id="normal" name="price-method" value="일반거래" required style="font-family: Arial, sans-serif; font-size: 20px;">
                 일반거래
@@ -157,20 +160,26 @@
             </label>
             <br> <br>
             <div id="normal-fields" style="display:none;">
-                <label for="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">판매가</label>
-                <input type="number" id="normal-price" name="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">
+                <div style="background-color: #F7F5FC;">
+                    <label for="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">판매가</label>
+                    <input type="number" id="normal-price" name="normal-price" style="font-family: Arial, sans-serif; font-size: 20px;">
+                </div>
+                
                 <br> <br>
             </div>
             <div id="auction-fields" style="display:none;">
-                <label for="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">경매마감일</label>
-                <input type="datetime-local" id="auction-end-time" name="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">
-                <br>
-                <label for="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최저낙찰가</label>
-                <input type="number" id="auction-min-bid" name="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
-                <br>
-                <label for="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최고낙찰가</label>
-                <input type="number" id="auction-max-bid" name="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
-                <br>
+                <div style="background-color: #F7F5FC;">
+                    <label for="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">경매마감일</label>
+                    <input type="datetime-local" id="auction-end-time" name="auction-end-time" style="font-family: Arial, sans-serif; font-size: 20px;">
+                    <br>
+                    <label for="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최저낙찰가</label>
+                    <input type="number" id="auction-min-bid" name="auction-min-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
+                    <br>
+                    <label for="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">최고낙찰가</label>
+                    <input type="number" id="auction-max-bid" name="auction-max-bid" style="font-family: Arial, sans-serif; font-size: 20px;">
+                    <br>
+                </div>
+                
             </div>
             <br> <br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상세 설명</h3>
@@ -189,6 +198,18 @@
         const auctionRadio = document.getElementById('auction');
         const normalFields = document.getElementById('normal-fields');
         const auctionFields = document.getElementById('auction-fields');
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').src = "";
+            }
+        }
 
         normalRadio.addEventListener('change', () => {
             if (normalRadio.checked) {
