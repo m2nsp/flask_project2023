@@ -82,26 +82,46 @@
         .info-box{
             border: 3px solid #F8D57E;
             border-radius:10px;
-            margin-right:50px;
-            width: 350px;
-            height: 150px;
+            margin-right:100px;
+            padding: 20px;
+            width: 250px;
+            height: 100px;
         }
 
-        .part-prof {
+        .on-purchase{
+            margin-left: 12%;
+            margin-top: 6%;
+        }
+
+        .on-purchase-list{
             display: flex;
-            margin-top: 3%;
         }
 
-        .left-part-prof {
-            flex: 1;
-            padding-left: 12%;
+        .on-purchase-item{
+            margin-right: 100px;
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 320px;
+            height: 450px;
         }
 
-        .right-part-prof {
-            flex: 1;
-            padding-left: 4%;
+        .on-purchase-item-text{
+            padding: 20px;
         }
 
+        .review{
+            margin-top: 5%;
+            margin-left: 12%;
+        }
+
+        .reviews{
+            margin-bottom: 2%;
+            background-color: #ece9f8;
+            font-size: 20px;
+            text-align: left;
+            padding: 20px;
+            width: 1600px;
+        }
 
     </style>
 </head>
@@ -129,31 +149,58 @@
         <div class="info-box">구매횟수    </div>
     </div>
 
-    <div class="part-prof">
-        <div class="left-part-prof">
-            <h3>상품 등록</h3>
-            
-            <br>
-
-            <h3>전체 거래내역()</h3>
-                <h3>진행중인 거래()</h3>
-                <h3>완료된 거래()</h3>
-            
-                <br>
-            
-            <h3>경매 내역</h3>
+    <div class="on-purchase">
+        <h2>현재 판매중인 상품 <button>전체보기></button></h2>
+        <div class="on-purchase-list">
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중한 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
         </div>
-    
-        <div class="right-part-prof">
-            <h3>나의 리뷰</h3>
-            
-            <br>
-
-            <h3>나의 찜</h3>
-            
-            <br>
-
-            <h3>마이프로필</h3>
+    </div>
+    <div class="review">
+        <h2>감자를봐감자야 님과의 거래후기<button>전체보기></button></h2>
+        <div class="reviews">
+            별별별별별
+            거래자 닉네임<br>
+            최고의 거래였어요<br>
+            완전 친절하고 약속 잘지킴
+        </div>
+        <div class="reviews">
+            최고의 거래였어요<br>
+            완전 친절하고 약속 잘지킴
         </div>
     </div>
 </body>
