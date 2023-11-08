@@ -58,8 +58,10 @@ def myReview():
 
 @application.route("/productSubmitResult", methods=['POST'])
 def productSubmitResult():
+    image_file = request.files["files"]
+    image_file.save("static/images/[]".format(image_file.filename))
     data = request.form
-    return render_template("productSubmitResult.html", data=data)
+    return render_template("productSubmitResult.html", data=data, img_path="static/images/{}".format(image_file.filename))
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')

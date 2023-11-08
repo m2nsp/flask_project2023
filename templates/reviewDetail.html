@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="#">
-    <title>마이리뷰 페이지</title>
+    <title>상품별 리뷰상세내역</title>
     <style>
         header {
             padding: 20px 20px;
             background-color: #F6E7E6;
             color: #000000;
+            margin-bottom: 100px;
         }
 
         body {
@@ -48,26 +49,27 @@
             height: 35px;
         }
 
+        .whole-container {
+            margin: 40px;
+        }
+
         .container {
             width: 100%;
         }
 
         .title {
             margin-left: 130px;
-            margin-top: 100px;
+            margin-bottom: 10px;
             font-size: 18px;
             font-weight: bold;
             text-align: left;
         }
 
         .div-container {
-            margin-top: 0px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 50%;
+            margin-left: 130px;
+            align-items: flex-start;
+            height: 260px;
         }
-
 
         .leftside {
             float: left;
@@ -98,6 +100,11 @@
             margin-bottom: 10px;
         }
 
+        .info-top {
+            display: flex;    
+            align-items: flex-start;
+        }
+
         .info-details {
             flex: 1;
             display: flex;
@@ -105,6 +112,13 @@
         }
 
         .info-q {
+            font-size: 12px;
+            color: #6D6A6A;
+        }
+
+        .trader {
+            margin-top: 12px;
+            margin-left: 20px;
             font-size: 12px;
             color: #6D6A6A;
         }
@@ -179,7 +193,15 @@
             font-size: 20px;
         }
 
-        .review-info {
+        .review-info-seller {
+            border: 1px solid #A47BDA; 
+            border-radius: 8px;
+            padding: 10px;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .review-info-buyer {
             background-color: #F7F5FD;
             border-radius: 8px;
             padding: 20px;
@@ -204,10 +226,8 @@
         </nav>
     </header>
 
-    <div class="whole-container">
-        <div class="title">나의리뷰</div>
-        <div class="div-container">    
-            <div class="review-info">
+    <div class="title">거래품목</div>
+            <div class="div-container">
                 <div class="leftside">
                     <div class="product-info">
                         <div class="info-imglink">
@@ -230,23 +250,47 @@
                         </div>
                     </div>
                 </div>
-                <div class="rightside">
-                    <div class="info-line">
-                        <span class="info-q">리뷰내역</span>
-                        <div class="stars">
-                            <label><input type="radio" id="star1" name="rating" value="1"></label>
-                            <label><input type="radio" id="star2" name="rating" value="2"></label>
-                            <label><input type="radio" id="star3" name="rating" value="3"></label>
-                            <label><input type="radio" id="star4" name="rating" value="4"></label>
-                            <label><input type="radio" id="star5" name="rating" value="5"></label>
-                        </div><br>
-                        <span class="info-a">
-                            여기에 리뷰 내용을 입력하세요.
-                        </span>
+            </div>   
+            
+    
+    <div class="title">판매자리뷰</div>
+        <div class="review-info-seller">
+            <div class="info-line">
+                <div class="info-top">
+                    <div class="stars">
+                        <label><input type="radio" id="star1" name="rating" value="1"></label>
+                        <label><input type="radio" id="star2" name="rating" value="2"></label>
+                        <label><input type="radio" id="star3" name="rating" value="3"></label>
+                        <label><input type="radio" id="star4" name="rating" value="4"></label>
+                        <label><input type="radio" id="star5" name="rating" value="5"></label>
                     </div>
-                </div>
+                    <span class="trader">거래자닉네임</span>
+                </div>    
+                <span class="info-a">
+                    여기에 리뷰 내용을 입력하세요.
+                </span>
             </div>
         </div>
-    </div>
+
+        <div class="title">구매자리뷰</div>
+        <div class="review-info-buyer">
+            <div class="info-line">
+                <div class="info-top">
+                    <div class="stars">
+                        <label><input type="radio" id="star1" name="rating" value="1"></label>
+                        <label><input type="radio" id="star2" name="rating" value="2"></label>
+                        <label><input type="radio" id="star3" name="rating" value="3"></label>
+                        <label><input type="radio" id="star4" name="rating" value="4"></label>
+                        <label><input type="radio" id="star5" name="rating" value="5"></label>
+                    </div>
+                    <span class="trader">거래자닉네임</span>
+                </div>    
+                <span class="info-a">
+                    여기에 리뷰 내용을 입력하세요.
+                </span>
+            </div>
+        </div>
+
+    
 </body>
 </html>

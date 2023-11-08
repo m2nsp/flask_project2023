@@ -1,5 +1,233 @@
-{% extends "home.html" %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="#">
+    <title>리뷰작성</title>
+    <style>
+        header {
+            padding: 20px 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+        }
 
-{% block section %}
-    등록된 상품 리뷰 등록 화면 입니다.
-{% endblock section %}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        nav {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            justify-content: space-between;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;
+            color: #000000;
+            margin: 0 20px;
+        }
+
+        nav input {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 26px;
+            width: 800px;
+            height: 35px;
+        }
+
+        .div-container {
+            margin-top: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50%;
+        }
+
+        .product, .question {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .rating, .details {
+            margin-top: 16px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-info img {
+            width: 300px; 
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .info-q {
+            font-size: 12px;
+            color: #6D6A6A;
+        }
+
+        .info-a {
+            font-size: 16px;
+        }
+
+        .info-line {
+            margin: 20px;
+        }
+
+        .review-container {
+            width: 50%;
+        }
+
+        .form-group {
+            margin: 60px 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .stars {
+            font-size: 24px;
+            display: flex;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .stars label::before {
+            content: "\2605";
+        }
+
+        .stars label.filled::before {
+            color: #F8D57E;
+        }
+
+        button {
+            background-color: #F8D57E;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px auto;
+            display: block;
+            width: 200px;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h2>GamjaMarket</h2>
+        <nav>
+            <ul>
+                <li><a href="#">메뉴</a></li>
+            </ul>
+            <input type="text" placeholder="찾으시는 상품명을 입력하세요">
+            <!-- <button class="search-button"></button> 검색 버튼이미지 추가하기 -->
+            <ul>
+                <li><a href="login.html">회원가입/로그인</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="div-container">
+        <div class="review-container">
+                <div class="info-group">
+                    <label for="product" class="product">거래품목</label>
+                    <div class="product-info">
+                        <img src="example.png" alt="Product Image">
+                        <div class="info-details">
+                            <div class="info-line">
+                                <span class="info-q">상품명</span><br>
+                                <span class="info-a">끝내주는 텀블러</span>
+                            </div>
+                            <div class="info-line">
+                                <span class="info-q">거래대상</span><br>
+                                <span class="info-a">맛있는감자</span>
+                            </div>
+                            <div class="info-line">
+                                <span class="info-q">거래가격</span><br>
+                                <span class="info-a">20000원</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            <form>
+                <div class="form-group">
+                    <span class="question"><span style="color: #FFA800;" >맛있는감자</span>님과의 거래는 어떠셨나요?</span>
+                    <label for="rating" class="rating"><b>별점</b></label>
+                    <div class="stars">
+                        <label><input type="radio" id="star1" name="rating" value="1"></label>
+                        <label><input type="radio" id="star2" name="rating" value="2"></label>
+                        <label><input type="radio" id="star3" name="rating" value="3"></label>
+                        <label><input type="radio" id="star4" name="rating" value="4"></label>
+                        <label><input type="radio" id="star5" name="rating" value="5"></label>
+                    </div>
+
+                    <div class="details">
+                        <label for="review" class="review">상세후기</label>
+                        <textarea id="review" name="review" rows="20" style="width: 100%; border: 1px solid #ccc; border-radius: 8px;"></textarea>
+                    </div>
+                </div>
+
+                <button>등록하기</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const stars = document.querySelectorAll('.stars input');
+        const starLabels = document.querySelectorAll('.stars label');
+
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                resetStars();
+                for (let i = 0; i <= index; i++) {
+                    starLabels[i].classList.add('filled');
+                }
+                star.checked = true;
+            });
+        });
+
+        function resetStars() {
+            starLabels.forEach(label => label.classList.remove('filled'));
+            stars.forEach(star => (star.checked = false));
+        }
+    </script>
+</body>
+</html>
