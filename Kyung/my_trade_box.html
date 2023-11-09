@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비대면 상자 조회</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            
+            font-family: Arial, sans-serif;
+            background-color: white;
+            padding: 0;
+            height: 100vh;
+        }
+
+        article{
+            height: 100%;
+            width: 70%;
+            margin: 0 auto;
+            padding-bottom: 12px;
+            text-align: left;
+        }
+
+        nav {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;              /*ul을 가로로 나열*/
+        }
+
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;        /* 텍스트가 한 줄로 나타나도록 합니다. */
+            color: #000000;
+        }
+
+        nav li{
+            margin: 0 100px;             /*각 요소들 사이의 간격*/
+        }
+
+        nav input {
+            padding: 10px 20px;          /* 위아래 10px, 좌우 20px의 패딩을 설정 */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1200px;               /* 원하는 길이로 조절 */
+            height: 20px;
+        }
+
+        .search-button{
+            background-color: #F6E7E6;
+            color: #000000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        header{
+            height: 64px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid gray;
+            padding-top: 40px;
+            padding-left: 40px;
+            padding-bottom: 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+        }
+
+        #header {
+            width: 1024px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .all-part{
+            display: flex;
+        }
+
+        .left-part{
+            margin-left: 320px;
+            padding-top: 50px;
+            float:left;
+        }
+
+        .right-part{
+            margin-right: 500px;
+            padding-top: 50px;
+            float: right;
+ 
+        }
+
+        .about-item{
+            display: flex;
+            margin-bottom: 20px;
+            margin-left: 100px;
+        }
+        
+        .image-container{
+            background-color: gray;
+            width: 470px;
+            height: 400px;
+        }
+
+        .item-info{
+            margin-left: 50px;
+        }
+
+        .flex-container{
+            display: flex;
+            margin-right: 100px;
+        }
+
+        .item-container{
+            margin-left: 100px;
+        }
+        .item-item{
+            padding: 20px;
+            line-height: 35px;
+            width: 500px;
+            height: 80px;
+            margin: 10px;
+            margin-bottom: 30px;
+            background-color: #F7F5FC;
+        }
+
+        label {
+            font-size: 20px; /* 원하는 글꼴 크기로 조절 */
+            margin-right: 100px;
+        }
+
+        </style>
+</head>
+
+<body>
+    <header>
+        <h2>GamjaMarket</h2>
+        <nav>
+            <ul>
+                <li><a href="#">홈</a></li>
+                <input type="text" placeholder="찾으시는 상품명을 입력하세요">
+                <button class="search-button">검색</button>
+                <li><a href="login.html">회원가입/로그인</a></li>
+                <li><a href="mypage-profile.html">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br><br>
+    <article>
+        <h2>거래 품목</h2>
+        <div class="about-item">
+                <img src="tum_kh.png" height="300px" alt="상품사진">
+            
+            <div class="item-info">
+                <br><br>
+                상품명
+                <h3>끝내주는 텀블러</h3><br>
+                거래대상
+                <h3>맛있는 감자</h3><br>
+                거래가격
+                <h3>20000원</h3><br>
+            </div>
+        </div>
+
+        <h2>비대면 상자 거래 정보</h2>
+        <div class="flex-container">
+            <div class="flex-item">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1581.0051924043707!2d126.93615398967286!3d37.57837315236578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr!4v1699351183441!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <p style="color: hotpink;">※ 보관 기간 내에 찾아가거나 기간을 연장하지 않을 시, 물품이 폐기되며 이에 대한 배상은 불가합니다.</p>
+            </div>
+            <div class="item-container">
+                <div class="item-item">  거래소위치<br><span style="font-size: 20px;">  서대문구 ㅇㅇ동 ㅇㅇ거래소</span></div>
+                <div class="item-item">  사물함 번호<br><span style="font-size: 20px;">  바 07-03</span></div>
+                <div class="item-item">  보관기간<br><span style="font-size: 20px;">  2023.10.09 ~ 2023.10.12</span></div>
+            </div>
+        </div>
+    </article>
+    
+</body>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="#">
+    <title>상품별 리뷰상세내역</title>
+    <style>
+        header {
+            padding: 20px 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+            margin-bottom: 100px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        nav {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            justify-content: space-between;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;
+            color: #000000;
+            margin: 0 20px;
+        }
+
+        nav input {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 26px;
+            width: 800px;
+            height: 35px;
+        }
+
+        .whole-container {
+            margin: 40px;
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .title {
+            margin-left: 130px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .div-container {
+            margin-left: 130px;
+            align-items: flex-start;
+            height: 260px;
+        }
+
+        .leftside {
+            float: left;
+            width: 40%;
+        }
+
+        .rightside {
+            float: right;
+            width: 60%;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-imglink {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .info-imglink img {
+            width: 180px;
+            border-radius: 8px;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
+        .info-top {
+            display: flex;    
+            align-items: flex-start;
+        }
+
+        .info-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-q {
+            font-size: 12px;
+            color: #6D6A6A;
+        }
+
+        .trader {
+            margin-top: 12px;
+            margin-left: 20px;
+            font-size: 12px;
+            color: #6D6A6A;
+        }
+
+        .info-a {
+            font-size: 16px;
+        }
+
+        .info-line {
+            margin: 10px;
+        }
+
+        .view-button {
+            width: 180px;
+            background: none;
+            border: 1px solid #000000;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #000000;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin: 60px 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .stars {
+            font-size: 24px;
+            display: flex;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .stars label::before {
+            content: "\2605";
+        }
+
+        .stars label.filled::before {
+            color: #F8D57E;
+        }
+
+        button {
+            background-color: #F8D57E;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px auto;
+            display: block;
+            width: 200px;
+            font-size: 20px;
+        }
+
+        .review-info-seller {
+            border: 1px solid #A47BDA; 
+            border-radius: 8px;
+            padding: 10px;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .review-info-buyer {
+            background-color: #F7F5FD;
+            border-radius: 8px;
+            padding: 20px;
+            width: 80%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>GamjaMarket</h2>
+        <nav>
+            <ul>
+                <li><a href="#">메뉴</a></li>
+            </ul>
+            <input type="text" placeholder="찾으시는 상품명을 입력하세요">
+            <!-- <button class="search-button"></button> 검색 버튼이미지 추가하기 -->
+            <ul>
+                <li><a href="login.html">회원가입/로그인</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="title">거래품목</div>
+            <div class="div-container">
+                <div class="leftside">
+                    <div class="product-info">
+                        <div class="info-imglink">
+                            <img src="example.png" alt="Product Image">
+                            <button class="view-button" onclick="location.href='reviewDetail.html'">상품 상세보기</button>
+                        </div>
+                        <div class="info-details">
+                            <div class="info-line">
+                                <span class="info-q">상품명</span><br>
+                                <span class="info-a">끝내주는 텀블러</span>
+                            </div>
+                            <div class="info-line">
+                                <span class="info-q">거래대상</span><br>
+                                <span class="info-a">맛있는감자</span>
+                            </div>
+                            <div class="info-line">
+                                <span class="info-q">거래가격</span><br>
+                                <span class="info-a">20000원</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            
+    
+    <div class="title">판매자리뷰</div>
+        <div class="review-info-seller">
+            <div class="info-line">
+                <div class="info-top">
+                    <div class="stars">
+                        <label><input type="radio" id="star1" name="rating" value="1"></label>
+                        <label><input type="radio" id="star2" name="rating" value="2"></label>
+                        <label><input type="radio" id="star3" name="rating" value="3"></label>
+                        <label><input type="radio" id="star4" name="rating" value="4"></label>
+                        <label><input type="radio" id="star5" name="rating" value="5"></label>
+                    </div>
+                    <span class="trader">거래자닉네임</span>
+                </div>    
+                <span class="info-a">
+                    여기에 리뷰 내용을 입력하세요.
+                </span>
+            </div>
+        </div>
+
+        <div class="title">구매자리뷰</div>
+        <div class="review-info-buyer">
+            <div class="info-line">
+                <div class="info-top">
+                    <div class="stars">
+                        <label><input type="radio" id="star1" name="rating" value="1"></label>
+                        <label><input type="radio" id="star2" name="rating" value="2"></label>
+                        <label><input type="radio" id="star3" name="rating" value="3"></label>
+                        <label><input type="radio" id="star4" name="rating" value="4"></label>
+                        <label><input type="radio" id="star5" name="rating" value="5"></label>
+                    </div>
+                    <span class="trader">거래자닉네임</span>
+                </div>    
+                <span class="info-a">
+                    여기에 리뷰 내용을 입력하세요.
+                </span>
+            </div>
+        </div>
+
+    
+</body>
+</html>
