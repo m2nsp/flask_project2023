@@ -1,48 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>상품상세 - 일반거래하는 경우</title>
+    <title>상품상세 - 경매하는 경우</title>
     <style>
-        * {
-            font-family: Pretendard, Consolas, sans-serif;
+        header {
+            padding: 20px 20px;
+            background-color: #F6E7E6;
+            color: #000000;
         }
 
         body {
-            font-family: Pretendard, Consolas, Arial, Helvetica, sans-serif;
-            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
             margin: 0;
             padding: 0;
             height: 100vh;
         }
 
+        .searchbar {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 26px;
+        width: 800px;
+        height: 30px;
+        padding: 10px 20px;
+        background-color: white;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+        }
+
+        .nav-button {
+            border: none;
+            background-color: transparent; 
+            cursor: pointer;
+        }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+
         nav {
-            font-size: 20px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             padding: 10px;
+            justify-content: space-between;
         }
 
         nav ul {
             list-style: none;
-            display: flex; /* ul을 가로로 나열 */
+            display: flex;
         }
 
         nav a {
             text-decoration: none;
-            white-space: nowrap; /* 텍스트가 한 줄로 나타나도록 합니다. */
+            white-space: nowrap;
             color: #000000;
-        }
-
-        nav li {
-            margin: 0 10px; /* 각 요소들 사이의 간격 수정 */
-        }
-
-        nav input {
-            padding: 10px 20px; /* 위아래 10px, 좌우 20px의 패딩을 설정 */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 400px; /* 원하는 길이로 조절 */
-            height: 20px;
+            margin: 0 20px;
         }
 
         .third-navbar {
@@ -68,24 +87,6 @@
 
         .third-navbar a:nth-child(odd) {
             margin-right: 30px; /* 홀수 인덱스(0부터 시작)의 요소의 우측 마진 설정 */
-        }
-
-        .search-button {
-            background-color: #F6E7E6;
-            color: #000000;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        header {
-            padding-top: 40px;
-            padding-left: 40px;
-            padding-bottom: 20px;
-            background-color: #F6E7E6;
-            color: #000000;
         }
 
         .container {
@@ -258,36 +259,28 @@
             padding: 10px;
         }
 
-        .purchase-button {
-            background-color: #F8D57E;
-            color: #2D2D2D;
-            padding: 15px 80px; /* 버튼 크기를 조절합니다. */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 30px; /* 폰트 크기를 늘립니다. */
-            font-weight: bold; /* 굵게 만듭니다. */
-            font-size: 18px;
-            margin-top: 40px;
-            margin-left: 0;
-        }
-
     </style>
 </head>
 <body>
     <header>
         <h2>GamjaMarket</h2>
         <nav>
-            <div>
-                <ul>
-                    <li><a href="#">홈</a></li>
-                </ul>
+            <ul>
+                <button class="nav-button" onclick="changePage()">
+                    <img src="../static/img/menu.png" width="20" height="20">
+                </button>
+            </ul>
+
+            <div class="searchbar">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
+                <button class="nav-button" onclick="searchFunction()">
+                    <img src="../static/img/search.png" width="20" height="20">
+                </button>
             </div>
-            <input type="text" placeholder="찾으시는 상품명을 입력하세요">
-            <button class="search-button">검색</button>
-            <ul class="user-links">
+
+            <ul>
                 <li><a href="login.html">회원가입/로그인</a></li>
-                <li><a href="mypage-profile.html">마이페이지</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
             </ul>
         </nav>
     </header>
@@ -312,12 +305,12 @@
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
-                <h4>가격</h4>
-                <p style="font-size: 30px; font-weight: bold;">20000원</p>
+                <h4>경매가</h4>
+                <p style="font-size: 30px; font-weight: bold;">1000원~5000원</p>
             </div>
             <div style="flex: 1;">
-                <!-- 이 부분에 '구매하기' 버튼을 추가 -->
-                <button class="purchase-button">구매하기</button>
+                <h4>경매마감일</h4>
+                <p style="font-size: 30px; font-weight: bold;">2023.12.14</p>
             </div>
         </div>
         <br>
@@ -335,6 +328,16 @@
             </div>
         </div>
     </div>
+    <br><br>
+    <h1 id="countdown-timer" style="font-weight: bold; font-size: 50px; text-align: center; color:darkorange">경매 종료까지 남은 시간: </h1>
+    <br>
+    <div style="text-align: center;">
+        <label for="bid-amount" style="font-size: 24px;">나의 입찰가:</label>
+        <input type="number" id="bid-amount" placeholder="금액을 입력하세요" style="font-size: 24px; border-radius: 8px;">
+        <span style="font-size: 24px;">원</span>
+        <button class="bid-button" style="background-color: orange; color: white; font-size: 24px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-left: 40px;">경매 참가</button>
+    </div>
+    <p style="color: red; font-size: 14px; text-align: left; margin-left: 550px;">*상품 구매 희망자들은 최저 낙찰가 이상의 가격부터 입찰가로 등록 가능합니다.<br> 경매 마감일까지 시간이 남았더라도 최고 낙찰가가 입찰가로 등록된 즉시, 경매는 종료됩니다.<br> 나의 입찰가가 낙찰되어 경매에 성공한 이후 거래를 취소할 수 없습니다.</p>
     <br><br>
     <div class="product-description" style="text-align: justify;">
         <h2>상세 설명</h2>
@@ -395,5 +398,31 @@
     <div class="copyright">
         @2023 PotatoMarket. All rights reserved.
     </div>
+    <script>
+        // Set the target date and time for the countdown
+        var targetDate = new Date("2023-12-14T00:00:00").getTime();
+
+        // Update the countdown every 1 second
+        var countdownInterval = setInterval(function() {
+            var currentDate = new Date().getTime();
+            var timeRemaining = targetDate - currentDate;
+
+            if (timeRemaining <= 0) {
+                // Auction has ended
+                document.getElementById("countdown-timer").innerHTML = "경매 종료됨";
+                clearInterval(countdownInterval);
+            } else {
+                // Calculate days, hours, minutes, and seconds
+                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                // Update the countdown timer text
+                var countdownText = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+                document.getElementById("countdown-timer").innerHTML = "경매 종료까지 남은 시간: " + countdownText;
+            }
+        }, 1000); // Update every 1 second
+    </script>
 </body>
 </html>

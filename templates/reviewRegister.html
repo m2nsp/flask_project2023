@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="#">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>리뷰작성</title>
     <style>
         header {
@@ -18,6 +18,33 @@
             margin: 0;
             padding: 0;
             height: 100vh;
+        }
+
+        .searchbar {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 26px;
+        width: 800px;
+        height: 30px;
+        padding: 10px 20px;
+        background-color: white;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+        }
+
+        .nav-button {
+            border: none;
+            background-color: transparent; 
+            cursor: pointer;
+        }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
         }
 
         nav {
@@ -38,14 +65,6 @@
             white-space: nowrap;
             color: #000000;
             margin: 0 20px;
-        }
-
-        nav input {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 26px;
-            width: 800px;
-            height: 35px;
         }
 
         .div-container {
@@ -134,7 +153,7 @@
             color: #F8D57E;
         }
 
-        button {
+        .submit-button {
             background-color: #F8D57E;
             border: none;
             border-radius: 8px;
@@ -153,10 +172,18 @@
         <h2>GamjaMarket</h2>
         <nav>
             <ul>
-                <li><a href="#">메뉴</a></li>
+                <button class="nav-button" onclick="changePage()">
+                    <img src="menu.png" width="20" height="20">
+                </button>
             </ul>
-            <input type="text" placeholder="찾으시는 상품명을 입력하세요">
-            <!-- <button class="search-button"></button> 검색 버튼이미지 추가하기 -->
+
+            <div class="searchbar">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
+                <button class="nav-button" onclick="searchFunction()">
+                    <img src="search.png" width="20" height="20">
+                </button>
+            </div>
+
             <ul>
                 <li><a href="login.html">회원가입/로그인</a></li>
                 <li><a href="mypage.html">마이페이지</a></li>
@@ -205,7 +232,7 @@
                     </div>
                 </div>
 
-                <button>등록하기</button>
+                <button class="submit-button">등록하기</button>
             </form>
         </div>
     </div>
