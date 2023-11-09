@@ -6,64 +6,66 @@
     <link rel="stylesheet" href="styles.css">
     <title>마이페이지-마이프로필</title>
     <style>
+        header {
+            padding: 20px 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
             margin: 0;
             padding: 0;
             height: 100vh;
         }
 
+        .searchbar {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 26px;
+        width: 800px;
+        height: 30px;
+        padding: 10px 20px;
+        background-color: white;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+        }
+
+        .nav-button {
+            border: none;
+            background-color: transparent; 
+            cursor: pointer;
+        }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+
         nav {
-            font-size: 20px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             padding: 10px;
+            justify-content: space-between;
         }
 
         nav ul {
             list-style: none;
-            display: flex;              /*ul을 가로로 나열*/
+            display: flex;
         }
-
 
         nav a {
             text-decoration: none;
-            white-space: nowrap;        /* 텍스트가 한 줄로 나타나도록 합니다. */
+            white-space: nowrap;
             color: #000000;
+            margin: 0 20px;
         }
-
-        nav li{
-            margin: 0 100px;             /*각 요소들 사이의 간격*/
-        }
-
-        nav input {
-            padding: 10px 20px;          /* 위아래 10px, 좌우 20px의 패딩을 설정 */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 1200px;               /* 원하는 길이로 조절 */
-            height: 20px;
-        }
-
-        .search-button{
-            background-color: #F6E7E6;
-            color: #000000;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        header{
-            padding-top: 40px;
-            padding-left: 40px;
-            padding-bottom: 20px;
-            background-color: #F6E7E6;
-            color: #000000;
-        }
-
-        
 
         .my-info{
             display: flex;
@@ -132,11 +134,21 @@
         <h2>GamjaMarket</h2>
         <nav>
             <ul>
-                <li><a href="#">홈</a></li>
-                <input type="text" placeholder="찾으시는 상품명을 입력하세요">
-                <button class="search-button">검색</button>
+                <button class="nav-button" onclick="changePage()">
+                    <img src="../static/img/menu.png" width="20" height="20">
+                </button>
+            </ul>
+
+            <div class="searchbar">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
+                <button class="nav-button" onclick="searchFunction()">
+                    <img src="../static/img/search.png" width="20" height="20">
+                </button>
+            </div>
+
+            <ul>
                 <li><a href="login.html">회원가입/로그인</a></li>
-                <li><a href="mypage-profile.html">마이페이지</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
             </ul>
         </nav>
     </header>
