@@ -166,6 +166,14 @@
         </nav>
     </header>
 
+
+    {% extends "home.html" %}
+    {% block section %}
+    {% with mesg = get_flashed_messages() %}
+    {% if mesg !=[] %}
+    <script>alert("{{ mesg[0] }}")</script>
+    {% endif %}
+    {% endwith %}
     <div class="div-container">
         <div class="login-container">
             <h2>GamjaMarket</h2>
@@ -201,10 +209,11 @@
                 <button>애플 계정으로 가입하기</button>
                 <br><br>
                 계정이 없으신가요?<br>
-                <a href="signUp.html">회원가입하기</a>
+                <a href="{{ url_for('signUp') }}">회원가입하기</a>
             </ul>
         </div>
     </div>
+    {% endblock section %}
 
 </body>
 </html>
