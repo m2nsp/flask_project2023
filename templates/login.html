@@ -166,14 +166,6 @@
         </nav>
     </header>
 
-
-    {% extends "home.html" %}
-    {% block section %}
-    {% with mesg = get_flashed_messages() %}
-    {% if mesg !=[] %}
-    <script>alert("{{ mesg[0] }}")</script>
-    {% endif %}
-    {% endwith %}
     <div class="div-container">
         <div class="login-container">
             <h2>GamjaMarket</h2>
@@ -213,7 +205,6 @@
             </ul>
         </div>
     </div>
-    {% endblock section %}
 
 </body>
 </html>
