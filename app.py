@@ -10,6 +10,9 @@ def hello():
 def login():
     return render_template("login.html")
 
+@application.route("/signUp")
+def signUp():
+    return render_template("signUp.html")
 
 @application.route("/productList")
 def productList():
