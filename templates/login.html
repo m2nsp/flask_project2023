@@ -172,7 +172,7 @@
                 
             <br>
 
-            <form action="login.php" method="post">
+            <form action="{{ url_for('login') }}" method="post">
                 <div class="form-group">
                     <label for="username">사용자 이름:</label>
                     <input type="text" id="username" name="username" required>
@@ -201,7 +201,7 @@
                 <button>애플 계정으로 가입하기</button>
                 <br><br>
                 계정이 없으신가요?<br>
-                <a href="signUp.html">회원가입하기</a>
+                <a href="{{ url_for('signUp') }}">회원가입하기</a>
             </ul>
         </div>
     </div>
