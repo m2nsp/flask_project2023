@@ -19,7 +19,7 @@ def login():
 def signUp():
     return render_template("signUp.html")
 
-@application.route("/signUp_post", methods=['POST'])
+@application.route("/signup_post", methods=['POST'])
 def register_user():
     data=request.form
     pw=request.form['pw']
