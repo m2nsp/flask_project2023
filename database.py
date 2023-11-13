@@ -15,7 +15,7 @@ class DBhandler:
             "nickname": data['nickname']
         }
         if self.user_duplicate_check(str(data['id'])):
-            self.db.child("user").push(user_info)
+            self.db.child("user").child(data['id']).set(user_info)
             print(data)
             return True
         else:
