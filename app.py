@@ -15,15 +15,15 @@ def hello():
 def login():
     return render_template("login.html")
 
-@application.route("/signUp")
+@application.route("/signup")
 def signUp():
     return render_template("signUp.html")
 
 @application.route("/signup_post", methods=['POST'])
 def register_user():
-    print(request.form)
     data=request.form
-    pw=request.form['pw']
+    pw=data.get('pw')
+    print("Password:", pw)
     pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
     if DB.insert_user(data, pw_hash):
         return render_template("login.html")
