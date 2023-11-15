@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>마이페이지-마이프로필</title>
+    <style>
+        header {
+            padding: 20px 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .searchbar {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 26px;
+        width: 800px;
+        height: 30px;
+        padding: 10px 20px;
+        background-color: white;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+        }
+
+        .nav-button {
+            border: none;
+            background-color: transparent; 
+            cursor: pointer;
+        }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        nav {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            justify-content: space-between;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;
+            color: #000000;
+            margin: 0 20px;
+        }
+
+        .my-info{
+            display: flex;
+            margin-top: 100px;
+            font-size: 20px;
+        }
+
+        .my-info img{
+            margin-left: 12%;
+            margin-right: 60px;
+        }
+
+        .my-id{
+            margin-right:90px;
+            margin-top: 70px;
+        }
+
+        .info-box{
+            border: 3px solid #F8D57E;
+            border-radius:10px;
+            margin-right:100px;
+            padding: 20px;
+            width: 250px;
+            height: 100px;
+        }
+
+        .on-purchase{
+            margin-left: 12%;
+            margin-top: 6%;
+        }
+
+        .on-purchase-list{
+            display: flex;
+        }
+
+        .on-purchase-item{
+            margin-right: 100px;
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 320px;
+            height: 450px;
+        }
+
+        .on-purchase-item-text{
+            padding: 20px;
+        }
+
+        .review{
+            margin-top: 5%;
+            margin-left: 12%;
+        }
+
+        .reviews{
+            margin-bottom: 2%;
+            background-color: #ece9f8;
+            font-size: 20px;
+            text-align: left;
+            padding: 20px;
+            width: 1600px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h2>GamjaMarket</h2>
+        <nav>
+            <ul>
+                <button class="nav-button" onclick="changePage()">
+                    <img src="../static/img/menu.png" width="20" height="20">
+                </button>
+            </ul>
+
+            <div class="searchbar">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
+                <button class="nav-button" onclick="searchFunction()">
+                    <img src="../static/img/search.png" width="20" height="20">
+                </button>
+            </div>
+
+            <ul>
+                <li><a href="login.html">회원가입/로그인</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="third-navbar">
+        <a>나의 위치 | </a>
+        <a href="#">마이페이지 X</a>
+        <a href="#">마이프로필 X</a>
+    </div>
+
+    <div class="my-info">
+        <img src="프로필사진.png" alt="프로필이미지">
+        <div class="my-id">
+            감자를봐감자야<br>@potatopopo
+        </div>
+        <div class="info-box">별점        </div>
+        <div class="info-box">판매횟수    </div>
+        <div class="info-box">구매횟수    </div>
+    </div>
+
+    <div class="on-purchase">
+        <h2>현재 판매중인 상품 <button>전체보기></button></h2>
+        <div class="on-purchase-list">
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중한 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
+            <div class="on-purchase-item">
+                <img src="찜상품.png" alt="판매중 상품">
+                <div class="on-purchase-item-text">
+                    3시간전
+                    <h1>끝내주는 텀블러</h1>
+                    <h3>20000원</h3>
+                    <img src="배송정보이미지.png" alt="배송정보">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="review">
+        <h2>감자를봐감자야 님과의 거래후기<button>전체보기></button></h2>
+        <div class="reviews">
+            별별별별별
+            거래자 닉네임<br>
+            최고의 거래였어요<br>
+            완전 친절하고 약속 잘지킴
+        </div>
+        <div class="reviews">
+            최고의 거래였어요<br>
+            완전 친절하고 약속 잘지킴
+        </div>
+    </div>
+</body>

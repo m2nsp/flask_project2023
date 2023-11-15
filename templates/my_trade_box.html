@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비대면 상자 조회</title>
+    <style>
+        header {
+            padding: 20px 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .searchbar {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 26px;
+        width: 800px;
+        height: 30px;
+        padding: 10px 20px;
+        background-color: white;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+        }
+
+        .nav-button {
+            border: none;
+            background-color: transparent; 
+            cursor: pointer;
+        }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        nav {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            justify-content: space-between;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;
+            color: #000000;
+            margin: 0 20px;
+        }
+
+        .all-part{
+            display: flex;
+        }
+
+        .left-part{
+            margin-left: 320px;
+            padding-top: 50px;
+            float:left;
+        }
+
+        .right-part{
+            margin-right: 500px;
+            padding-top: 50px;
+            float: right;
+ 
+        }
+
+        .about-item{
+            display: flex;
+            margin-bottom: 20px;
+            margin-left: 100px;
+        }
+        
+        .image-container{
+            background-color: gray;
+            width: 470px;
+            height: 400px;
+        }
+
+        .item-info{
+            margin-left: 50px;
+        }
+
+        .flex-container{
+            display: flex;
+            margin-right: 100px;
+        }
+
+        .item-container{
+            margin-left: 100px;
+        }
+        .item-item{
+            padding: 20px;
+            line-height: 35px;
+            width: 500px;
+            height: 80px;
+            margin: 10px;
+            margin-bottom: 30px;
+            background-color: #F7F5FC;
+        }
+
+        label {
+            font-size: 20px; /* 원하는 글꼴 크기로 조절 */
+            margin-right: 100px;
+        }
+
+        </style>
+</head>
+
+<body>
+    <header>
+        <h2>GamjaMarket</h2>
+        <nav>
+            <ul>
+                <button class="nav-button" onclick="changePage()">
+                    <img src="../static/img/menu.png" width="20" height="20">
+                </button>
+            </ul>
+
+            <div class="searchbar">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
+                <button class="nav-button" onclick="searchFunction()">
+                    <img src="../static/img/search.png" width="20" height="20">
+                </button>
+            </div>
+
+            <ul>
+                <li><a href="login.html">회원가입/로그인</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+
+        <h2>비대면 상자 거래 정보</h2>
+        <div class="flex-container">
+            <div class="flex-item">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1581.0051924043707!2d126.93615398967286!3d37.57837315236578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr!4v1699351183441!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <p style="color: hotpink;">※ 보관 기간 내에 찾아가거나 기간을 연장하지 않을 시, 물품이 폐기되며 이에 대한 배상은 불가합니다.</p>
+            </div>
+            <div class="item-container">
+                <div class="item-item">  거래소위치<br><span style="font-size: 20px;">  서대문구 ㅇㅇ동 ㅇㅇ거래소</span></div>
+                <div class="item-item">  사물함 번호<br><span style="font-size: 20px;">  바 07-03</span></div>
+                <div class="item-item">  보관기간<br><span style="font-size: 20px;">  2023.10.09 ~ 2023.10.12</span></div>
+            </div>
+        </div>
+    </article>
+    
+</body>

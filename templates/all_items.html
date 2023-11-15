@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체 상품 조회</title>
+    <style>
+        header {
+            padding: 20px 20px;
+            background-color: #F6E7E6;
+            color: #000000;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .searchbar {
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 26px;
+        width: 800px;
+        height: 30px;
+        padding: 10px 20px;
+        background-color: white;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+        }
+
+        .nav-button {
+            border: none;
+            background-color: transparent; 
+            cursor: pointer;
+        }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        nav {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            justify-content: space-between;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;
+            color: #000000;
+            margin: 0 20px;
+        }
+
+        label {
+            font-size: 20px; /* 원하는 글꼴 크기로 조절 */
+            margin-right: 100px;
+        }
+
+        article {
+            height: 100%;
+            width: 70%;
+            margin: 0 auto;
+            padding-bottom: 12px;
+            text-align: center;
+        }
+
+        #banner {
+            width: 1024px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        #banner > img {
+            width: 100%;
+        }
+
+        #article > h2 {
+            margin-top: 16px;
+        }
+
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .product-card {
+            width: 180px;
+            height: 300px;
+            margin-right: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgb(170, 170, 170);
+            border-radius: 12px;
+        }
+
+        .product-img{
+            width: 100%;
+            height: 217px;
+        }
+
+        .product-contexts {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+        }
+
+        .product-name {
+            font-size: 20px;
+            padding-left: 4px;
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 2px;
+            padding-left: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>GamjaMarket</h2>
+        <nav>
+            <ul>
+                <button class="nav-button" onclick="changePage()">
+                    <img src="../static/img/menu.png" width="20" height="20">
+                </button>
+            </ul>
+
+            <div class="searchbar">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
+                <button class="nav-button" onclick="searchFunction()">
+                    <img src="../static/img/search.png" width="20" height="20">
+                </button>
+            </div>
+
+            <ul>
+                <li><a href="login.html">회원가입/로그인</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <article>
+        <div id="article">
+            <br><h2>전체 상품 조회</h2><br><br>
+        </div>
+        <div id="product-list">
+            <div class="product-card">
+                <img class ="product-img" src="tum_kh.png"/>
+                <div class="product-contents">
+                    <span class="product-name">텀블러</span><br>
+                    <span class="product-price">20,000원</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <img class="product-img" src="tum_kh.png"/>
+                <div class="product-contents">
+                    <span class="product-name">텀블러</span><br>
+                    <span class="product-price">20,000원</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <img class="product-img" src="tum_kh.png"/>
+                <div class="product-contents">
+                    <span class="product-name">텀블러</span><br>
+                    <span class="product-price">20,000원</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img class="product-img" src="tum_kh.png"/>
+                <div class="product-contents">
+                    <span class="product-name">텀블러</span><br>
+                    <span class="product-price">20,000원</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img class="product-img" src="tum_kh.png"/>
+                <div class="product-contents">
+                    <span class="product-name">텀블러</span><br>
+                    <span class="product-price">20,000원</span>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img class="product-img" src="tum_kh.png"/>
+                <div class="product-contents">
+                    <span class="product-name">텀블러</span><br>
+                    <span class="product-price">20,000원</span>
+                </div>
+            </div>
+
+        </div>
+    </article>
+    
+</body>
