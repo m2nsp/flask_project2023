@@ -129,27 +129,27 @@
     </header>
 
     <div class="signup-page">
-        <form action="signUp.php" method="post">
+        <form action="/signup_post" method="post" enctype="application/x-www-form-urlencoded">
             <div class="ID">
                 <h3>ID</h3>
-                <input type="text" placeholder="아이디를 입력하세요">
+                <input type="text" placeholder="아이디를 입력하세요" name="id">
             </div><br><br>
 
             <div class="pw">
                 <div class="type-pw">
                     <h3>PW</h3>
-                    <input type="text" placeholder="비밀번호를 입력하세요">
+                    <input type="text" placeholder="비밀번호를 입력하세요" name="pw">
                 </div>
 
                 <div class="check-pw">
                     <h3>PW 확인</h3>
-                    <input type="text" placeholder="동일한 비밀번호를 입력하세요">
+                    <input type="text" placeholder="동일한 비밀번호를 입력하세요"  name="check-pw">
                 </div>
             </div><br><br>
             
             <div class="Email">
                 <h3>Email</h3>
-                <input type="text" placeholder="이메일을 입력하세요">
+                <input type="text" placeholder="이메일을 입력하세요" name="email">
             </div><br><br><br><br>
 
             <button type="submit">회원가입</button>

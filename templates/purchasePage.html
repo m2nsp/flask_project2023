@@ -63,6 +63,32 @@
             color: #000000;
         }
 
+        .third-navbar {
+            background-color: #e1b99c;
+            height: 60px;
+            font-size: 20px;
+            display: flex;
+            align-items: center; /* 수직 가운데 정렬을 위해 추가 */
+        }
+
+        .third-navbar a {
+            font-weight: bold;
+            color:brown;
+            margin-left:5%;
+        }
+
+        .third-navbar a:not(:nth-child(6)):not(:nth-child(7)) {
+            color: white;
+        }
+
+        .third-navbar a:nth-child(even) {
+            margin-left: 0; /* 짝수 인덱스(0부터 시작)의 요소의 왼쪽 마진 초기화 */
+        }
+
+        .third-navbar a:nth-child(odd) {
+            margin-right: 10px; /* 홀수 인덱스(0부터 시작)의 요소의 우측 마진 설정 */
+        }
+
         .all-part{
             display: flex;
         }
@@ -140,6 +166,15 @@
             </ul>
         </nav>
     </header>
+
+    <div class="third-navbar">
+        <a>나의 위치 | </a>
+        <a href="#">홈화면 X</a>
+        <a href="#">상품전체조회 X</a>
+        <a href="#">상품상세 X</a>
+        <a href="#">상품결제 X</a>
+    </div>
+
     <div class="all-part"></div>
         <div class="left-part">
             <h2>거래 품목</h2>
