@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "apiKey": "AIzaSyB-GKlWQOvBcXaoY45vV3mG4saWyXTpoKs",
   "authDomain": "gamza-market-127ae.firebaseapp.com",
   "databaseURL": "https://gamza-market-127ae-default-rtdb.firebaseio.com",
@@ -7,3 +8,14 @@
   "messagingSenderId": "486757896527",
   "appId": "1:486757896527:web:fb0a66a5cb59fa7c2bb53a"
 }
+=======
+    "apiKey": "AIzaSyB-GKlWQOvBcXaoY45vV3mG4saWyXTpoKs",
+    "authDomain": "gamza-market-127ae.firebaseapp.com",
+    "databaseURL": "https://gamza-market-127ae-default-rtdb.firebaseio.com",
+    "projectId": "gamza-market-127ae",
+    "storageBucket": "gamza-market-127ae.appspot.com",
+    "messagingSenderId": "486757896527",
+    "appId": "1:486757896527:web:fb0a66a5cb59fa7c2bb53a"
+    "measurementId": "G-PYHH5F7L8V"
+  }
+>>>>>>> 739f23e4f9c401afe841c6e219b79efda56ccd3b
