@@ -19,37 +19,26 @@ def login():
 def signUp():
     return render_template("signUp.html")
 
-@application.route("/signup_post", methods=['POST'])
-def register_user():
-    data=request.form
-    pw=data.get('pw')
-    print("Password:", pw)
-    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
-    if DB.insert_user(data, pw_hash):
-        return render_template("login.html")
-    else:
-        flash("user id already exist!")
-        return render_template("signUp.html")
-
-
-@application.route("/productList")
-def productList():
-    return render_template("productList.html")
-
-@application.route("/productRegister")
-def productRegister():
-    return render_template("productRegister.html")
-
-@application.route("/submit", methods=['POST'])
-def submitProduct():
+@application.route("/submit_item_post", methods=['POST'])
+def submitItemPost():
     if request.method == "POST":
-        product_title = request.form.get("product-title")
+        # Extract form data
+        img_file = request.files['img']
+        product_title = request.form.get("tit")
+        transactions = request.form.getlist("transaction")  # Assuming multiple transactions are possible
         price_method = request.form.get("price-method")
         product_description = request.form.get("product-description")
         user_id = request.form.get("user-id")
         post_date = request.form.get("post-date")
-        transaction = request.form.get("transaction")
 
+        # Save the uploaded image
+        img_filename = request.files["file"]
+        img_file.save("static/images/{}".format(img_filename))
+
+        # Handle transactions (checkboxes)
+        # You might want to save transactions in a format suitable for your database
+        transaction_str = ', '.join(transactions)
+        
         if price_method == "일반거래":
             normal_price = request.form.get("normal-price")
             auction_end_time = None
@@ -61,24 +50,27 @@ def submitProduct():
             auction_min_bid = request.form.get("auction-min-bid")
             auction_max_bid = request.form.get("auction-max-bid")
 
-        # 터미널에 데이터 출력
-        print("상품명(글제목):", product_title)
-        print("가격방식:", price_method)
-        print("거래방식:", transaction)
+        # Save the data to the database
+        data = {
+            "img_path": "static/images/{}".format(img_filename),
+            "product_title": product_title,
+            "transactions": transaction_str,
+            "price_method": price_method,
+            "product_description": product_description,
+            "user_id": user_id,
+            "post_date": post_date,
+            "normal_price": normal_price,
+            "auction_end_time": auction_end_time,
+            "auction_min_bid": auction_min_bid,
+            "auction_max_bid": auction_max_bid
+        }
 
-        if price_method == "일반거래":
-            print("판매가:", normal_price)
-        elif price_method == "경매":
-            print("경매마감일:", auction_end_time)
-            print("최저낙찰가:", auction_min_bid)
-            print("최고낙찰가:", auction_max_bid)
-        
-        print("상세설명:", product_description)
-        print("글작성날짜:", post_date)
-
-    return "상품이 성공적으로 등록되었습니다."
-
-
+        if DB.insert_product(data):
+            flash("상품이 성공적으로 등록되었습니다.")
+            return redirect(url_for("productList"))
+        else:
+            flash("상품 등록에 실패했습니다. 다시 시도해주세요.")
+            return render_template("reg_items.html", data=data)
 
 @application.route("/reviewRegister")
 def reviewRegister():
@@ -93,6 +85,7 @@ def productSubmitResult():
     image_file=request.files["file"]
     image_file.save("static/images/{}".format(image_file.filename))
     data = request.form
+    DB.insert_item(data['name'], data, image_file.filename)
     return render_template("productSubmitResult.html", data=data, img_path="static/images/{}".format(image_file.filename))
 
 if __name__ == "__main__":
