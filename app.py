@@ -19,29 +19,8 @@ def login():
 def signUp():
     return render_template("signUp.html")
 
-@application.route("/signup_post", methods=['POST'])
-def register_user():
-    data=request.form
-    pw=data.get('pw')
-    print("Password:", pw)
-    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
-    if DB.insert_user(data, pw_hash):
-        return render_template("login.html")
-    else:
-        flash("user id already exist!")
-        return render_template("signUp.html")
-
-
-@application.route("/productList")
-def productList():
-    return render_template("productList.html")
-
-@application.route("/productRegister")
-def productRegister():
-    return render_template("productRegister.html")
-
-@application.route("/submit", methods=['POST'])
-def submitProduct():
+@application.route("/submit_item_post", methods=['POST'])
+def submitItemPost():
     if request.method == "POST":
         product_title = request.form.get("product-title")
         price_method = request.form.get("price-method")
@@ -78,8 +57,6 @@ def submitProduct():
 
     return "상품이 성공적으로 등록되었습니다."
 
-
-
 @application.route("/reviewRegister")
 def reviewRegister():
     return render_template("reviewRegister.html")
@@ -93,6 +70,7 @@ def productSubmitResult():
     image_file=request.files["file"]
     image_file.save("static/images/{}".format(image_file.filename))
     data = request.form
+    DB.insert_item(data['name'], data, image_file.filename)
     return render_template("productSubmitResult.html", data=data, img_path="static/images/{}".format(image_file.filename))
 
 if __name__ == "__main__":
