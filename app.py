@@ -19,8 +19,20 @@ def login():
 def signUp():
     return render_template("signUp.html")
 
+@application.route("/reg_items")
+def reg_item():
+    return render_template("reg_items.html")
+
+@application.route("/home")
+def home():
+    return render_template("home.html")
+
+@application.route("/mypage")
+def mypage():
+    return render_template("mypage.html")
+
 @application.route("/submit_item_post", methods=['POST'])
-def submitItemPost():
+def reg_item_submit_post():
     if request.method == "POST":
         # Extract form data
         img_file = request.files['img']
