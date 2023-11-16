@@ -19,53 +19,64 @@ def login():
 def signUp():
     return render_template("signUp.html")
 
-@application.route("/reg_items")
-def reg_item():
-    return render_template("reg_items.html")
-
-@application.route("/home")
-def home():
-    return render_template("home.html")
-
-@application.route("/myPage")
-def myPage():
-    return render_template("myPage.html")
-
-@application.route('/submit_item_post', methods=['POST'])
-def submit_item_post():
-    if request.method == 'POST':
-        # Process the form data and store it in Firebase
-        img = request.files['img']
-        name = request.form['name']
-        transaction = request.form.get('transaction')
-        price_method = request.form['price-method']
-
-        data = {
-            'name': name,
-            'transaction': transaction,
-            'price-method': price_method,
-            # Add other form fields as needed
-        }
-
-        if price_method == '일반거래':
-            data['normal-price'] = request.form['normal-price']
-        elif price_method == '경매':
-            data['auction-end-time'] = request.form['auction-end-time']
-            data['auction-min-bid'] = request.form['auction-min-bid']
-            data['auction-max-bid'] = request.form['auction-max-bid']
-
-        data['product-description'] = request.form['product-description']
-        data['post-date'] = request.form['post-date']
-
-        # Upload image to Firebase Storage
-        img_path = "static/img/{}".format(image_file.filename)
-        storage.child(img_path).put(img)
-        data['img_path'] = storage.child(img_path).get_url(None)
-
-        # Store data in Firebase Database
-        db.child('items').push(data)
+@application.route("/signup_post", methods=['POST'])
+def register_user():
+    data=request.form
+    pw=data.get('pw')
+    print("Password:", pw)
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    if DB.insert_user(data, pw_hash):
+        return render_template("login.html")
+    else:
+        flash("user id already exist!")
+        return render_template("signUp.html")
 
 
+@application.route("/productList")
+def productList():
+    return render_template("productList.html")
+
+@application.route("/productRegister")
+def productRegister():
+    return render_template("productRegister.html")
+
+@application.route("/submit", methods=['POST'])
+def submitProduct():
+    if request.method == "POST":
+        product_title = request.form.get("product-title")
+        price_method = request.form.get("price-method")
+        product_description = request.form.get("product-description")
+        user_id = request.form.get("user-id")
+        post_date = request.form.get("post-date")
+        transaction = request.form.get("transaction")
+
+        if price_method == "일반거래":
+            normal_price = request.form.get("normal-price")
+            auction_end_time = None
+            auction_min_bid = None
+            auction_max_bid = None
+        elif price_method == "경매":
+            normal_price = None
+            auction_end_time = request.form.get("auction-end-time")
+            auction_min_bid = request.form.get("auction-min-bid")
+            auction_max_bid = request.form.get("auction-max-bid")
+
+        # 터미널에 데이터 출력
+        print("상품명(글제목):", product_title)
+        print("가격방식:", price_method)
+        print("거래방식:", transaction)
+
+        if price_method == "일반거래":
+            print("판매가:", normal_price)
+        elif price_method == "경매":
+            print("경매마감일:", auction_end_time)
+            print("최저낙찰가:", auction_min_bid)
+            print("최고낙찰가:", auction_max_bid)
+        
+        print("상세설명:", product_description)
+        print("글작성날짜:", post_date)
+
+    return "상품이 성공적으로 등록되었습니다."
 
 @application.route("/reviewRegister")
 def reviewRegister():
