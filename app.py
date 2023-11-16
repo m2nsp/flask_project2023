@@ -27,9 +27,9 @@ def reg_item():
 def home():
     return render_template("home.html")
 
-@application.route("/mypage")
-def mypage():
-    return render_template("mypage.html")
+@application.route("/myPage")
+def myPage():
+    return render_template("myPage.html")
 
 @application.route('/submit_item_post', methods=['POST'])
 def submit_item_post():
