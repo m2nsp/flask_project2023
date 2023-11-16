@@ -50,7 +50,6 @@ def submitItemPost():
             auction_min_bid = request.form.get("auction-min-bid")
             auction_max_bid = request.form.get("auction-max-bid")
 
-<<<<<<< HEAD
         # 터미널에 데이터 출력
         print("상품명(글제목):", product_title)
         print("가격방식:", price_method)
@@ -67,29 +66,6 @@ def submitItemPost():
         print("글작성날짜:", post_date)
 
     return "상품이 성공적으로 등록되었습니다."
-=======
-        # Save the data to the database
-        data = {
-            "img_path": "static/images/{}".format(img_filename),
-            "product_title": product_title,
-            "transactions": transaction_str,
-            "price_method": price_method,
-            "product_description": product_description,
-            "user_id": user_id,
-            "post_date": post_date,
-            "normal_price": normal_price,
-            "auction_end_time": auction_end_time,
-            "auction_min_bid": auction_min_bid,
-            "auction_max_bid": auction_max_bid
-        }
-
-        if DB.insert_product(data):
-            flash("상품이 성공적으로 등록되었습니다.")
-            return redirect(url_for("productList"))
-        else:
-            flash("상품 등록에 실패했습니다. 다시 시도해주세요.")
-            return render_template("reg_items.html", data=data)
->>>>>>> 739f23e4f9c401afe841c6e219b79efda56ccd3b
 
 @application.route("/reviewRegister")
 def reviewRegister():

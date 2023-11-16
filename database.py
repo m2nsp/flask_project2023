@@ -47,8 +47,8 @@ class DBhandler:
     
     def insert_item(self, name, data, img_path):
         item_info ={
-            "product_title": data['product_title'],
-            "transactions": data['transaction_str'],
+            #"product_title": data['product_title'],
+            "transactions": data['transactions'],
             "price_method": data['price_method'],
             "product_description": data['product_description'],
             "user_id": data['user_id'],
