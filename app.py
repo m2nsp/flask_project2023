@@ -78,8 +78,6 @@ def submitProduct():
 
     return "상품이 성공적으로 등록되었습니다."
 
-
-
 @application.route("/reviewRegister")
 def reviewRegister():
     return render_template("reviewRegister.html")

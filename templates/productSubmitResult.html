@@ -79,11 +79,18 @@
 
 
     <h2>상품 등록 결과</h2>
-
+    
+    <div class="contents-of-purchase">
+        <p style="font-size: 15px;">상품 이미지</p>
+        <p>
+            <img src="{{img_path}}"/>
+        </p>
+        
+    </div>
     <div class="contents-of-purchase">
         <p style="font-size: 15px;">상품명(글제목)</p>
         <p style="font-size: 30px;">
-             {{ data['product-title'] }}  {{ data['file'] }}</p>
+             {{ data.name}}</p>
         </p>
     </div>
     
@@ -94,7 +101,7 @@
         </div>
         <div class="price-method">
             <p style="font-size: 15px;">가격방식<p>
-            <p style="font-size: 30px;">      {{ data['price-method'] }}</p>
+            <p style="font-size: 30px;">      {{ data['price_method'] }}</p>
         </div>
     </div>
 
@@ -106,24 +113,24 @@
     <div class="contents-of-purchase">
         {% if data['price-method'] == "일반거래" %}
         <p style="font-size: 15px;">판매가</p>
-        <p style="font-size: 30px;"> {{ data['normal-price'] }}</p>
+        <p style="font-size: 30px;"> {{ data['normal_price'] }}</p>
         {% endif %}
     </div>
 
     <div class="contents-of-purchase">
-        {% if data['price-method'] == "경매" %}
+        {% if data['price_method'] == "경매" %}
         <p style="font-size: 15px;">경매마감일</p>
-        <p style="font-size: 30px;"> {{ data['auction-end-time'] }}</p>
+        <p style="font-size: 30px;"> {{ data['auction_end_time'] }}</p>
         <p style="font-size: 15px;">최저낙찰가</p>
-        <p style="font-size: 30px;" >{{ data['auction-min-bid'] }}</p>
+        <p style="font-size: 30px;" >{{ data['auction_min_bid'] }}</p>
         <p style="font-size: 15px;">최고낙찰가</p>
-        <p style="font-size: 30px;">{{ data['auction-max-bid'] }}</p>
+        <p style="font-size: 30px;">{{ data['auction_max_bid'] }}</p>
         {% endif %}
     </div>    
 
     <div class="contents-of-purchase">
-        <p>상세설명: {{ data['product-description'] }}</p>
-        <p>글작성날짜: {{ data['post-date'] }}</p>
+        <p>상세설명: {{ data['product_description'] }}</p>
+        <p>글작성날짜: {{ data['post_date'] }}</p>
 
     </div>
 
