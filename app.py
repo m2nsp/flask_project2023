@@ -31,7 +31,7 @@ def home():
 def mypage():
     return render_template("mypage.html")
 
-@app.route('/submit_item_post', methods=['POST'])
+@application.route('/submit_item_post', methods=['POST'])
 def submit_item_post():
     if request.method == 'POST':
         # Process the form data and store it in Firebase
@@ -58,7 +58,7 @@ def submit_item_post():
         data['post-date'] = request.form['post-date']
 
         # Upload image to Firebase Storage
-        img_path = "static/imㅎ/{}".format(image_file.filename))
+        img_path = "static/img/{}".format(image_file.filename)
         storage.child(img_path).put(img)
         data['img_path'] = storage.child(img_path).get_url(None)
 
