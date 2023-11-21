@@ -61,6 +61,11 @@
 
 
     <div class="signup-page">
+        {% with mesg = get_flashed_messages() %}
+        {% if mesg !=[] %}
+        <script>alert("{{ mesg[0] }}")</script>
+        {% endif %}
+        {% endwith %}
         <form action="/signup_post" method="post" enctype="application/x-www-form-urlencoded">
             <div class="ID">
                 <h3>ID</h3>
