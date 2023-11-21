@@ -55,14 +55,6 @@
             font-size: 15px;
         }
 
-        header{
-            padding-top: 40px;
-            padding-left: 40px;
-            padding-bottom: 20px;
-            background-color: #F6E7E6;
-            color: #000000;
-        }
-
         .third-navbar {
             background-color: #e1b99c;
             height: 60px;
@@ -154,18 +146,10 @@
     </style>
 </head>
 <body>
-    <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <li><a href="#">홈</a></li>
-                <input type="text" placeholder="찾으시는 상품명을 입력하세요">
-                <button class="search-button">검색</button>
-                <li><a href="login.html">회원가입/로그인</a></li>
-                <li><a href="mypage-profile.html">마이페이지</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'header.html' %}
+
+    <section>
+        {% block section %}
 
     <div class="third-navbar">
         <a>나의 위치 | </a>
@@ -223,4 +207,9 @@
             <button type="submit" class="purchase-item">결제 하기</button>
         </div>
     </div>
+
+    {% endblock section %}
+</section>
+
+{% include 'footer.html' %}
 </body>

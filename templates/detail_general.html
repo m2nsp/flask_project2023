@@ -294,29 +294,11 @@
     </style>
 </head>
 <body>
-    <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <button class="nav-button" onclick="changePage()">
-                    <img src="../static/img/menu.png" width="20" height="20">
-                </button>
-            </ul>
+    {% include 'header.html' %}
 
-            <div class="searchbar">
-                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
-                <button class="nav-button" onclick="searchFunction()">
-                    <img src="../static/img/search.png" width="20" height="20">
-                </button>
-            </div>
-
-            <ul>
-                <li><a href="login.html">회원가입/로그인</a></li>
-                <li><a href="mypage.html">마이페이지</a></li>
-            </ul>
-        </nav>
-    </header>
-    
+    <section>
+        {% block section %}
+  
     <div class="third-navbar">
         <a style="margin-left: 20px;">나의 위치 |</a>
         <a href="#">홈 화면</a>
@@ -328,17 +310,18 @@
     </div>
 
     <div class="image-wrapper">
-        <img src="https://www.wellbow.co.kr/wp-content/uploads/2018/11/kinto_black_12oz_01.jpg" style="width:300px; height: 300px; border: 3px solid gray; border-radius: 15px;" alt="상품 이미지">
+        <img src="../../static/img/{{data.img_path}}" style="width:300px; height: 300px; border: 3px solid gray; border-radius: 15px;" alt="상품 이미지">
         <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/54147/sparkling-heart-emoji-clipart-md.png" class="custom-image" alt="맘찍">
     </div>
     <div class="text-section">
         <h4>상품명</h4>
-        <p style="font-size: 30px; font-weight: bold;">끝내주는 텀블러</p>
+        <p style="font-size: 30px; font-weight: bold;">{{name}}</p>
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
                 <h4>가격</h4>
                 <p style="font-size: 30px; font-weight: bold;">20000원</p>
+                <!-- 가격 수정 필요합니당 -->
             </div>
             <div style="flex: 1;">
                 <!-- 이 부분에 '구매하기' 버튼을 추가 -->
@@ -363,7 +346,7 @@
     <br><br>
     <div class="product-description" style="text-align: justify;">
         <h2>상세 설명</h2>
-        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">이곳은 상품의 상세설명을 보여주는 곳입니다. 끝내주는 텀블러를 어떻게 하면 비싸게 팔 수 있을까요? 저는 500000원에 팔렸으면 좋겠습니다. 스벅 텀블러보다 비싸네요. 에어팟보다 비쌉니다. 그러나 정말, "끝내주는" 텀블러이기 때문에 소장 가치가 충분할 겁니다. 상세설명만큼은 글자 크기가 작은 것이 좋을 것 같네요. 말이 구구절절 길어질 수 있으니까요.</p>
+        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{product_description}}</p>
     </div>
     <br><br>
     <div class="comment-section">
@@ -420,5 +403,9 @@
     <div class="copyright">
         @2023 PotatoMarket. All rights reserved.
     </div>
+    {% endblock section %}
+</section>
+
+{% include 'footer.html' %}
 </body>
 </html>

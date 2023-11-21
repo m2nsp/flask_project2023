@@ -7,67 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <title>회원가입</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-    }
-    
-    nav {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            font-size: 20px;
-    }
-
-    nav ul {
-        list-style: none;
-        display: flex;              /*ul을 가로로 나열*/
-    }
-
-
-    nav a {
-        text-decoration: none;
-        white-space: nowrap;        /* 텍스트가 한 줄로 나타나도록 합니다. */
-        color: #000000;
-    }
-
-    nav li{
-        margin: 0 100px;             /*각 요소들 사이의 간격*/
-    }
-
-    nav input {
-        padding: 10px 20px;          /* 위아래 10px, 좌우 20px의 패딩을 설정 */
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        width: 1200px;               /* 원하는 길이로 조절 */
-        height: 20px;
-    }
-
-    .search-button{
-        background-color: #F6E7E6;
-        color: #000000;
-        cursor: pointer;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 15px;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    header{
-        padding-top: 40px;
-        padding-left: 40px;
-        padding-bottom: 20px;
-        background-color: #F6E7E6;
-        color: #000000;
-    }
-
     .signup-page{
         font-size: large;
         height: 60%;
@@ -115,19 +54,11 @@
 
 </style>
 <body>
-    
-    <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <li><a href="#">홈</a></li>
-                <input type="text" placeholder="찾으시는 상품명을 입력하세요">
-                <button class="search-button">검색</button>
-                <li><a href="login.html">회원가입/로그인</a></li>
-                <li><a href="mypage-profile.html">마이페이지</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'header.html' %}
+
+    <section>
+        {% block section %}
+
 
     <div class="signup-page">
         <form action="/signup_post" method="post" enctype="application/x-www-form-urlencoded">
@@ -156,4 +87,9 @@
             <button type="submit">회원가입</button>
         </form>
     </div>
+
+    {% endblock section %}
+</section>
+
+{% include 'footer.html' %}
 </body>

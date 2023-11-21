@@ -93,46 +93,8 @@
              {{ data.name}}</p>
         </p>
     </div>
-    
-    <div class="contents-of-purchase" style="display: inline-flex;">
-        <div class="transaction">
-            <p style="font-size: 15px;">거래방식</p>
-            <p style="font-size: 30px;">      {{ data['transaction'] }}</p>
-        </div>
-        <div class="price-method">
-            <p style="font-size: 15px;">가격방식<p>
-            <p style="font-size: 30px;">      {{ data['price_method'] }}</p>
-        </div>
-    </div>
 
-    <p>
-        <img src="{{img_path}}"/>
-    </p>
-
-
-    <div class="contents-of-purchase">
-        {% if data['price-method'] == "일반거래" %}
-        <p style="font-size: 15px;">판매가</p>
-        <p style="font-size: 30px;"> {{ data['normal_price'] }}</p>
-        {% endif %}
-    </div>
-
-    <div class="contents-of-purchase">
-        {% if data['price_method'] == "경매" %}
-        <p style="font-size: 15px;">경매마감일</p>
-        <p style="font-size: 30px;"> {{ data['auction_end_time'] }}</p>
-        <p style="font-size: 15px;">최저낙찰가</p>
-        <p style="font-size: 30px;" >{{ data['auction_min_bid'] }}</p>
-        <p style="font-size: 15px;">최고낙찰가</p>
-        <p style="font-size: 30px;">{{ data['auction_max_bid'] }}</p>
-        {% endif %}
-    </div>    
-
-    <div class="contents-of-purchase">
-        <p>상세설명: {{ data['product_description'] }}</p>
-        <p>글작성날짜: {{ data['post_date'] }}</p>
-
-    </div>
+   
 
     <footer>
         <div class="text-section">

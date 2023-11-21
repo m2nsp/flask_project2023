@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/header.css')}}">
+</head>
+
+<body>
+    <header>
+        <h2>GamjaMarket</h2>
+        <nav>
+            <ul>
+                <button class="nav-button" onclick="changePage()">
+                    <img src="../static/img/menu.png" width="20" height="20">
+                </button>
+            </ul>
+
+            <div class="searchbar">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요"
+                    onkeydown="if (event.keyCode == 13) searchFunction()">
+                <button class="nav-button" onclick="searchFunction()">
+                    <img src="../static/img/search.png" width="20" height="20">
+                </button>
+            </div>
+
+            <ul>
+                {% if session['id'] %}
+                <li><a href="/logout"><b>{{ session['id'] }}님 반갑습니다!</b>logout</a></li>
+                {% else %}
+                <li><a href="{{ url_for('login') }}">회원가입/로그인</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('myPage') }}">마이페이지</a></li>
+            </ul>
+        </nav>
+    </header>
+
+</body>
+
+</html>

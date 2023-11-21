@@ -9,80 +9,6 @@
 
     <script src="{{url_for('static', filename='main.js')}}" defer></script>
     <style>
-        header {
-            padding: 20px 20px;
-            background-color: #F6E7E6;
-            color: #000000;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-        }
-
-        .searchbar {
-        display: flex;
-        align-items: center;
-        border: none;
-        border-radius: 26px;
-        width: 800px;
-        height: 30px;
-        padding: 10px 20px;
-        background-color: white;
-        }
-
-        .search-input {
-            flex: 1;
-            border: none;
-        }
-
-        .nav-button {
-            border: none;
-            background-color: transparent; 
-            cursor: pointer;
-        }
-
-        .search-button img {
-            width: 20px;
-            height: 20px;
-        }
-
-        nav {
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            justify-content: space-between;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        nav a {
-            text-decoration: none;
-            white-space: nowrap;
-            color: #000000;
-            margin: 0 20px;
-        }
-
-
-        footer {
-            display: flex;
-            justify-content: space-between;
-            /* 왼쪽과 오른쪽을 공간을 균등하게 배치 */
-            align-items: center;
-            /* 아이템을 수직 가운데 정렬 */
-            padding: 10px;
-            /* 내용 주위에 간격 추가 */
-            background-color: white;
-            margin-top: 32px;
-        }
-
         .text-section {
             flex: 1;
             /* 공간을 남은 공간에 맞게 분배 */
@@ -222,28 +148,11 @@
 </head>
 
 <body>
-    <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <button class="nav-button" onclick="changePage()">
-                    <img src="../static/img/menu.png" width="20" height="20">
-                </button>
-            </ul>
+    {% include 'header.html' %}
 
-            <div class="searchbar">
-                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
-                <button class="nav-button" onclick="searchFunction()">
-                    <img src="../static/img/search.png" width="20" height="20">
-                </button>
-            </div>
+    <section>
+        {% block section %}
 
-            <ul>
-                <li><a href="login.html">회원가입/로그인</a></li>
-                <li><a href="mypage.html">마이페이지</a></li>
-            </ul>
-        </nav>
-    </header>
 
     <script>
         // 메뉴 토글을 위한 JavaScript
@@ -377,34 +286,10 @@
         </div>
 
     </div>
+    {% endblock section %}
+</section>
 
-    <footer>
-        <div class="text-section">
-            <p>
-                <hr style="border: 0; border-top: 1px solid gray; width: 200%;">
-            <h3>감자마켓</h3>
-            </p>
-            <p>여기에는 감자마켓의 설립 모토와 제공 서비스에 대한 설명이 들어갑니다. 이화여대 컴퓨터공학과 재학생 5명이 모여 만든 감자마켓에는 다양한 기능을 할 수 있는 페이지들이
-                있습니다.
-                와서
-                구경하세요!
-            </p>
-
-            <p>2023PotatoMarket. All rights reserved</p>
-        </div>
-        <div class="text-section">
-            <p>address 이화여자대학교 아산공학관 703호 감자마켓</p>
-            <p> 우편번호 011022</p>
-            <p>contact 010-9876-5432</p>
-        </div>
-
-
-    </footer>
-    <section>
-        {% block section %}
-
-        {% endblock section %}
-    </section>
+{% include 'footer.html' %}
 </body>
 
 </html>

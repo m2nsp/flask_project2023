@@ -6,49 +6,6 @@
     <link rel="stylesheet" href="#">
     <title>상품별 리뷰상세내역</title>
     <style>
-        header {
-            padding: 20px 20px;
-            background-color: #F6E7E6;
-            color: #000000;
-            margin-bottom: 100px;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-        }
-
-        nav {
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            justify-content: space-between;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        nav a {
-            text-decoration: none;
-            white-space: nowrap;
-            color: #000000;
-            margin: 0 20px;
-        }
-
-        nav input {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 26px;
-            width: 800px;
-            height: 35px;
-        }
-
         .whole-container {
             margin: 40px;
         }
@@ -211,20 +168,10 @@
     </style>
 </head>
 <body>
-    <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <li><a href="#">메뉴</a></li>
-            </ul>
-            <input type="text" placeholder="찾으시는 상품명을 입력하세요">
-            <!-- <button class="search-button"></button> 검색 버튼이미지 추가하기 -->
-            <ul>
-                <li><a href="login.html">회원가입/로그인</a></li>
-                <li><a href="mypage.html">마이페이지</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'header.html' %}
+
+    <section>
+        {% block section %}
 
     <div class="title">거래품목</div>
             <div class="div-container">
@@ -290,7 +237,10 @@
                 </span>
             </div>
         </div>
-
+        {% endblock section %}
+    </section>
+    
+    {% include 'footer.html' %}
     
 </body>
 </html>

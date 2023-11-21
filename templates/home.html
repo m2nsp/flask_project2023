@@ -5,71 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='header.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='footer.css')}}">
 
     <script src="{{url_for('static', filename='main.js')}}" defer></script>
     <style>
-        header {
-            padding: 20px 20px;
-            background-color: #F6E7E6;
-            color: #000000;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-        }
-
-        .searchbar {
-        display: flex;
-        align-items: center;
-        border: none;
-        border-radius: 26px;
-        width: 800px;
-        height: 30px;
-        padding: 10px 20px;
-        background-color: white;
-        }
-
-        .search-input {
-            flex: 1;
-            border: none;
-        }
-
-        .nav-button {
-            border: none;
-            background-color: transparent; 
-            cursor: pointer;
-        }
-
-        .search-button img {
-            width: 20px;
-            height: 20px;
-        }
-
-        nav {
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            justify-content: space-between;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        nav a {
-            text-decoration: none;
-            white-space: nowrap;
-            color: #000000;
-            margin: 0 20px;
-        }
-
         .swipe {
             background-color: #F7F5FD;
         }
@@ -167,17 +107,6 @@
 
         }
 
-        footer {
-            display: flex;
-            justify-content: space-between;
-            /* 왼쪽과 오른쪽을 공간을 균등하게 배치 */
-            align-items: center;
-            /* 아이템을 수직 가운데 정렬 */
-            padding: 10px;
-            /* 내용 주위에 간격 추가 */
-            background-color: white;
-        }
-
         .text-section {
             flex: 1;
             /* 공간을 남은 공간에 맞게 분배 */
@@ -207,71 +136,52 @@
 </head>
 
 <body>
-    <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <button class="nav-button" onclick="changePage()">
-                    <img src="../static/img/menu.png" width="20" height="20">
-                </button>
-            </ul>
+    {% include 'header.html' %}
 
-            <div class="searchbar">
-                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
-                <button class="nav-button" onclick="searchFunction()">
-                    <img src="../static/img/search.png" width="20" height="20">
-                </button>
-            </div>
+    <section>
+        {% block section %}
+        <script>
+            // 메뉴 토글을 위한 JavaScript
+            const menuToggleBtn = document.getElementById('menuToggleBtn');
+            const navbarMenu = document.querySelector('.navbar__menu');
 
-            <ul>
-                <li><a href="{{ url_for('login') }}">회원가입/로그인</a></li>
-                <li><a href="{{ url_for('myPage') }}">마이페이지</a></li>
-            </ul>
-        </nav>
-    </header>
+            menuToggleBtn.addEventListener('click', () => {
+                navbarMenu.classList.toggle('active');
 
-    <script>
-        // 메뉴 토글을 위한 JavaScript
-        const menuToggleBtn = document.getElementById('menuToggleBtn');
-        const navbarMenu = document.querySelector('.navbar__menu');
-
-        menuToggleBtn.addEventListener('click', () => {
-            navbarMenu.classList.toggle('active');
-
-            // 클릭 시 menuBar.html로 이동
-            if (navbarMenu.classList.contains('active')) {
-                window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
-            }
-        });
-    </script>
+                // 클릭 시 menuBar.html로 이동
+                if (navbarMenu.classList.contains('active')) {
+                    window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
+                }
+            });
+        </script>
 
 
-    <div class="swipe">
-        <br><br>
-        <h1 style="margin-left: 50px;">넘기고<br>찜하세요!</h1>
+        <div class="swipe">
+            <br><br>
+            <h1 style="margin-left: 50px;">넘기고<br>찜하세요!</h1>
 
-        <!-- 이미지와 텍스트를 수평으로 정렬하는 부분 -->
-        <div style="display: flex; align-items: center; margin-left: 40px;">
-            <div style="flex: 1;">
-                <p>쇼핑은 하고 싶은데, 사고싶은 물건이 눈에 띄지 않았나요?<br>
-                    플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을
-                    찜하세요! <br>더욱 간편해진 물건 탐색을 도와드릴게요.
-                </p>
-            </div>
-
-            <!-- 플립뷰 이미지와 문구 추가 -->
-            <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                <div id="slideshow-container" style="position: relative; margin-right: 20px;">
-                    <img src="flipView1.png" class="slide" style="width: 480px; height: 200px;">
-                    <img src="flipView2.jpg" class="slide" style="width: 420px; height: 200px;">
-                    <img src="flipView3.jpg" class="slide" style="width: 400px; height: 200px;">
+            <!-- 이미지와 텍스트를 수평으로 정렬하는 부분 -->
+            <div style="display: flex; align-items: center; margin-left: 40px;">
+                <div style="flex: 1;">
+                    <p>쇼핑은 하고 싶은데, 사고싶은 물건이 눈에 띄지 않았나요?<br>
+                        플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을
+                        찜하세요! <br>더욱 간편해진 물건 탐색을 도와드릴게요.
+                    </p>
                 </div>
-                <p style="font-weight: bold; margin-top: 10px; margin-left: 30px;">슬라이드하여 넘겨보세요</p>
+
+                <!-- 플립뷰 이미지와 문구 추가 -->
+                <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                    <div id="slideshow-container" style="position: relative; margin-right: 20px;">
+                        <img src="flipView1.png" class="slide" style="width: 480px; height: 200px;">
+                        <img src="flipView2.jpg" class="slide" style="width: 420px; height: 200px;">
+                        <img src="flipView3.jpg" class="slide" style="width: 400px; height: 200px;">
+                    </div>
+                    <p style="font-weight: bold; margin-top: 10px; margin-left: 30px;">슬라이드하여 넘겨보세요</p>
+                </div>
             </div>
+            <button style="margin-left: 50px;" class="swipe-button">플립뷰 사용하기</button>
+            <br><br><br><br>
         </div>
-        <button style="margin-left: 50px;" class="swipe-button">플립뷰 사용하기</button>
-        <br><br><br><br>
-    </div>
 
     <!-- 5초후에 자동으로 이미지 슬라이드 되게 js코드 추가-->
     <script>
@@ -353,36 +263,10 @@
                 style="position: absolute; left: 600px; bottom: -580px; width: 7%; cursor: pointer;">
         </a>
     </div>
+    {% endblock section %}
+</section>
 
-
-
-    <footer>
-        <div class="text-section">
-            <p>
-                <hr style="border: 0; border-top: 1px solid gray; width: 200%;">
-            <h3>감자마켓</h3>
-            </p>
-            <p>여기에는 감자마켓의 설립 모토와 제공 서비스에 대한 설명이 들어갑니다. 이화여대 컴퓨터공학과 재학생 5명이 모여 만든 감자마켓에는 다양한 기능을 할 수 있는 페이지들이
-                있습니다.
-                와서
-                구경하세요!
-            </p>
-
-            <p>2023PotatoMarket. All rights reserved</p>
-        </div>
-        <div class="text-section">
-            <p>address 이화여자대학교 아산공학관 703호 감자마켓</p>
-            <p> 우편번호 011022</p>
-            <p>contact 010-9876-5432</p>
-        </div>
-
-
-    </footer>
-    <section>
-        {% block section %}
-
-        {% endblock section %}
-    </section>
+{% include 'footer.html' %}
 </body>
 
 </html>
