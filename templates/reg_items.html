@@ -65,6 +65,8 @@
     
     <article>
         <form method="post" enctype="multipart/form-data" action="/submit_item_post">
+            <input type="hidden" name="current_date" value="{{ current_date }}">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
             <br><br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상품 이미지</h3>
             <div>

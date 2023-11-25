@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from database import DBhandler
 import hashlib
 import sys
+from datetime import datetime
 
 application = Flask(__name__)
 application.config["SECRET_KEY"] = "helloosp"
@@ -63,7 +64,9 @@ def myPage():
 
 @application.route('/reg_items')
 def reg_items():
-    return render_template('reg_items.html')
+    # current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    user_id = session.get('id') 
+    return render_template('reg_items.html', user_id=user_id)
 
 @application.route("/productList")
 def productList():
@@ -75,7 +78,14 @@ def productRegister():
 
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
-    image_file=request.files["file"]
+    # current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if 'id' in session:
+        user_id = session['id']
+    else:
+        flash("로그인 해야 이용 가능한 기능입니다!")
+        return redirect(url_for('login'))    
+
+    image_file = request.files["file"]
     image_file.save("static/img/{}".format(image_file.filename))
     data = request.form.to_dict()
     trade_type = data.get('trade_type')
@@ -90,10 +100,13 @@ def reg_item_submit_post():
         data['end_date'] = None
         data['min_price'] = None
         data['max_price'] = None
-    
+
     data['trade_type'] = trade_type
-    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], data['regular_price'])
-    return render_template("productSubmitResult.html", data = data, img_path="static/img/{}".format(image_file.filename))
+    # data['current_date'] = current_date
+    data['user_id'] = user_id
+    
+    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], user_id)
+    return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename))
 
 @application.route("/reviewRegister")
 def reviewRegister():
