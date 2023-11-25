@@ -61,16 +61,6 @@
             margin-right: 20px;
         }
 
-        footer {
-            color: #2D2D2D;
-            padding: 20px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #ccc; /* Add this line to create a border above the footer */
-            font-size: 16px; /* Increase the font size as desired */
-        }
-
         .info {
             text-align: center; /* Change the text alignment to center */
         }
@@ -219,7 +209,7 @@
 
     <section>
         {% block section %}
-
+ 
     <div class="third-navbar">
         <a style="margin-left: 20px;">나의 위치 |</a>
         <a href="#">홈 화면</a>
@@ -300,34 +290,10 @@
         </div>
     </div>
     
-    <br><br><br><br><br>
-    <footer>
-        <div class="left-content">
-            <h2 class="market-title">감자마켓</h2>
-            여기에는 감자마켓의 설립 모토와 제공 서비스에 대한 설명이 들어갑니다. 찐감자 맛있겠다 휴게소 감자 감자칩 프라이감자
-        </div>
-        <div class="info">
-            <p class="title">Address</p>
-            <ul style="font-size: 18px;">
-                <p>우편번호 12345</p>
-                <p>상세주소: 감자공화국 감자특별시 감자길5 67 감자건물 505호</p>
-            </ul>
-            <br><br>
-            <p class="title">Contact</p>
-            <ul style="font-size: 18px;">
-                <p>Twitter - @potatomarket_official</p>
-                <p>Instagram - @potatomarket_official</p>
-                <p>Phone number - (+82)02-1234-5678</p>
-                <p>Email - potatomarket@gmail.com</p>
-            </ul>
-        </div>
-    </footer>
-    <div class="copyright">
-        @2023 PotatoMarket. All rights reserved.
-    </div>
     {% endblock section %}
 </section>
 
 {% include 'footer.html' %}
+
 </body>
 </html>

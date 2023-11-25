@@ -3,67 +3,6 @@
 <head>
     <title>상품상세 - 일반거래하는 경우</title>
     <style>
-        header {
-            padding: 20px 20px;
-            background-color: #F6E7E6;
-            color: #000000;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-        }
-
-        .searchbar {
-        display: flex;
-        align-items: center;
-        border: none;
-        border-radius: 26px;
-        width: 800px;
-        height: 30px;
-        padding: 10px 20px;
-        background-color: white;
-        }
-
-        .search-input {
-            flex: 1;
-            border: none;
-        }
-
-        .nav-button {
-            border: none;
-            background-color: transparent; 
-            cursor: pointer;
-        }
-
-        .search-button img {
-            width: 20px;
-            height: 20px;
-        }
-
-        nav {
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            justify-content: space-between;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        nav a {
-            text-decoration: none;
-            white-space: nowrap;
-            color: #000000;
-            margin: 0 20px;
-        }
-
         .third-navbar {
             background-color: #e1b99c;
             height: 60px;
@@ -298,7 +237,7 @@
 
     <section>
         {% block section %}
-  
+ 
     <div class="third-navbar">
         <a style="margin-left: 20px;">나의 위치 |</a>
         <a href="#">홈 화면</a>
@@ -378,34 +317,11 @@
         </div>
     </div>
     
-    <br><br><br><br><br>
-    <footer>
-        <div class="left-content">
-            <h2 class="market-title">감자마켓</h2>
-            여기에는 감자마켓의 설립 모토와 제공 서비스에 대한 설명이 들어갑니다. 찐감자 맛있겠다 휴게소 감자 감자칩 프라이감자
-        </div>
-        <div class="info">
-            <p class="title">Address</p>
-            <ul style="font-size: 18px;">
-                <p>우편번호 12345</p>
-                <p>상세주소: 감자공화국 감자특별시 감자길5 67 감자건물 505호</p>
-            </ul>
-            <br><br>
-            <p class="title">Contact</p>
-            <ul style="font-size: 18px;">
-                <p>Twitter - @potatomarket_official</p>
-                <p>Instagram - @potatomarket_official</p>
-                <p>Phone number - (+82)02-1234-5678</p>
-                <p>Email - potatomarket@gmail.com</p>
-            </ul>
-        </div>
-    </footer>
-    <div class="copyright">
-        @2023 PotatoMarket. All rights reserved.
-    </div>
+
     {% endblock section %}
 </section>
 
 {% include 'footer.html' %}
+
 </body>
 </html>

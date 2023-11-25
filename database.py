@@ -45,10 +45,15 @@ class DBhandler:
                 return True
         return False
     
-    def insert_item(self, name, data, img_path):
+    def insert_item(self, name, data, img_path, trade_type, regular_price_field, end_date, min_price, max_price):
         item_info ={
-        "product-description": data['product-description'],
-        "img_path": img_path
+            "product_description": data['product_description'],
+            "img_path": img_path,
+            "trade_type": data['trade_type'],
+            "regular_price": data['regular_price'],
+            "end_date": data['end_date'],
+            "min_price": data['min_price'],
+            "max_price": data['max_price']
         }
         self.db.child("item").child(name).set(item_info)
         print(data,img_path)
