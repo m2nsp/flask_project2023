@@ -62,7 +62,7 @@ class DBhandler:
         print(data, img_path)
         return True
     
-    def get_items(self ):
+    def get_items(self):
         items = self.db.child("item").get().val()
         return items
     

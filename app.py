@@ -69,14 +69,14 @@ def productList():
 @application.route('/reg_items')
 def reg_items():
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    seller_id = session.get('id') 
-    return render_template('reg_items.html', seller_id=seller_id, post_date=post_date)
+    user_id = session.get('id') 
+    return render_template('reg_items.html', user_id=user_id, post_date=post_date)
 
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if 'id' in session:
-        seller_id = session['id']
+        user_id = session['id']
     else:
         flash("로그인 해야 이용 가능한 기능입니다!")
         return redirect(url_for('login'))    
@@ -102,9 +102,9 @@ def reg_item_submit_post():
 
     data['trade_type'] = trade_type
     data['post_date'] = post_date
-    data['seller_id'] = seller_id
+    data['user_id'] = user_id
     
-    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], seller_id, post_date, data['transaction'])
+    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], user_id, post_date, data['transaction'])
     return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename), transaction_list=data['transaction'])
 
 @application.route("/reviewRegister")
@@ -151,18 +151,19 @@ def purchase_item(name):
     return render_template("purchasePage.html", name=name, data=data)
 
 # '결제하기' 버튼 누르면 결제 정보가 DB로 넘어가고 '거래진행중' 버튼 보이는 detail_purchased 페이지로 넘어감 -- 이게 안됨ㅠ
-@application.route("/reg_buy", methods=['POST'])
-def reg_buy():
+@application.route('/reg_buy/<string:name>', methods=['POST'])
+def reg_buy(name):
     buyer_id = session.get('id') 
         
     trans_mode = request.form['transMode']
     trans_media = request.form['transMedia']
 
-    # DB에 저장
+    data = DB.get_item_byname(name)
+
     DB.reg_buy(buyer_id, trans_mode, trans_media)
 
     # 구매 완료 페이지로 이동
-    return render_template("detail_purchased.html")
+    return render_template("detail_purchased.html", name=name, data=data)
 
 
 @application.route("/detail_purchased/<name>/")
