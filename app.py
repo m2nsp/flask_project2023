@@ -155,11 +155,11 @@ def purchase_item(name):
 def reg_buy():
     name = session.get('id') 
         
-    trans_modes = request.form.getlist('transMode')
+    trans_mode = request.form['transMode']
     trans_media = request.form['transMedia']
 
     # DB에 저장
-    DB.reg_buy(name, trans_modes, trans_media)
+    DB.reg_buy(name, trans_mode, trans_media)
 
     # 구매 완료 페이지로 이동
     return render_template("detail_purchased.html")
