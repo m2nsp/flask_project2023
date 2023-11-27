@@ -45,7 +45,7 @@ class DBhandler:
                 return True
         return False
 
-    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, user_id, post_date, transaction):
+    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, seller_id, post_date, transaction):
         item_info ={
             "product_description": data['product_description'],
             "img_path": img_path,
@@ -54,7 +54,7 @@ class DBhandler:
             "end_date": data['end_date'],
             "min_price": data['min_price'],
             "max_price": data['max_price'],
-            "user_id": user_id,
+            "seller_id": seller_id,
             "post_date": post_date,
             "transaction": transaction
         }
@@ -76,9 +76,9 @@ class DBhandler:
                 target_value=res.val()
         return target_value
     
-    def reg_buy(self, name, trans_mode, trans_media):
+    def reg_buy(self, buyer_id, trans_mode, trans_media):
         buy_info = {
-            "name": name,
+            "buyer_id": buyer_id,
             "trans_mode" : trans_mode,  # 결제 정보 (직거래, 경매, 비대면 상자)
             "trans_media" : trans_media  # 결제 수단 (카카오페이, 직거래, 카드, etc)
         }
@@ -96,9 +96,9 @@ class DBhandler:
                 target_value = res.val()
         return target_value
     
-    def update_heart(self, user_id, isHeart, item):
+    def update_heart(self, seller_id, isHeart, item):
         heart_info = {
             "interested" : isHeart
         }
-        self.db.child("heart").child(user_id).child(item).set(heart_info)
+        self.db.child("heart").child(seller_id).child(item).set(heart_info)
         return True
