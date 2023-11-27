@@ -158,6 +158,10 @@ def reg_buy():
     trans_mode = request.form['transMode']
     trans_media = request.form['transMedia']
 
+    # 'trans_mode'와 'trans_media'를 data에 추가
+    data['trans_mode'] = request.form['transMode']
+    data['trans_media'] = request.form['transMedia']
+        
     # DB에 저장
     DB.reg_buy(buyer_id, trans_mode, trans_media)
 
