@@ -96,13 +96,14 @@ def reg_item_submit_post():
         data['end_date'] = None
         data['min_price'] = None
         data['max_price'] = None
-
+    
+    data['transaction'] = request.form.getlist('transaction')
     data['trade_type'] = trade_type
     data['post_date'] = post_date
     data['user_id'] = user_id
     
-    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], user_id, post_date)
-    return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename))
+    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], user_id, post_date, data['transaction'])
+    return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename), transaction_list=data['transaction'])
 
 @application.route("/reviewRegister")
 def reviewRegister():
@@ -136,10 +137,10 @@ def view_item_detail(name):
     print("###name:",name)
     data = DB.get_item_byname(str(name))
     print("####data:",data)
-    if data['trade_type'] == 'auction':
-        return render_template("detail_general.html", name=name, data=data)
+    if data['trade_type'] == 'regular':
+        return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
     else:
-        return render_template("detail_auction.html", name=name, data=data)
+        return render_template("detail_auction.html", name=name, data=data, transaction_list=data['transaction'])
 
 # 상품 결제 페이지로 넘어감 -> 해결!
 @application.route("/purchase_item/<name>/")
