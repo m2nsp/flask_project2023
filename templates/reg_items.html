@@ -65,7 +65,7 @@
     
     <article>
         <form method="post" enctype="multipart/form-data" action="/submit_item_post">
-            <input type="hidden" name="current_date" value="{{ current_date }}">
+            <input type="hidden" name="post_date" value="{{ post_date }}">
             <input type="hidden" name="user_id" value="{{ user_id }}">
             <br><br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상품 이미지</h3>
@@ -81,15 +81,24 @@
                 <label for="name" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
                 <input type="text" name="name" id="name" required style="font-family: Arial, sans-serif; font-size: 20px; width: 650px; height: 30px;"><br><br>
             </div>
-            
+            <br><br><br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">거래 방식</h3>
+            <div>
+                    <input type="checkbox" id="cb1" name="transaction" value="dir">
+                    <label for="cb1">직거래</label>
+                    <input type="checkbox" id="cb2" name="transaction" value="pars">
+                    <label for="cb2">택배거래</label>
+                    <input type="checkbox" id="cb3" name="transaction" value="box">
+                    <label for="cb3">비대면상자</label>
+            </div>
+            <br><br><br>
+            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">가격 방식</h3>
             <div>
                 <input type="radio" name="trade_type" value="auction" checked onchange="toggleTradeType()">
                 <label for="auction">경매</label>
                 <input type="radio" name="trade_type" value="regular" onchange="toggleTradeType()">
                 <label for="regular">일반</label>
             </div>
-
             <div id="regular_price_field" style="display:none;">
                 <label for="regular_price" style="font-family: Arial, sans-serif; font-size: 20px;">가격</label><br>
                 <input type="number" name="regular_price" id="regular_price" required style="font-family: Arial, sans-serif; font-size: 20px; width: 650px; height: 30px;"><br><br>
@@ -154,11 +163,21 @@
                     form.appendChild(timeInput);
                 }
                 
+                const currentDateTime = new Date();
+                const year = currentDateTime.getFullYear();
+                const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
+                const date = String(currentDateTime.getDate()).padStart(2, '0');
+                const hour = String(currentDateTime.getHours()).padStart(2, '0');
+                const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
+
+                const formattedDateTime = `${year}-${month}-${date} ${hour}:${minutes}`;
+                document.getElementById("post_date").value = formattedDateTime;
+                
                 document.addEventListener('DOMContentLoaded', function () {
                     toggleTradeType();
                 });
             </script>
-
+            <br><br><br><br>
             <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상세 설명</h3>
             <label for="product_description" style="font-family: Arial, sans-serif; font-size: 20px;"></label>
             <textarea id="product_description" name="product_description" rows="15" cols="50" required style="font-family: Arial, sans-serif; font-size: 20px;" placeholder="(20-500자)"></textarea>
