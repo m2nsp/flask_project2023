@@ -150,6 +150,7 @@ def purchase_item(name):
     data=DB.get_item_byname(str(name))
     return render_template("purchasePage.html", name=name, data=data)
 
+
 # '결제하기' 버튼 누르면 결제 정보가 DB로 넘어가고 '거래진행중' 버튼 보이는 detail_purchased 페이지로 넘어감 -- 이게 안됨ㅠ
 @application.route('/reg_buy/<string:name>', methods=['POST'])
 def reg_buy(name):
@@ -158,9 +159,9 @@ def reg_buy(name):
     trans_mode = request.form['transMode']
     trans_media = request.form['transMedia']
 
-    data = DB.get_item_byname(name)
+    data = DB.get_item_byname(name)  
 
-    DB.reg_buy(buyer_id, trans_mode, trans_media)
+    DB.reg_buy(buyer_id, trans_mode, trans_media, name)
 
     # 구매 완료 페이지로 이동
     return render_template("detail_purchased.html", name=name, data=data)
