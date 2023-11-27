@@ -240,7 +240,21 @@
         </div>
         <br>
         <h4>가능한 거래 방식</h4>
-        <p style="font-size:30px; font-weight: bold;"><img src="https://ifh.cc/g/oQv5Na.png" style="width:150px; height: 60px;"></a> <a style="margin-left: 20px;"><img src="https://ifh.cc/g/SPZYrT.png" style="width: 240px; height: 60px;"></a></p>
+        <p style="font-size:30px; font-weight: bold;">
+            {% for transaction_value in transaction_list %}
+                <p>
+                    {% if transaction_value == 'dir' %}
+                        직거래 <img src="../../static/img/dir.png" style="width:80px; height: 80px;">
+                    {% endif %}
+                    {% if transaction_value == 'pars' %}
+                        택배거래 <img src="../../static/img/pars.png" style="width:80px; height: 80px;">
+                    {% endif %}
+                    {% if transaction_value == 'box' %}
+                        비대면상자 <img src="../../static/img/box.png" style="width:80px; height: 80px;">
+                    {% endif %}
+                </p>
+            {% endfor %}
+        </p>
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
