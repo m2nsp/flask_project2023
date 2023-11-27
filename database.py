@@ -44,8 +44,8 @@ class DBhandler:
             if value['id'] == id_ and value['pw'] == pw_:
                 return True
         return False
-    
-    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, user_id, post_date):
+
+    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, user_id, post_date, transaction):
         item_info ={
             "product_description": data['product_description'],
             "img_path": img_path,
@@ -55,7 +55,8 @@ class DBhandler:
             "min_price": data['min_price'],
             "max_price": data['max_price'],
             "user_id": user_id,
-            "post_date": post_date
+            "post_date": post_date,
+            "transaction": transaction
         }
         self.db.child("item").child(name).set(item_info)
         print(data, img_path)
