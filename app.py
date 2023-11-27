@@ -153,13 +153,18 @@ def purchase_item(name):
 # '결제하기' 버튼 누르면 결제 정보가 DB로 넘어가고 '거래진행중' 버튼 보이는 detail_purchased 페이지로 넘어감 -- 이게 안됨ㅠ
 @application.route("/reg_buy", methods=['POST'])
 def reg_buy():
-    name = session.get('id') 
-        
-    trans_mode = request.form['transMode']
-    trans_media = request.form['transMedia']
+    name = session.get('id')     
+    data = {
+        'transMode': request.form['transMode'],
+        'transMedia': request.form['transMedia']
+    }
 
+    # 'trans_mode'와 'trans_media'를 data에 추가
+    data['trans_mode'] = request.form['transMode']
+    data['trans_media'] = request.form['transMedia']
+        
     # DB에 저장
-    DB.reg_buy(name, trans_mode, trans_media)
+    DB.reg_buy(name, data)  
 
     # 구매 완료 페이지로 이동
     return render_template("detail_purchased.html")

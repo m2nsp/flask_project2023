@@ -76,11 +76,11 @@ class DBhandler:
                 target_value=res.val()
         return target_value
     
-    def reg_buy(self, name, trans_mode, trans_media):
+    def reg_buy(self, name, data): 
         buy_info = {
             "name": name,
-            "trans_mode" : trans_mode,  # 결제 정보 (직거래, 경매, 비대면 상자)
-            "trans_media" : trans_media  # 결제 수단 (카카오페이, 직거래, 카드, etc)
+            "trans_mode": data.get('transMode'),   # 결제 정보 (직거래, 경매, 비대면 상자)
+            "trans_media": data.get('transMedia')  # 결제 수단 (카카오페이, 직거래, 카드, etc)
         }
         self.db.child("trans_info").set(buy_info)
         return True
