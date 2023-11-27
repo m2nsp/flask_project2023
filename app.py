@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from database import DBhandler
 import hashlib
 import sys
@@ -62,23 +62,19 @@ def register_user():
 def myPage():
     return render_template('myPage.html')
 
-@application.route('/reg_items')
-def reg_items():
-    # current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    user_id = session.get('id') 
-    return render_template('reg_items.html', user_id=user_id)
-
 @application.route("/productList")
 def productList():
     return render_template("productList.html")
 
-@application.route("/productRegister")
-def productRegister():
-    return render_template("productRegister.html")
+@application.route('/reg_items')
+def reg_items():
+    post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    user_id = session.get('id') 
+    return render_template('reg_items.html', user_id=user_id, post_date=post_date)
 
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
-    # current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if 'id' in session:
         user_id = session['id']
     else:
@@ -102,10 +98,10 @@ def reg_item_submit_post():
         data['max_price'] = None
 
     data['trade_type'] = trade_type
-    # data['current_date'] = current_date
+    data['post_date'] = post_date
     data['user_id'] = user_id
     
-    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], user_id)
+    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], user_id, post_date)
     return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename))
 
 @application.route("/reviewRegister")
@@ -145,6 +141,39 @@ def view_item_detail(name):
     else:
         return render_template("detail_auction.html", name=name, data=data)
 
+# 상품 결제 페이지로 넘어감 -> 해결!
+@application.route("/purchase_item/<name>/")
+def purchase_item(name):
+    data=DB.get_item_byname(str(name))
+    return render_template("purchasePage.html", name=name, data=data)
+
+# '결제하기' 버튼 누르면 결제 정보가 DB로 넘어가고 '거래진행중' 버튼 보이는 detail_purchased 페이지로 넘어감 -- 이게 안됨ㅠ
+@application.route("/reg_buy", methods=['POST'])
+def reg_buy():
+    data=request.form
+    DB.reg_buy(data)    # 선택한 거래 방식 DB에 등록
+    return render_template("detail_purchased.html")     # 완료되면 detail_purchased.html 페이지로 넘어감
+
+
+@application.route("/detail_purchased/<name>/")
+def detail_purchased(name):
+    data=DB.get_item_byname(str(name))
+    return render_template("detail_purchased.html", name=name, data=data)
+
+@application.route("/show_heart/<name>/", methods=['GET'])
+def show_heart(name):
+    my_heart = DB.get_heart_byname(session['id'], name)
+    return jsonify({'my_heart': my_heart})
+
+@application.route("/like/<name>/", methods=['POST'])
+def like(name):
+    my_heart = DB.update_heart(session['id'], 'Y', name)
+    return jsonify({'msg': '좋아요 완료!'})
+
+@application.route("/unlike/<name>/", methods=['POST'])
+def unlike(name):
+    my_heart = DB.update_heart(session['id'], 'N', name)
+    return jsonify({'msg': '좋아요 취소 완료!'})
 
 if __name__ == "__main__":
-    application.run(host='0.0.0.0')
+    application.run(debug=True)

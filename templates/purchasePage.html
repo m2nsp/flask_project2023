@@ -160,56 +160,66 @@
     </div>
 
     <div class="all-part"></div>
-        <div class="left-part">
-            <h2>거래 품목</h2>
-            <div class="about-item">
-                <div class="image-container">
-                    <img src="텀텀텀텀블러.png" alt="상품사진">
+        <form class="mb-3" name="myform" id="myform" method="post" action="/reg_buy" enctype="multipart/form-data">
+            <div class="left-part">
+                <h2>거래 품목</h2>
+                <div class="about-item">
+                    <div class="image-container">
+                        <img src="../../static/img/{{data.img_path}}" alt="상품사진" style="width: 480px; height: 480px;">
+                    </div>
+                    <div class="item-info">
+                        상품명
+                        <h3>{{name}}</h3><br>
+                        거래대상
+                        <h3>{{data.user_id}}</h3><br>
+                        거래가격
+                        <h3>{{data.regular_price}}</h3><br>
+                    </div>
                 </div>
-                <div class="item-info">
-                    상품명
-                    <h3>끝내주는 텀블러</h3><br>
-                    거래대상
-                    <h3>맛있는 감자</h3><br>
-                    거래가격
-                    <h3>20000원</h3><br>
+                <div class="transaction-mode"></div>
+                    <h2>거래 방식</h2>
+                    <div class="trans-mode">
+                        <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
+                        <label for="direct">직거래</label>
+                        <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
+                        <label for="nondirect-box">비대면 상자</label>
+                        <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
+                        <label for="parcel">택배</label>
+                    </div>
                 </div>
             </div>
-
-            <div class="deliver-select"></div>
-                <h2>거래 방식</h2>
-                <input type="radio" name="deliver" value="direct" id="direct">
-                <label for="direct">직거래</label>
-
-                <input type="radio" name="deliver" value="nondirect-box" id="nondirect-box">
-                <label for="nondirect-box">비대면 상자</label>
-
-                <input type="radio" name="deliver" value="parcel" id="parcel">
-                <label for="parcel">택배</label>
-            </div>
-        </div>
-
-        <div class="right-part">
-            <h2>결제 정보</h2>
-            <br><br>
-            <div class="r-1">
-                <button id="direct-button" class="payment-button" data-group="r-1">직거래</button>
-                <button id="card-button" class="payment-button" data-group="r-1">카드</button>
-            </div><br>
-            <div class="r-2">
-                <button id="virtual-account-button" class="payment-button" data-group="r-2">가상 계좌</button>
-                <button id="phone-button" class="payment-button" data-group="r-2">휴대폰</button>
-            </div><br>
-            <div class="r-3">
-                <button id="naver-pay-button" class="payment-button" data-group="r-3">네이버페이</button>
-                <button id="kakao-pay-button" class="payment-button" data-group="r-3">카카오페이</button>
-            </div><br>
-            <button type="submit" class="purchase-item">결제 하기</button>
-        </div>
+            <div class="right-part">
+                <h2>결제 정보</h2>
+                <br><br>
+                <div class="r-1">
+                    <input type="radio" id="direct-radio" class="payment-radio" data-group="r-1" name="transMedia" value="direct">
+                    <label for="direct-radio">직거래</label>
+                
+                    <input type="radio" id="card-radio" class="payment-radio" data-group="r-1" name="transMedia" value="card">
+                    <label for="card-radio">카드</label>
+                </div><br>
+                <div class="r-2">
+                    <input type="radio" id="virtual-account-radio" class="payment-radio" data-group="r-2" name="transMedia" value="virtual-account">
+                    <label for="virtual-account-radio">가상 계좌</label>
+                
+                    <input type="radio" id="phone-radio" class="payment-radio" data-group="r-2" name="transMedia" value="phone">
+                    <label for="phone-radio">휴대폰</label>
+                </div><br>
+                <div class="r-3">
+                    <input type="radio" id="naver-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="naver-pay">
+                    <label for="naver-pay-radio">네이버페이</label>
+                
+                    <input type="radio" id="kakao-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="kakao-pay">
+                    <label for="kakao-pay-radio">카카오페이</label>
+                </div><br>
+                
+                <button type="submit" class="purchase-item" onclick="location.href='/detail_purchased/{{name}}/';" style="cursor: pointer;">결제 하기</button>
+        </form>
     </div>
 
     {% endblock section %}
 </section>
 
-{% include 'footer.html' %}
 </body>
+{% include 'footer.html' %}
+</html>

@@ -191,17 +191,35 @@
         .purchase-button {
             background-color: #F8D57E;
             color: #2D2D2D;
-            padding: 15px 80px; /* 버튼 크기를 조절합니다. */
+            padding: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 30px; /* 폰트 크기를 늘립니다. */
             font-weight: bold; /* 굵게 만듭니다. */
             font-size: 18px;
             margin-top: 40px;
-            margin-left: 0;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
 
+        .dropdown-content a {
+            text-decoration: none;
+            display: block;
+            text-align: center; /* 텍스트 가운데 정렬 */
+            padding: 5px; /* 내부 여백 설정 */
+            border: 1px solid #ccc; /* 테두리 추가 */
+            border-radius: 5px; /* 테두리 둥글게 설정 */
+            margin-top: 5px; /* 항목 간 간격 설정 */
+        }
+
+        .dropdown-btn {
+            padding: 10px; /* '▼' 버튼의 가로 길이를 20px로 조절 */
+        }
+
+        .dropdown-wrapper {
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -224,41 +242,49 @@
 
     <div class="image-wrapper">
         <img src="../../static/img/{{data.img_path}}", width=140, height=200>
-        <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/54147/sparkling-heart-emoji-clipart-md.png" class="custom-image" alt="맘찍">
     </div>
     <div class="text-section">
         <h4>상품명</h4>
-        <p style="font-size: 30px; font-weight: bold;">끝내주는 텀블러</p>
+        <p style="font-size: 30px; font-weight: bold;">{{name}}</p>
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
                 <h4>가격</h4>
-                <p style="font-size: 30px; font-weight: bold;">20000원</p>
+                <p style="font-size: 30px; font-weight: bold;">{{data.regular_price}}</p>
                 <!-- {{data.normal_price}}로 나중에 가격 바꾸기-->
             </div>
-            <div style="flex: 1;">
-                <button class="purchase-button">거래 리뷰 보러 가기</button>
+            <div style="flex: 1; display: flex;">
+                <div class="dropdown-wrapper">
+                    <button id="purchase-btn" class="purchase-button" style="width:200px; height: 80px;">거래 진행중</button>
+                    <div class="dropdown" style="margin-right: 10px;">
+                        <button id="dropdown-btn" class="purchase-button dropdown-btn">⋮</button>
+                        <div id="dropdown-content" class="dropdown-content" style="width: 100px;">
+                            <a id="complete-btn">거래 완료</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <br>
         <h4>가능한 거래 방식</h4>
-        <p style="font-size:30px; font-weight: bold;"><a href="#"><img src="https://ifh.cc/g/oQv5Na.png" style="width:200px; height: 80px;"></a> <a href="#" style="margin-left: 20px;"><img src="https://ifh.cc/g/SPZYrT.png" style="width: 320px; height: 80px;"></a></p>
+        <!-- <p style="font-size:30px; font-weight: bold;"><img src="https://ifh.cc/g/oQv5Na.png" style="width:150px; height: 60px;"></a> <a style="margin-left: 20px;"><img src="https://ifh.cc/g/SPZYrT.png" style="width: 240px; height: 60px;"></a></p> -->
+        <p style="font-size: 50px; font-weight: bold;">....</p>
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
                 <h4>판매자</h4>
-                <p style="font-size: 30px; font-weight: bold;">햇감자포카칩</p>
+                <p style="font-size: 30px; font-weight: bold;">{{data.user_id}}</p>
             </div>
             <div style="flex: 1;">
                 <h4>상품 등록일</h4>
-                <p style="font-size: 30px; font-weight: bold;">2023.10.09</p>
+                <p style="font-size: 30px; font-weight: bold;">{{data.post_date}}</p>
             </div>
         </div>
     </div>
     <br><br>
     <div class="product-description" style="text-align: justify;">
         <h2>상세 설명</h2>
-        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">이곳은 상품의 상세설명을 보여주는 곳입니다. 끝내주는 텀블러를 어떻게 하면 비싸게 팔 수 있을까요? 저는 500000원에 팔렸으면 좋겠습니다. 스벅 텀블러보다 비싸네요. 에어팟보다 비쌉니다. 그러나 정말, "끝내주는" 텀블러이기 때문에 소장 가치가 충분할 겁니다. 상세설명만큼은 글자 크기가 작은 것이 좋을 것 같네요. 말이 구구절절 길어질 수 있으니까요.</p>
+        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{data.product_description}}</p>
     </div>
     <br><br>
     <div class="comment-section">
@@ -278,7 +304,7 @@
     <br>
     <div class="sel-reply">
         <div class="comment-description">
-            <h3>판매자 (햇감자포카칩)</h3>
+            <h3>판매자 ({{data.user_id}})</h3>
             <p>완전 새제품이에용~</p>
         </div>
     </div>
@@ -289,7 +315,44 @@
             <p>상품에 하자 있나요?</p>
         </div>
     </div>
+    <script>
+        // JavaScript 코드 시작
+        document.addEventListener('DOMContentLoaded', function () {
+            // 드롭다운 항목 숨김
+            document.getElementById('dropdown-content').style.display = 'none';
     
+            // '▼' 버튼 클릭 시 드롭다운 토글
+            document.getElementById('dropdown-btn').addEventListener('click', function () {
+                var dropdownContent = document.getElementById('dropdown-content');
+                if (dropdownContent.style.display === 'block') {
+                    dropdownContent.style.display = 'none';
+                } else {
+                    dropdownContent.style.display = 'block';
+                }
+            });
+    
+            // 드롭다운 항목 클릭 시 처리
+            document.getElementById('complete-btn').addEventListener('click', function () {
+                // '거래 완료' 클릭 시 처리
+                document.getElementById('purchase-btn').innerText = '거래 리뷰 확인 / 작성';
+                document.getElementById('purchase-btn').style.backgroundColor = '#d5c5f4'; 
+            });
+        });
+    
+        // 사용자가 다른 부분을 클릭하면 드롭다운이 닫히도록 설정
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropdown-btn')) {
+                var dropdowns = document.getElementsByClassName('dropdown-content');
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === 'block') {
+                        openDropdown.style.display = 'none';
+                    }
+                }
+            }
+        }
+    </script>
     {% endblock section %}
 </section>
 

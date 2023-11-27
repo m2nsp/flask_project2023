@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <title>상품상세 - 일반거래하는 경우</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
         .third-navbar {
             background-color: #e1b99c;
@@ -26,24 +28,6 @@
 
         .third-navbar a:nth-child(odd) {
             margin-right: 30px; /* 홀수 인덱스(0부터 시작)의 요소의 우측 마진 설정 */
-        }
-
-        .search-button {
-            background-color: #F6E7E6;
-            color: #000000;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        header {
-            padding-top: 40px;
-            padding-left: 40px;
-            padding-bottom: 20px;
-            background-color: #F6E7E6;
-            color: #000000;
         }
 
         .container {
@@ -77,16 +61,6 @@
 
         label {
             margin-right: 20px;
-        }
-
-        footer {
-            color: #2D2D2D;
-            padding: 20px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #ccc; /* Add this line to create a border above the footer */
-            font-size: 16px; /* Increase the font size as desired */
         }
 
         .info {
@@ -140,11 +114,6 @@
 
         nav .user-links li {
             margin-left: 25px; /* Add a 25px margin to the left of user links */
-        }
-
-        /* Adjust the margin for the search button */
-        nav .search-button {
-            margin-right: 25px; /* Add a 25px margin to the right of the search button */
         }
 
         .image-container {
@@ -230,6 +199,10 @@
             margin-left: 0;
         }
 
+        #heart {
+            font-size: 50px; /* 원하는 크기로 조절 */
+        }
+
     </style>
 </head>
 <body>
@@ -250,7 +223,7 @@
 
     <div class="image-wrapper">
         <img src="../../static/img/{{data.img_path}}" style="width:300px; height: 300px; border: 3px solid gray; border-radius: 15px;" alt="상품 이미지">
-        <img src="https://creazilla-store.fra1.digitaloceanspaces.com/emojis/54147/sparkling-heart-emoji-clipart-md.png" class="custom-image" alt="맘찍">
+        <i class="fa fa-heart" id="heart" style="margin-top: 310px; margin-left: 20px;"></i>
     </div>
     <div class="text-section">
         <h4>상품명</h4>
@@ -259,33 +232,31 @@
         <div style="display: flex;">
             <div style="flex: 1;">
                 <h4>가격</h4>
-                <p style="font-size: 30px; font-weight: bold;">20000원</p>
-                <!-- 가격 수정 필요합니당 -->
+                <p style="font-size: 30px; font-weight: bold;">{{data.regular_price}}</p>
             </div>
             <div style="flex: 1;">
-                <!-- 이 부분에 '구매하기' 버튼을 추가 -->
-                <button class="purchase-button">구매하기</button>
+                <button id="purchaseButton" class="purchase-button" onclick="location.href='/purchase_item/{{name}}/';">구매하기</button>
             </div>
         </div>
         <br>
         <h4>가능한 거래 방식</h4>
-        <p style="font-size:30px; font-weight: bold;"><a href="#"><img src="https://ifh.cc/g/oQv5Na.png" style="width:200px; height: 80px;"></a> <a href="#" style="margin-left: 20px;"><img src="https://ifh.cc/g/SPZYrT.png" style="width: 320px; height: 80px;"></a></p>
+        <p style="font-size:30px; font-weight: bold;"><img src="https://ifh.cc/g/oQv5Na.png" style="width:150px; height: 60px;"></a> <a style="margin-left: 20px;"><img src="https://ifh.cc/g/SPZYrT.png" style="width: 240px; height: 60px;"></a></p>
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
                 <h4>판매자</h4>
-                <p style="font-size: 30px; font-weight: bold;">햇감자포카칩</p>
+                <p style="font-size: 30px; font-weight: bold;">{{data.user_id}}</p>
             </div>
             <div style="flex: 1;">
                 <h4>상품 등록일</h4>
-                <p style="font-size: 30px; font-weight: bold;">2023.10.09</p>
+                <p style="font-size: 30px; font-weight: bold;">{{data.post_date}}</p>
             </div>
         </div>
     </div>
     <br><br>
     <div class="product-description" style="text-align: justify;">
         <h2>상세 설명</h2>
-        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{product_description}}</p>
+        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{data.product_description}}</p>
     </div>
     <br><br>
     <div class="comment-section">
@@ -305,7 +276,7 @@
     <br>
     <div class="sel-reply">
         <div class="comment-description">
-            <h3>판매자 (햇감자포카칩)</h3>
+            <h3>판매자 ({{data.user_id}})</h3>
             <p>완전 새제품이에용~</p>
         </div>
     </div>
@@ -317,7 +288,57 @@
         </div>
     </div>
     
+    <script>
+        function showHeart() {
+            $.ajax({
+                type: 'GET',
+                url: '/show_heart/{{name}}/',
+                data: {},
+                success: function (response) {
+                    let my_heart = response['my_heart'];
+                    if (my_heart['interested'] == 'Y') {
+                        $("#heart").css("color", "red");
+                        $("#heart").attr("onclick", "unlike()");
+                    } else {
+                        $("#heart").css("color", "grey");
+                        $("#heart").attr("onclick", "like()");
+                    }
+                }
+            });
+        }
 
+        function like() {
+            $.ajax({
+                type: 'POST',
+                url: '/like/{{name}}/',
+                data: {
+                    interested: "Y"
+                },
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                }
+            });
+        }
+
+        function unlike() {
+            $.ajax({
+                type: 'POST',
+                url: '/unlike/{{name}}/',
+                data: {
+                    interested: "N"
+                },
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            showHeart();
+        });
+    </script>
     {% endblock section %}
 </section>
 
