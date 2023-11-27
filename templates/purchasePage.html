@@ -83,19 +83,11 @@
 
         .all-part{
             display: flex;
+            margin: 20px;
         }
-
+        
         .left-part{
-            margin-left: 320px;
-            padding-top: 50px;
-            float:left;
-        }
-
-        .right-part{
-            margin-right: 500px;
-            padding-top: 50px;
-            float: right;
- 
+            margin-right:20px;
         }
 
         .about-item{
@@ -140,9 +132,6 @@
             margin-top: 80px;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
@@ -159,14 +148,14 @@
         <a href="#">상품결제 X</a>
     </div>
 
-    <div class="all-part"></div>
+    <div class="all-part">
         <form class="mb-3" name="myform" id="myform" method="post" action="/reg_buy" enctype="multipart/form-data">
             <div class="left-part">
                 <h2>거래 품목</h2>
                 <div class="about-item">
                     <div class="image-container">
                         <img src="../../static/img/{{data.img_path}}" alt="상품사진" style="width: 480px; height: 480px;">
-                    </div>
+                        </div>
                     <div class="item-info">
                         상품명
                         <h3>{{name}}</h3><br>
@@ -212,14 +201,13 @@
                     <input type="radio" id="kakao-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="kakao-pay">
                     <label for="kakao-pay-radio">카카오페이</label>
                 </div><br>
-                
+
                 <button type="submit" class="purchase-item" onclick="location.href='/detail_purchased/{{name}}/';" style="cursor: pointer;">결제 하기</button>
+            </div>    
         </form>
     </div>
-
     {% endblock section %}
 </section>
-
-</body>
 {% include 'footer.html' %}
+</body>
 </html>
