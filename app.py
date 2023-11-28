@@ -202,9 +202,10 @@ def submit_review():
 def review_detail(name):
     item_data = DB.get_item_byname(name)
     trans_info_data = DB.get_trans_info(name)
+    seller_review = DB.get_seller_reviews(name)
+    buyer_review = DB.get_buyer_reviews(name)
 
     user_id = session.get('id') 
-    reviews = DB.get_reviews(user_id, name)
 
     if user_id == item_data['seller_id']:
         trader_id = trans_info_data['buyer_id']
@@ -213,12 +214,7 @@ def review_detail(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
-    if role == 'seller':
-        seller_review = DB.get_reviews(user_id, name)
-    else:
-        buyer_review = DB.get_reviews(user_id, name)
-
-    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], reviews=reviews, user_id=user_id)
+    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review)
 
 @application.route("/reviewRegister/<name>")
 def review_register(name):

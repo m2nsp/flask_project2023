@@ -123,31 +123,29 @@ class DBhandler:
         self.db.child("buyer_reviews").child(item_name).child(user_id).set(review_info)
         return True
     
-    def get_reviews(self, user_id, name):
+    def get_seller_reviews(self, name):
         seller_reviews = self.db.child("seller_reviews").child(name).get().val()
+        return seller_reviews
+
+    def get_buyer_reviews(self, name):
         buyer_reviews = self.db.child("buyer_reviews").child(name).get().val()
+        return buyer_reviews
 
-        reviews = {
-            "seller": seller_reviews[user_id] if seller_reviews and user_id in seller_reviews else {},
-            "buyer": buyer_reviews[user_id] if buyer_reviews and user_id in buyer_reviews else {}
-        }
-
-        return reviews    
-
-    def get_user_reviews(self, user_id):
+    def get_reviews_by_user(self, user_id):
         seller_reviews = self.db.child("seller_reviews").get().val()
         buyer_reviews = self.db.child("buyer_reviews").get().val()
 
         if seller_reviews is not None:
-            seller_reviews_filtered = [review for name, review in seller_reviews.items() if user_id in review]
+            seller_reviews_filtered = [review for name, reviews in seller_reviews.items() for review in reviews.values() if user_id in review]
         else:
             seller_reviews_filtered = []
 
         if buyer_reviews is not None:
-            buyer_reviews_filtered = [review for name, review in buyer_reviews.items() if user_id in review]
+            buyer_reviews_filtered = [review for name, reviews in buyer_reviews.items() for review in reviews.values() if user_id in review]
         else:
             buyer_reviews_filtered = []
 
         user_reviews = seller_reviews_filtered + buyer_reviews_filtered
 
         return user_reviews
+

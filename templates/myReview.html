@@ -165,76 +165,57 @@
 
     <section>
         {% block section %}
-    
-            <div class="whole-container">
-                <div class="title">나의리뷰</div>
-                <div class="div-container"> 
-                    {% for review in user_reviews %}
-                        <div class="review-info">
-                            <div class="leftside">
-                                <div class="product-info">
-                                    <div class="info-imglink">
-                                        <img src="{{ review.img_path }}" alt="Product Image">
-                                        <button class="view-button" onclick="location.href='{{ url_for('view_item_detail', name=review.name) }}'">상품 상세보기</button>
-                                    </div>
-                                    <div class="info-details">
-                                        <div class="info-line">
-                                            <span class="info-q">상품명</span><br>
-                                            <span class="info-a">{{ review.name }}</span>
-                                        </div>
-                                        <div class="info-line">
-                                            <span class="info-q">거래대상</span><br>
-                                            <span class="info-a">{{ review.trader_id }}</span>
-                                        </div>
-                                        <div class="info-line">
-                                            <span class="info-q">거래가격</span><br>
-                                            <span class="info-a">{{ review.regular_price }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rightside">
-                                <div class="info-line">
-                                    <span class="info-q">리뷰내역</span>
-                                    <div class="stars">
-                                        {% if review.rating is defined %}
-                                            {% for _ in range(review.rating) %}
-                                                <label><input type="radio" checked disabled></label>
-                                            {% endfor %}
-                                        {% else %}
-                                            <p>No rating available</p>
-                                        {% endif %}
-                                    </div><br>
-                                    <span class="info-a">
-                                        {{ review.review_content }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-    
-            <div class="page-wrap">
-                <div class="page-nation">
-                    <ul>
-                        {% if page_count is defined %}
-                            {% for i in range(page_count) %}
-                                <li>
-                                    <a href="{{ url_for('my_review', user_id=user_id, page=i) }}" style="color: black;">{{ i }}</a>
-                                </li>
+
+        <div class="title">판매자리뷰</div>
+        <div class="review-info-seller">
+            {% if seller_review %}
+                <div class="info-line">
+                    <div class="info-top">
+                        <div class="stars">
+                            {% for i in range(1, 6) %}
+                                <label><input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if i == seller_review['rating'] %}checked{% endif %}></label>
                             {% endfor %}
-                        {% else %}
-                            <li>
-                                <p>작성한 리뷰가 없습니다.</p>
-                            </li>
-                        {% endif %}
-                    </ul>
+                        </div>
+                        <span class="trader">{{ seller_review['user_id'] }}</span>
+                    </div>
+                    <span class="info-a">
+                        {{ seller_review['review_content'] }}
+                    </span>
                 </div>
-            </div>
-    
+            {% else %}
+                <div class="info-line">
+                    <span class="info-a">아직 등록된 리뷰가 없습니다.</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="title">구매자리뷰</div>
+        <div class="review-info-buyer">
+            {% if buyer_review %}
+                <div class="info-line">
+                    <div class="info-top">
+                        <div class="stars">
+                            {% for i in range(1, 6) %}
+                                <label><input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if i == buyer_review['rating'] %}checked{% endif %}></label>
+                            {% endfor %}
+                        </div>
+                        <span class="trader">{{ buyer_review['user_id'] }}</span>
+                    </div>
+                    <span class="info-a">
+                        {{ buyer_review['review_content'] }}
+                    </span>
+                </div>
+            {% else %}
+                <div class="info-line">
+                    <span class="info-a">아직 등록된 리뷰가 없습니다.</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <button class="view-button" onclick="location.href='/reviewRegister/{{ name }}'">리뷰 등록하기</button>
         {% endblock section %}
-    </section>
+        </section>
+        
 
     {% include 'footer.html' %}
 </body>
