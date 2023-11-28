@@ -112,7 +112,6 @@ class DBhandler:
             "rating": rating,
             "review_content": review_content
         }
-        # Use item_name as the key for both seller and buyer reviews
         self.db.child("seller_reviews").child(item_name).child(user_id).set(review_info)
         return True
 
@@ -121,7 +120,6 @@ class DBhandler:
             "rating": rating,
             "review_content": review_content
         }
-        # Use item_name as the key for both seller and buyer reviews
         self.db.child("buyer_reviews").child(item_name).child(user_id).set(review_info)
         return True
     
