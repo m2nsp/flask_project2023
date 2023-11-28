@@ -209,10 +209,10 @@ def review_detail(name):
     reviews = DB.get_review(user_id, name)
 
     if user_id == item_data['seller_id']:
-        target_user_id = trans_info_data['buyer_id']
+        trader_id = trans_info_data['buyer_id']
         role = 'seller'
     else:
-        target_user_id = item_data['seller_id']
+        trader_id = item_data['seller_id']
         role = 'buyer'
 
     if role == 'seller':
@@ -220,8 +220,23 @@ def review_detail(name):
     else:
         buyer_review = DB.get_review(user_id, name)
 
-    return render_template("reviewDetail.html", target_user_id=target_user_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], reviews=reviews, user_id=user_id)
+    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], reviews=reviews, user_id=user_id)
 
+@application.route("/reviewRegister/<name>")
+def review_register(name):
+    item_data = DB.get_item_byname(name)
+    trans_info_data = DB.get_trans_info(name)
+    
+    user_id = session.get('id') 
+
+    if user_id == item_data['seller_id']:
+        trader_id = trans_info_data['buyer_id']
+        role = 'seller'
+    else:
+        trader_id = item_data['seller_id']
+        role = 'buyer'
+
+    return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], regular_price=item_data['regular_price'], user_id=user_id)
 
 if __name__ == "__main__":
     application.run(debug=True)
