@@ -178,21 +178,21 @@
                 <div class="leftside">
                     <div class="product-info">
                         <div class="info-imglink">
-                            <img src="example.png" alt="Product Image">
+                            <img src="../../static/img/{{img_path}}" alt="Product Image">
                             <button class="view-button" onclick="location.href='reviewDetail.html'">상품 상세보기</button>
                         </div>
                         <div class="info-details">
                             <div class="info-line">
                                 <span class="info-q">상품명</span><br>
-                                <span class="info-a">끝내주는 텀블러</span>
+                                <span class="info-a">{{ name }}</span>
                             </div>
                             <div class="info-line">
                                 <span class="info-q">거래대상</span><br>
-                                <span class="info-a">맛있는감자</span>
+                                <span class="info-a">{{ trader_id }}</span>
                             </div>
                             <div class="info-line">
                                 <span class="info-q">거래가격</span><br>
-                                <span class="info-a">20000원</span>
+                                <span class="info-a">{{ regular_price }}</span>
                             </div>
                         </div>
                     </div>

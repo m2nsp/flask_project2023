@@ -14,7 +14,7 @@
         <nav>
             <ul>
                 <button class="nav-button" onclick="changePage()">
-                    <img src="../static/img/menu.png" width="20" height="20">
+                    <img src="{{ url_for('static', filename='img/menu.png') }}" width="20" height="20">
                 </button>
             </ul>
 
@@ -22,7 +22,7 @@
                 <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요"
                     onkeydown="if (event.keyCode == 13) searchFunction()">
                 <button class="nav-button" onclick="searchFunction()">
-                    <img src="../static/img/search.png" width="20" height="20">
+                    <img src="{{ url_for('static', filename='img/search.png') }}" width="20" height="20">
                 </button>
             </div>
 

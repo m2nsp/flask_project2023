@@ -336,6 +336,9 @@
                 // '거래 완료' 클릭 시 처리
                 document.getElementById('purchase-btn').innerText = '거래 리뷰 확인 / 작성';
                 document.getElementById('purchase-btn').style.backgroundColor = '#d5c5f4'; 
+
+                var itemName = "{{ name }}";
+                window.location.href = "/review_detail/" + itemName + "/";
             });
         });
     

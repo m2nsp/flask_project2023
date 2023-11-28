@@ -107,14 +107,6 @@ def reg_item_submit_post():
     DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], seller_id, post_date, data['transaction'])
     return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename), transaction_list=data['transaction'])
 
-@application.route("/reviewRegister")
-def reviewRegister():
-    return render_template("reviewRegister.html")
-
-@application.route("/myReview")
-def myReview():
-    return render_template("myReview.html")
-
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 0, type=int)
@@ -186,6 +178,50 @@ def like(name):
 def unlike(name):
     my_heart = DB.update_heart(session['id'], 'N', name)
     return jsonify({'msg': '좋아요 취소 완료!'})
+
+@application.route("/submit_review", methods=['POST'])
+def submit_review():
+    if 'id' not in session:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+    item_name = request.args.get('name')
+    role = request.args.get('role')
+
+    rating = request.form.get('rating')
+    review_content = request.form.get('review')
+
+    if role == 'seller':
+        DB.insert_seller_review(user_id, item_name, rating, review_content)
+    else:
+        DB.insert_buyer_review(user_id, item_name, rating, review_content)
+
+    flash("리뷰가 성공적으로 등록되었습니다.")
+    return redirect(url_for('view_list'))
+
+@application.route("/reviewDetail/<name>/")
+def review_detail(name):
+    item_data = DB.get_item_byname(name)
+    trans_info_data = DB.get_trans_info(name)
+
+    user_id = session.get('id') 
+    reviews = DB.get_review(user_id, name)
+
+    if user_id == item_data['seller_id']:
+        target_user_id = trans_info_data['buyer_id']
+        role = 'seller'
+    else:
+        target_user_id = item_data['seller_id']
+        role = 'buyer'
+
+    if role == 'seller':
+        seller_review = DB.get_review(user_id, name)
+    else:
+        buyer_review = DB.get_review(user_id, name)
+
+    return render_template("reviewDetail.html", target_user_id=target_user_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], reviews=reviews, user_id=user_id)
+
 
 if __name__ == "__main__":
     application.run(debug=True)

@@ -85,6 +85,10 @@ class DBhandler:
         self.db.child("trans_info").child(item_name).set(buy_info)
         return True
 
+    def get_trans_info(self, name):
+        trans_info = self.db.child("trans_info").child(name).get().val()
+        return trans_info
+
     def get_heart_byname(self, uid, name):
         hearts = self.db.child("heart").child(uid).get()
         target_value = ""
@@ -102,3 +106,32 @@ class DBhandler:
         }
         self.db.child("heart").child(user_id).child(item).set(heart_info)
         return True
+    
+    def insert_seller_review(self, user_id, item_name, rating, review_content):
+        review_info = {
+            "rating": rating,
+            "review_content": review_content
+        }
+        # Use item_name as the key for both seller and buyer reviews
+        self.db.child("seller_reviews").child(item_name).child(user_id).set(review_info)
+        return True
+
+    def insert_buyer_review(self, user_id, item_name, rating, review_content):
+        review_info = {
+            "rating": rating,
+            "review_content": review_content
+        }
+        # Use item_name as the key for both seller and buyer reviews
+        self.db.child("buyer_reviews").child(item_name).child(user_id).set(review_info)
+        return True
+    
+    def get_review(self, user_id, name):
+        seller_reviews = self.db.child("seller_reviews").child(name).get().val()
+        buyer_reviews = self.db.child("buyer_reviews").child(name).get().val()
+
+        reviews = {
+            "seller": seller_reviews[user_id] if seller_reviews and user_id in seller_reviews else {},
+            "buyer": buyer_reviews[user_id] if buyer_reviews and user_id in buyer_reviews else {}
+        }
+
+        return reviews    

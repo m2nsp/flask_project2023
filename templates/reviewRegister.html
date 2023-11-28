@@ -126,27 +126,27 @@
                 <div class="info-group">
                     <label for="product" class="product">거래품목</label>
                     <div class="product-info">
-                        <img src="example.png" alt="Product Image">
+                        <img src="../../static/img/{{item_data.img_path}}" alt="Product Image">
                         <div class="info-details">
                             <div class="info-line">
                                 <span class="info-q">상품명</span><br>
-                                <span class="info-a">끝내주는 텀블러</span>
+                                <span class="info-a">{{ name }}</span>
                             </div>
                             <div class="info-line">
                                 <span class="info-q">거래대상</span><br>
-                                <span class="info-a">맛있는감자</span>
+                                <span class="info-a">{{ trader_id }}</span>
                             </div>
                             <div class="info-line">
                                 <span class="info-q">거래가격</span><br>
-                                <span class="info-a">20000원</span>
-                            </div>
+                                <span class="info-a">{{ regular_price }}</span>
+                            </div>            
                         </div>
                     </div>
                 </div>
                 
-            <form>
+                <form action="{{ url_for('submit_review', name=name, role=role) }}" method="post">
                 <div class="form-group">
-                    <span class="question"><span style="color: #FFA800;" >맛있는감자</span>님과의 거래는 어떠셨나요?</span>
+                    <span class="question"><span style="color: #FFA800;" >{{ trader_id }}</span>님과의 거래는 어떠셨나요?</span>
                     <label for="rating" class="rating"><b>별점</b></label>
                     <div class="stars">
                         <label><input type="radio" id="star1" name="rating" value="1"></label>
