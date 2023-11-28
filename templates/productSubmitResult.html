@@ -60,23 +60,10 @@
     </style>
 </head>
 <body>
+    {% include 'header.html' %}
 
-    <nav class="navbar">
-        <div class="navbar_logo">
-            <a href="">Ewha GamjaMarket</a>
-        </div>
-        <ul class="navbar__menu">
-            <li><a href="/productList">product list</a></li>
-            <li><a href="/myReview">my review</a></li>
-            <li><a href="/productRegister">register products</a></li>
-            <li><a href="/reviewRegister">register reviews</a></li>
-            <li><a href="/productSubmitResult">result</a></li>
-        </ul>
-        <a href="#" class="navbar__toggleBtn">
-            <i class="fas fa-bars"></i>
-        </a>
-    </nav>
-
+    <section>
+        {% block section %}
 
     <h2>상품 등록 결과</h2>
     
@@ -90,28 +77,36 @@
     <div class="contents-of-purchase">
         <p style="font-size: 15px;">상품명(글제목)</p>
         <p style="font-size: 30px;">
-             {{ data.name}}</p>
+             {{ data.name}}
         </p>
     </div>
 
-   
+    <div class="contents-of-purchase">
+        <p style="font-size: 15px;">상품명(글제목)</p>
+        <p style="font-size: 30px;">{{ data.name}}</p>
 
-    <footer>
-        <div class="text-section">
-            <p><h3>감자마켓</h3></p>
-            <p>여기에는 감자마켓의 설립 모토와 제공 서비
-                스에 대한 설명이 들어갑니다. 뭘 써야할까
-                찐감자 맛있겠다 휴게소 감자 감자칩 프라이
-                감자
-            </p>
+        <p style="font-size: 15px;">거래 방식</p>
+        <p style="font-size: 30px;">{{ '경매' if data['trade_type'] == 'auction' else '일반' }}</p>
 
-            <p>2023PotatoMarket. All rights reserved</p>
-        </div>
-        <div class="text-section">
-            <p>address</p>
-            <p> 우편번호 123456</p>
-            <p>contact</p>
-        </div>
-    </footer>
+        {% if data['trade_type'] == 'auction' %}
+            <p style="font-size: 15px;">마감일</p>
+            <p style="font-size: 30px;">{{ data['end_date'] }}</p>
+
+            <p style="font-size: 15px;">최소 가격</p>
+            <p style="font-size: 30px;">{{ data['min_price'] }}</p>
+
+            <p style="font-size: 15px;">최대 가격</p>
+            <p style="font-size: 30px;">{{ data['max_price'] }}</p>
+        {% else %}
+            <p style="font-size: 15px;">가격</p>
+            <p style="font-size: 30px;">{{ data['regular_price'] }}</p>
+        {% endif %}
+    </div>
+
+    {% endblock section %}
+</section>
+
+{% include 'footer.html' %}
+
 </body>
 </html>
