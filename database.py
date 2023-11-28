@@ -45,7 +45,7 @@ class DBhandler:
                 return True
         return False
 
-    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, user_id, post_date, transaction):
+    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, seller_id, post_date, transaction):
         item_info ={
             "product_description": data['product_description'],
             "img_path": img_path,
@@ -54,7 +54,7 @@ class DBhandler:
             "end_date": data['end_date'],
             "min_price": data['min_price'],
             "max_price": data['max_price'],
-            "user_id": user_id,
+            "seller_id": seller_id,
             "post_date": post_date,
             "transaction": transaction
         }

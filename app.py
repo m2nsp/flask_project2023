@@ -69,14 +69,14 @@ def productList():
 @application.route('/reg_items')
 def reg_items():
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    user_id = session.get('id') 
-    return render_template('reg_items.html', user_id=user_id, post_date=post_date)
+    seller_id = session.get('id') 
+    return render_template('reg_items.html', seller_id=seller_id, post_date=post_date)
 
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if 'id' in session:
-        user_id = session['id']
+        seller_id = session['id']
     else:
         flash("로그인 해야 이용 가능한 기능입니다!")
         return redirect(url_for('login'))    
@@ -102,9 +102,9 @@ def reg_item_submit_post():
 
     data['trade_type'] = trade_type
     data['post_date'] = post_date
-    data['user_id'] = user_id
+    data['seller_id'] = seller_id
     
-    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], user_id, post_date, data['transaction'])
+    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], seller_id, post_date, data['transaction'])
     return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename), transaction_list=data['transaction'])
 
 @application.route("/reviewRegister")
