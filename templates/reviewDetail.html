@@ -208,7 +208,8 @@
                             <div class="info-top">
                                 <div class="stars">
                                     {% for i in range(1, 6) %}
-                                        <label><input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %}></label>
+                                        <input type="radio" id="star{{ i }}" name="rating_{{ name }}" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %} disabled>
+                                        <span class="stars-label" {% if i|int <= review_info['rating']|int %}style="color: #F8D57E;"{% else %}style="color: #ccc;"{% endif %}>&#9733;</span>
                                     {% endfor %}
                                 </div>
                                 <span class="trader">{{ name }}</span>
@@ -233,7 +234,8 @@
                             <div class="info-top">
                                 <div class="stars">
                                     {% for i in range(1, 6) %}
-                                        <label><input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %}></label>
+                                        <input type="radio" id="star{{ i }}" name="rating_{{ name }}" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %} disabled>
+                                        <span class="stars-label" {% if i|int <= review_info['rating']|int %}style="color: #F8D57E;"{% else %}style="color: #ccc;"{% endif %}>&#9733;</span>
                                     {% endfor %}
                                 </div>
                                 <span class="trader">{{ name }}</span>
@@ -251,6 +253,7 @@
             </div>
             
             <button class="view-button" onclick="location.href='/reviewRegister/{{ name }}'">리뷰 등록하기</button>
+            
             {% endblock section %}
             </section>
             
