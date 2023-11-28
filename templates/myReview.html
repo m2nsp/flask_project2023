@@ -25,7 +25,6 @@
             height: 50%;
         }
 
-
         .leftside {
             float: left;
             width: 40%;
@@ -143,6 +142,22 @@
             width: 80%;
             margin: 20px auto;
         }
+
+        .page-wrap {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-nation ul {
+            list-style: none;
+            display: flex;
+            gap: 10px;
+        }
+
+        .page-nation li {
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -150,55 +165,77 @@
 
     <section>
         {% block section %}
-
-    <div class="whole-container">
-        <div class="title">나의리뷰</div>
-        <div class="div-container">    
-            <div class="review-info">
-                <div class="leftside">
-                    <div class="product-info">
-                        <div class="info-imglink">
-                            <img src="example.png" alt="Product Image">
-                            <button class="view-button" onclick="location.href='reviewDetail.html'">상품 상세보기</button>
+    
+            <div class="whole-container">
+                <div class="title">나의리뷰</div>
+                <div class="div-container"> 
+                    {% for review in user_reviews %}
+                        <div class="review-info">
+                            <div class="leftside">
+                                <div class="product-info">
+                                    <div class="info-imglink">
+                                        <img src="{{ review.img_path }}" alt="Product Image">
+                                        <button class="view-button" onclick="location.href='{{ url_for('view_item_detail', name=review.name) }}'">상품 상세보기</button>
+                                    </div>
+                                    <div class="info-details">
+                                        <div class="info-line">
+                                            <span class="info-q">상품명</span><br>
+                                            <span class="info-a">{{ review.name }}</span>
+                                        </div>
+                                        <div class="info-line">
+                                            <span class="info-q">거래대상</span><br>
+                                            <span class="info-a">{{ review.trader_id }}</span>
+                                        </div>
+                                        <div class="info-line">
+                                            <span class="info-q">거래가격</span><br>
+                                            <span class="info-a">{{ review.regular_price }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rightside">
+                                <div class="info-line">
+                                    <span class="info-q">리뷰내역</span>
+                                    <div class="stars">
+                                        {% if review.rating is defined %}
+                                            {% for _ in range(review.rating) %}
+                                                <label><input type="radio" checked disabled></label>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p>No rating available</p>
+                                        {% endif %}
+                                    </div><br>
+                                    <span class="info-a">
+                                        {{ review.review_content }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="info-details">
-                            <div class="info-line">
-                                <span class="info-q">상품명</span><br>
-                                <span class="info-a">끝내주는 텀블러</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-q">거래대상</span><br>
-                                <span class="info-a">맛있는감자</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-q">거래가격</span><br>
-                                <span class="info-a">20000원</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="rightside">
-                    <div class="info-line">
-                        <span class="info-q">리뷰내역</span>
-                        <div class="stars">
-                            <label><input type="radio" id="star1" name="rating" value="1"></label>
-                            <label><input type="radio" id="star2" name="rating" value="2"></label>
-                            <label><input type="radio" id="star3" name="rating" value="3"></label>
-                            <label><input type="radio" id="star4" name="rating" value="4"></label>
-                            <label><input type="radio" id="star5" name="rating" value="5"></label>
-                        </div><br>
-                        <span class="info-a">
-                            여기에 리뷰 내용을 입력하세요.
-                        </span>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-    </div>
+    
+            <div class="page-wrap">
+                <div class="page-nation">
+                    <ul>
+                        {% if page_count is defined %}
+                            {% for i in range(page_count) %}
+                                <li>
+                                    <a href="{{ url_for('my_review', user_id=user_id, page=i) }}" style="color: black;">{{ i }}</a>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li>
+                                <p>작성한 리뷰가 없습니다.</p>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+    
+        {% endblock section %}
+    </section>
 
-    {% endblock section %}
-</section>
-
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 </body>
 </html>

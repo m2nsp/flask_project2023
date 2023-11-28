@@ -128,9 +128,7 @@ def view_list():
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
-    print("###name:",name)
     data = DB.get_item_byname(str(name))
-    print("####data:",data)
     if data['trade_type'] == 'regular':
         return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
     else:
@@ -206,7 +204,7 @@ def review_detail(name):
     trans_info_data = DB.get_trans_info(name)
 
     user_id = session.get('id') 
-    reviews = DB.get_review(user_id, name)
+    reviews = DB.get_reviews(user_id, name)
 
     if user_id == item_data['seller_id']:
         trader_id = trans_info_data['buyer_id']
@@ -216,9 +214,9 @@ def review_detail(name):
         role = 'buyer'
 
     if role == 'seller':
-        seller_review = DB.get_review(user_id, name)
+        seller_review = DB.get_reviews(user_id, name)
     else:
-        buyer_review = DB.get_review(user_id, name)
+        buyer_review = DB.get_reviews(user_id, name)
 
     return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], reviews=reviews, user_id=user_id)
 
@@ -237,6 +235,26 @@ def review_register(name):
         role = 'buyer'
 
     return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], regular_price=item_data['regular_price'], user_id=user_id)
+
+@application.route("/myReview/<user_id>")
+def my_review(user_id):
+    if 'id' not in session or session['id'] != user_id:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
+
+    user_reviews = DB.get_user_reviews(user_id)
+
+    if user_reviews is None:
+        user_reviews = []
+
+    # 페이징 처리
+    page = request.args.get("page", 0, type=int)
+    per_page = 5 
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+    user_reviews_slice = user_reviews[start_idx:end_idx]
+
+    return render_template("myReview.html", user_reviews=user_reviews_slice, page=page, per_page=per_page, user_id=user_id)
 
 if __name__ == "__main__":
     application.run(debug=True)

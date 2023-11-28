@@ -123,7 +123,7 @@ class DBhandler:
         self.db.child("buyer_reviews").child(item_name).child(user_id).set(review_info)
         return True
     
-    def get_review(self, user_id, name):
+    def get_reviews(self, user_id, name):
         seller_reviews = self.db.child("seller_reviews").child(name).get().val()
         buyer_reviews = self.db.child("buyer_reviews").child(name).get().val()
 
@@ -133,3 +133,21 @@ class DBhandler:
         }
 
         return reviews    
+
+    def get_user_reviews(self, user_id):
+        seller_reviews = self.db.child("seller_reviews").get().val()
+        buyer_reviews = self.db.child("buyer_reviews").get().val()
+
+        if seller_reviews is not None:
+            seller_reviews_filtered = [review for name, review in seller_reviews.items() if user_id in review]
+        else:
+            seller_reviews_filtered = []
+
+        if buyer_reviews is not None:
+            buyer_reviews_filtered = [review for name, review in buyer_reviews.items() if user_id in review]
+        else:
+            buyer_reviews_filtered = []
+
+        user_reviews = seller_reviews_filtered + buyer_reviews_filtered
+
+        return user_reviews
