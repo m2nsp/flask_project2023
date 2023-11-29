@@ -234,20 +234,23 @@ def review_register(name):
 
 @application.route("/myReview/<user_id>")
 def my_review(user_id):
-    if 'id' not in session or session['id'] != user_id:
+    if 'id' not in session:
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
-    user_reviews = DB.get_user_reviews(user_id)
+    user_id = session['id']
+    seller_reviews = DB.get_seller_reviews_by_user_id(user_id)
+    buyer_reviews = DB.get_buyer_reviews_by_user_id(user_id)
+    user_reviews = seller_reviews + buyer_reviews
 
     if user_reviews is None:
         user_reviews = []
 
-    # 페이징 처리
-    page = request.args.get("page", 0, type=int)
-    per_page = 5 
-    start_idx = per_page * page
-    end_idx = per_page * (page + 1)
+    # 페이징
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
+    start_idx = (page - 1) * per_page
+    end_idx = start_idx + per_page
     user_reviews_slice = user_reviews[start_idx:end_idx]
 
     return render_template("myReview.html", user_reviews=user_reviews_slice, page=page, per_page=per_page, user_id=user_id)
