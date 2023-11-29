@@ -241,12 +241,25 @@ def my_review(user_id):
     user_id = session['id']
     seller_reviews = DB.get_seller_reviews_by_user_id(user_id)
     buyer_reviews = DB.get_buyer_reviews_by_user_id(user_id)
-    user_reviews = seller_reviews + buyer_reviews    
+    user_reviews = seller_reviews + buyer_reviews
 
-    if user_reviews is None:
-        user_reviews = []
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
 
-    return render_template("myReview.html", user_reviews=user_reviews_slice, page=page, per_page=per_page, user_id=user_id)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
+    data = user_reviews[start_idx:end_idx]
+    tot_count = len(user_reviews)
+
+    return render_template(
+        "myReview.html",
+        datas=data,
+        limit=per_page,
+        page=page,
+        page_count=int((tot_count / per_page) + 1),
+        total=tot_count,
+    )
 
 if __name__ == "__main__":
     application.run(debug=True)
