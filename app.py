@@ -128,7 +128,7 @@ def view_list():
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
-    data = DB.get_item_byname(str(name))
+    data = DB.get_item_by_name(str(name))
     if data['trade_type'] == 'regular':
         return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
     else:
@@ -137,7 +137,7 @@ def view_item_detail(name):
 # 상품 결제 페이지로 넘어감 -> 해결!
 @application.route("/purchase_item/<name>/")
 def purchase_item(name):
-    data=DB.get_item_byname(str(name))
+    data=DB.get_item_by_name(str(name))
     return render_template("purchasePage.html", name=name, data=data)
 
 
@@ -149,7 +149,7 @@ def reg_buy(name):
     trans_mode = request.form['transMode']
     trans_media = request.form['transMedia']
 
-    data = DB.get_item_byname(name)  
+    data = DB.get_item_by_name(name)  
 
     DB.reg_buy(buyer_id, trans_mode, trans_media, name)
 
@@ -159,7 +159,7 @@ def reg_buy(name):
 
 @application.route("/detail_purchased/<name>/")
 def detail_purchased(name):
-    data=DB.get_item_byname(str(name))
+    data=DB.get_item_by_name(str(name))
     return render_template("detail_purchased.html", name=name, data=data)
 
 @application.route("/show_heart/<name>/", methods=['GET'])
@@ -200,7 +200,7 @@ def submit_review():
 
 @application.route("/reviewDetail/<name>/")
 def review_detail(name):
-    item_data = DB.get_item_byname(name)
+    item_data = DB.get_item_by_name(name)
     trans_info_data = DB.get_trans_info(name)
     seller_review = DB.get_seller_reviews(name)
     buyer_review = DB.get_buyer_reviews(name)
@@ -218,7 +218,7 @@ def review_detail(name):
 
 @application.route("/reviewRegister/<name>")
 def review_register(name):
-    item_data = DB.get_item_byname(name)
+    item_data = DB.get_item_by_name(name)
     trans_info_data = DB.get_trans_info(name)
     
     user_id = session.get('id') 
@@ -241,17 +241,10 @@ def my_review(user_id):
     user_id = session['id']
     seller_reviews = DB.get_seller_reviews_by_user_id(user_id)
     buyer_reviews = DB.get_buyer_reviews_by_user_id(user_id)
-    user_reviews = seller_reviews + buyer_reviews
+    user_reviews = seller_reviews + buyer_reviews    
 
     if user_reviews is None:
         user_reviews = []
-
-    # 페이징
-    page = request.args.get("page", 1, type=int)
-    per_page = 5
-    start_idx = (page - 1) * per_page
-    end_idx = start_idx + per_page
-    user_reviews_slice = user_reviews[start_idx:end_idx]
 
     return render_template("myReview.html", user_reviews=user_reviews_slice, page=page, per_page=per_page, user_id=user_id)
 

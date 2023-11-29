@@ -143,21 +143,34 @@
             margin: 20px auto;
         }
 
-        .page-wrap {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
+        .page-wrap{
+             text-align: center;
+             font-size: 0;
         }
 
-        .page-nation ul {
-            list-style: none;
-            display: flex;
-            gap: 10px;
+        .page-nation{
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             margin-top: 20px;
         }
 
-        .page-nation li {
-            font-size: 16px;
+        .page-nation a{
+             display: block;
+             margin: 0 3px;
+             float: left;
+             border: 1px solid #e6e6e6;
+             width: 28px;
+             height: 28px;
+             line-height: 28px;
+             text-align: center;
+             background-color: #fff;
+             font-size: 13px;
+             color: black;
+             text-decoration: none;
+             font-weight:bold;
         }
+        
     </style>
 </head>
 <body>
@@ -173,7 +186,7 @@
                             <div class="leftside">
                                 <div class="product-info">
                                     <div class="info-imglink">
-                                        <img src="{{ review.img_path }}" alt="Product Image">
+                                        <img src="../../static/img/{{review.img_path}}" alt="Product Image">
                                         <button class="view-button" onclick="location.href='{{ url_for('view_item_detail', name=review.name) }}'">상품 상세보기</button>
                                     </div>
                                     <div class="info-details">
@@ -219,26 +232,6 @@
                     {% endfor %}
                 </div>
             </div>
-
-            <div class="page-wrap">
-                <div class="page-nation">
-                    <ul>
-                        {% if page_count is defined %}
-                            {% for i in range(page_count) %}
-                                <li>
-                                    <a href="{{ url_for('my_review', user_id=user_id, page=i) }}" style="color: black;">{{ i }}</a>
-                                </li>
-                            {% endfor %}
-                        {% else %}
-                            <li>
-                                <p>작성한 리뷰가 없습니다.</p>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        {% endblock %}
-    </section>
 
     {% include 'footer.html' %}
 </body>

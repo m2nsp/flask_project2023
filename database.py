@@ -65,7 +65,7 @@ class DBhandler:
         items = self.db.child("item").get().val()
         return items
     
-    def get_item_byname(self, name):
+    def get_item_by_name(self, name):
         items = self.db.child("item").get()
         target_value=""
         print("###########",name)
@@ -135,31 +135,66 @@ class DBhandler:
         seller_reviews = self.db.child("seller_reviews").get().val()
 
         if seller_reviews is not None:
-            user_reviews = {}
+            user_reviews = []
             for item_name, reviews in seller_reviews.items():
+                item_info = self.get_item_by_name(item_name)
+                trans_info = self.get_trans_info(item_name)
+                
                 if user_id in reviews:
-                    user_reviews[item_name] = reviews[user_id]
+                    if user_id == item_info.get('seller_id'):
+                        trader_id = trans_info.get('buyer_id')
+                        role = 'seller'
+                    else:
+                        trader_id = item_info.get('seller_id')
+                        role = 'buyer'
+                    
+                    review_info = {
+                        'name': item_name,
+                        'regular_price': item_info.get('regular_price'),
+                        'img_path' : item_info.get('img_path'),
+                        'seller_id': item_info.get('seller_id'),
+                        'trader_id': trader_id,
+                        'role': role,
+                        **reviews[user_id]
+                    }
+                    user_reviews.append(review_info)
 
-            seller_reviews_filtered = [{"item_name": name, **review} for name, review in user_reviews.items()]
-            print("Filtered Seller Reviews:", seller_reviews_filtered)
         else:
-            seller_reviews_filtered = []
+            user_reviews = []
 
-        return seller_reviews_filtered
+        return user_reviews
 
     def get_buyer_reviews_by_user_id(self, user_id):
         buyer_reviews = self.db.child("buyer_reviews").get().val()
 
         if buyer_reviews is not None:
-            user_reviews = {}
+            user_reviews = []
             for item_name, reviews in buyer_reviews.items():
+                item_info = self.get_item_by_name(item_name)
+                trans_info = self.get_trans_info(item_name)
+
                 if user_id in reviews:
-                    user_reviews[item_name] = reviews[user_id]
+                    if user_id == item_info.get('seller_id'):
+                        trader_id = trans_info.get('buyer_id')
+                        role = 'seller'
+                    else:
+                        trader_id = item_info.get('seller_id')
+                        role = 'buyer'
 
-            buyer_reviews_filtered = [{"item_name": name, **review} for name, review in user_reviews.items()]
-            print("Filtered Buyer Reviews:", buyer_reviews_filtered)
+                    review_info = {
+                        'name': item_name,
+                        'regular_price': item_info.get('regular_price'),
+                        'img_path' : item_info.get('img_path'),
+                        'seller_id': item_info.get('seller_id'),
+                        'trader_id': trader_id,
+                        'role': role,
+                        'buyer_id': trans_info.get('buyer_id'),
+                        **reviews[user_id]
+                    }
+                    user_reviews.append(review_info)
+
         else:
-            buyer_reviews_filtered = []
+            user_reviews = []
 
-        return buyer_reviews_filtered
+        return user_reviews
 
