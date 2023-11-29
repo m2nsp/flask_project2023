@@ -198,13 +198,18 @@
                                     <div class="stars">
                                         {% if review.rating is defined %}
                                             {% set rating_int = review.rating | int %}
-                                            {% for _ in range(rating_int) %}
-                                                <label><input type="radio" checked disabled></label>
+                                            {% for i in range(5) %}
+                                                {% if i < rating_int %}
+                                                    <label class="filled"><input type="radio" checked disabled></label>
+                                                {% else %}
+                                                    <label><input type="radio" disabled></label>
+                                                {% endif %}
                                             {% endfor %}
                                         {% else %}
                                             <p>No rating available</p>
                                         {% endif %}
-                                    </div><br>                                    
+                                    </div><br>
+                                                                      
                                     <span class="info-a">
                                         {{ review.review_content }}
                                     </span>
