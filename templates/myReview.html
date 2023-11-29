@@ -200,7 +200,9 @@
                     <div class="leftside">
                         <div class="product-info">
                             <div class="info-imglink">
-                                <img src="../../static/img/{{review.img_path}}" alt="Product Image">
+                                <a href="{{ url_for('view_item_detail', name=review.name) }}">
+                                    <img src="../../static/img/{{review.img_path}}" alt="Product Image">
+                                </a>
                                 <button class="view-button" onclick="location.href='{{ url_for('view_item_detail', name=review.name) }}'">상품 상세보기</button>
                             </div>
                             <div class="info-details">
