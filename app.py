@@ -238,7 +238,6 @@ def my_review(user_id):
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
-    user_id = session['id']
     seller_reviews = DB.get_seller_reviews_by_user_id(user_id)
     buyer_reviews = DB.get_buyer_reviews_by_user_id(user_id)
     user_reviews = seller_reviews + buyer_reviews
@@ -259,6 +258,7 @@ def my_review(user_id):
         page=page,
         page_count=int((tot_count / per_page) + 1),
         total=tot_count,
+        user_id=user_id 
     )
 
 if __name__ == "__main__":
