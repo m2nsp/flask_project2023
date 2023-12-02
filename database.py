@@ -84,7 +84,7 @@ class DBhandler:
         # 각 상품에 대한 거래 정보를 저장할 때, 상품명을 키로 사용
         self.db.child("trans_info").child(item_name).set(buy_info)
         return True
-
+        
     def get_trans_info(self, name):
         trans_info = self.db.child("trans_info").child(name).get().val()
         return trans_info

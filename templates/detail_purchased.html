@@ -253,17 +253,15 @@
                 <p style="font-size: 30px; font-weight: bold;">{{data.regular_price}}</p>
                 <!-- {{data.normal_price}}로 나중에 가격 바꾸기-->
             </div>
-            <div style="flex: 1; display: flex;">
-                <div class="dropdown-wrapper">
-                    <button id="purchase-btn" class="purchase-button" style="width:200px; height: 80px;">거래 진행중</button>
-                    <div class="dropdown" style="margin-right: 10px;">
-                        <button id="dropdown-btn" class="purchase-button dropdown-btn">⋮</button>
-                        <div id="dropdown-content" class="dropdown-content" style="width: 100px;">
-                            <a id="complete-btn">거래 완료</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+        <button id="purchase-btn" class="purchase-button" style="width:200px; height: 80px;" onclick="updateTransactionStatus()">
+            {% if data.item_status == '거래진행중' %}
+                거래 진행중
+            {% elif data.item_status == '거래완료' %}
+                거래완료/리뷰작성
+            {% endif %}
+        </button>
+
         </div>
         <br>
         <h4>가능한 거래 방식</h4>
@@ -316,46 +314,37 @@
         </div>
     </div>
     <script>
-        // JavaScript 코드 시작
-        document.addEventListener('DOMContentLoaded', function () {
-            // 드롭다운 항목 숨김
-            document.getElementById('dropdown-content').style.display = 'none';
+        // 버튼 클릭 시 실행될 함수
+        function updateTransactionStatus() {
+            // 서버에 보낼 데이터
+            var data = {
+                // 여기에 필요한 데이터 추가
+            };
     
-            // '▼' 버튼 클릭 시 드롭다운 토글
-            document.getElementById('dropdown-btn').addEventListener('click', function () {
-                var dropdownContent = document.getElementById('dropdown-content');
-                if (dropdownContent.style.display === 'block') {
-                    dropdownContent.style.display = 'none';
+            // 서버에 POST 요청 보내기
+            fetch('/completeTransaction/<item_name>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                // 서버에서 받은 응답에 따라 페이지 업데이트 또는 다른 동작 수행
+                if (result.success) {
+                    // 예를 들어, 페이지 리로드 또는 리다이렉트 등을 수행할 수 있습니다.
+                    location.reload(); // 페이지 리로드 예시
                 } else {
-                    dropdownContent.style.display = 'block';
+                    console.error('거래 상태 업데이트 실패');
                 }
+            })
+            .catch(error => {
+                console.error('오류 발생', error);
             });
-    
-            // 드롭다운 항목 클릭 시 처리
-            document.getElementById('complete-btn').addEventListener('click', function () {
-                // '거래 완료' 클릭 시 처리
-                document.getElementById('purchase-btn').innerText = '거래 리뷰 확인 / 작성';
-                document.getElementById('purchase-btn').style.backgroundColor = '#d5c5f4'; 
-
-                var itemName = "{{ name }}";
-                window.location.href = "/reviewDetail/" + itemName + "/";
-            });
-        });
-    
-        // 사용자가 다른 부분을 클릭하면 드롭다운이 닫히도록 설정
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropdown-btn')) {
-                var dropdowns = document.getElementsByClassName('dropdown-content');
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === 'block') {
-                        openDropdown.style.display = 'none';
-                    }
-                }
-            }
         }
     </script>
+    
     {% endblock section %}
 </section>
 
