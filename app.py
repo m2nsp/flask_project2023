@@ -156,12 +156,6 @@ def reg_buy(name):
     # 구매 완료 페이지로 이동
     return render_template("detail_purchased.html", name=name, data=data)
 
-@application.route('/completeTransaction/<string:name>', methods=['POST'])
-def complete_transaction(name):
-    # Update item status to '거래완료'                                                          ####여기 아직 구현안함
-    DB.update_item_status(name, '거래완료')
-    # Return a response, this can be a JSON response indicating success
-    return jsonify({'success': True})
 
 @application.route("/detail_purchased/<name>/")
 def detail_purchased(name):
