@@ -187,6 +187,20 @@ def unlike(name):
     my_heart = DB.update_heart(session['id'], 'N', name)
     return jsonify({'msg': '좋아요 취소 완료!'})
 
+
+@application.route("/myLikes")
+def my_likes():
+    if 'id' not in session:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+    liked_items = DB.get_liked_items(user_id)
+    
+    return render_template("myLikes.html", liked_items=liked_items)
+
+
+
 @application.route("/submit_review", methods=['POST'])
 def submit_review():
     if 'id' not in session:
