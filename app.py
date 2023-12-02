@@ -162,6 +162,16 @@ def detail_purchased(name):
     data=DB.get_item_by_name(str(name))
     return render_template("detail_purchased.html", name=name, data=data)
 
+
+
+@application.route("/complete_transaction/<name>/", methods=['POST'])
+def complete_transaction(name):
+    # 상품의 거래 상태를 '거래완료'로 변경
+    DB.update_item_status(name, '거래완료')
+    return redirect(url_for('review_detail', name=name))
+
+
+
 @application.route("/show_heart/<name>/", methods=['GET'])
 def show_heart(name):
     my_heart = DB.get_heart_byname(session['id'], name)

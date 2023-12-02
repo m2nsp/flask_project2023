@@ -99,6 +99,11 @@ class DBhandler:
     def get_trans_info(self, name):
         trans_info = self.db.child("trans_info").child(name).get().val()
         return trans_info
+    
+    def update_item_status(self, name, status):
+        # Update item_status into the specified status ('거래완료', '판매중', 등)
+        self.db.child("item").child(name).update({"item_status": status})
+        return True
 
     def get_heart_byname(self, uid, name):
         hearts = self.db.child("heart").child(uid).get()
@@ -208,3 +213,11 @@ class DBhandler:
             user_reviews = []
 
         return user_reviews
+    
+
+
+
+
+
+
+    

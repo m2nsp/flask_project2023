@@ -254,19 +254,25 @@
                 <!-- {{data.normal_price}}로 나중에 가격 바꾸기-->
             </div>
 
-        <button id="purchase-btn" class="purchase-button" style="width:200px; height: 80px;" onclick="updateTransactionStatus()">
-            {% if data.item_status == '거래진행중' %}
-                거래 진행중
-            {% elif data.item_status == '거래완료' %}
-                거래완료/리뷰작성
-            {% endif %}
-        </button>
+            <form method="post" action="{{ url_for('complete_transaction', name=name) }}">
+                <button type="submit" id="purchase-btn" class="purchase-button"  style="width:200px; height: 80px;">거래완료하기/리뷰작성</button>
+            </form>
+
+
+
+
+
+
+
 
         </div>
         <br>
         <h4>가능한 거래 방식</h4>
         <!-- <p style="font-size:30px; font-weight: bold;"><img src="https://ifh.cc/g/oQv5Na.png" style="width:150px; height: 60px;"></a> <a style="margin-left: 20px;"><img src="https://ifh.cc/g/SPZYrT.png" style="width: 240px; height: 60px;"></a></p> -->
         <p style="font-size: 50px; font-weight: bold;">....</p>
+
+
+
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
@@ -313,37 +319,6 @@
             <p>상품에 하자 있나요?</p>
         </div>
     </div>
-    <script>
-        // 버튼 클릭 시 실행될 함수
-        function updateTransactionStatus() {
-            // 서버에 보낼 데이터
-            var data = {
-                // 여기에 필요한 데이터 추가
-            };
-    
-            // 서버에 POST 요청 보내기
-            fetch('/completeTransaction/<item_name>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .then(result => {
-                // 서버에서 받은 응답에 따라 페이지 업데이트 또는 다른 동작 수행
-                if (result.success) {
-                    // 예를 들어, 페이지 리로드 또는 리다이렉트 등을 수행할 수 있습니다.
-                    location.reload(); // 페이지 리로드 예시
-                } else {
-                    console.error('거래 상태 업데이트 실패');
-                }
-            })
-            .catch(error => {
-                console.error('오류 발생', error);
-            });
-        }
-    </script>
     
     {% endblock section %}
 </section>
