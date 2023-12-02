@@ -1,3 +1,4 @@
+from datetime import datetime
 import pyrebase
 import json 
 
@@ -76,10 +77,16 @@ class DBhandler:
         return target_value
     
     def reg_buy(self, buyer_id, trans_mode, trans_media, item_name):
+        #get current date
+        current_date = datetime.now().date()
+        # Format the date as a string
+        formatted_date = current_date.isoformat()
+
         buy_info = {
             "buyer_id": buyer_id,
             "trans_mode" : trans_mode,  # 결제 정보 (직거래, 경매, 비대면 상자)
-            "trans_media" : trans_media  # 결제 수단 (카카오페이, 직거래, 카드, etc)
+            "trans_media" : trans_media,  # 결제 수단 (카카오페이, 직거래, 카드, etc)
+            "trans_date": formatted_date  # 추가: 구매하기를 누른 날짜
         }
         # 각 상품에 대한 거래 정보를 저장할 때, 상품명을 키로 사용
         self.db.child("trans_info").child(item_name).set(buy_info)
