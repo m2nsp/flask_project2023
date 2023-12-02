@@ -88,7 +88,7 @@
     <div class="contents">
         <h2>회원님이 찜한 상품</h2>
         <br>
-        <h4 class="num-heart">{{ liked_items|length }}</h4>
+        <h4 class="num-heart">찜한 상품 갯수 : {{ liked_items|length }}</h4>
     </div>
 
     <h1>My Liked Items</h1>
@@ -96,9 +96,10 @@
         <ul>
             {% for item in liked_items %}
                 <li>
-                    <img src="{{ item.details.img_path }}" alt="{{ item.name }}" width=140, height=200>
+                    <a href="/view_detail/{{ item.name }}">
+                        <img src="{{ item.details.img_path }}" alt="{{ item.name }}" width="140" height="200">
+                    </a>
                     <p>{{ item.name }}</p>
-                    <onclick="location.href='/view_detail/{{item.name}}/';" style="cursor:pointer;"></td>
                     <!-- Add more details as needed -->
                 </li>
             {% endfor %}
