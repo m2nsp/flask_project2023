@@ -97,7 +97,7 @@
             {% for item in liked_items %}
                 <li>
                     <a href="/view_detail/{{ item.name }}">
-                        <img src="{{ item.details.img_path }}" alt="{{ item.name }}" width="140" height="200">
+                        <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=140, height=200>
                     </a>
                     <p>{{ item.name }}</p>
                     <!-- Add more details as needed -->

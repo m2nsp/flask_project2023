@@ -131,7 +131,7 @@
         <tr>
             {% for key, value in row1 %}
         <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-            <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=140, height=200></td>
+            <img src="static/img/{{value.img_path}}", width=140, height=200></td>
         {% endfor %}
         </tr>
         <tr>
