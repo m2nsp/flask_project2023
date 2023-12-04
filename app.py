@@ -301,5 +301,14 @@ def my_review(user_id):
         user_id=user_id 
     )
 
+@application.route('/myPageIng')
+def myPageIng():
+    user_id = session.get('id')
+
+    ing_items = DB.get_ing_items(user_id)
+
+    return render_template('myPageIng.html', ing_items=ing_items)
+
+
 if __name__ == "__main__":
     application.run(debug=True)
