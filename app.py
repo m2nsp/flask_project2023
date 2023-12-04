@@ -319,6 +319,22 @@ def update_data():
 
     return jsonify({'ing_items': ing_items})
 
+@application.route('/myPageDone')
+def myPageDone():
+    return render_template('myPageDone.html')
+
+@application.route('/update_data2', methods=['POST'])
+def update_data2():
+    data = request.get_json()
+
+    user_id = session.get('id')
+    selected_trade = data.get('selected_trade')
+
+    # DBhandler 클래스의 인스턴스 생성
+    db_handler = DBhandler()
+    done_items = db_handler.get_done_items(user_id, selected_trade)
+
+    return jsonify({'done_items': done_items})
 
 if __name__ == "__main__":
     application.run(debug=True)
