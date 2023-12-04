@@ -238,20 +238,23 @@ class DBhandler:
 
         return user_reviews
     
-    def get_ing_items(self, user_id):
-      
+    def get_ing_items(self, user_id, selected_trade):
         ing_items = []
         items = self.db.child("item").get().val()
 
         for item_name, item_info in items.items():
             trans_info = self.db.child("trans_info").child(item_name).get().val()
 
-            if trans_info and (user_id == item_info.get('seller_id') or user_id == trans_info.get('buyer_id')) and item_info.get('item_status') == '거래진행중':
+            if trans_info and (
+                user_id == item_info.get('seller_id') or user_id == trans_info.get('buyer_id')
+            ) and item_info.get('item_status') == '거래진행중' and (
+                selected_trade is None or trans_info.get('trans_mode') == selected_trade
+            ):
                 ing_item = {
                     'name': item_name,
-                    'img_path' : item_info.get('img_path'),
-                    'post_date': item_info.get('post_date'), 
-                    'trans_mode': trans_info.get('trans_mode'), 
+                    'img_path': item_info.get('img_path'),
+                    'post_date': item_info.get('post_date'),
+                    'trans_mode': trans_info.get('trans_mode'),
                 }
                 ing_items.append(ing_item)
 

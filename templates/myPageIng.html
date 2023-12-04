@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page Ing</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-
-    <script src="{{url_for('static', filename='main.js')}}" defer></script>
     <style>
         .text-section {
             flex: 1;
@@ -130,9 +127,18 @@
     <section>
         {% block section %}
     
-    <div class="Ing-list">
+        <div class="navbar">
+            <div class="nav-item" data-trade="null" id="allViewBtn">전체보기</div>
+            <div class="nav-divider">|</div>
+            <div class="nav-item" data-trade="direct" id="directTradeBtn">직거래</div>
+            <div class="nav-divider">|</div>
+            <div class="nav-item" data-trade="parcel" id="parcelTradeBtn">택배거래</div>
+            <div class="nav-divider">|</div>
+            <div class="nav-item" data-trade="nondirect-box" id="nondirectBoxBtn">비대면상자</div>
+        </div>
 
         {% for ing_item in ing_items %}
+        {% if (selected_trade is none) or (ing_item['trans_mode'] == selected_trade) %}
         <div class="Ing-list">
             <div class="Ing-item">
                 <img src="../../static/img/{{ing_item.img_path}}" alt="거래 진행중 상품" width="150" height="200">
@@ -147,12 +153,13 @@
                         <img src="../../static/img/box.png" style="width:30px; height: 30px;">
                     {% endif %}
                 </div>
-                
             </div>
         </div>
-        {% endfor %}
+        {% endif %}
+    {% endfor %}
+    
 
-        <script>
+        <!-- <script>
             // 메뉴 토글을 위한 JavaScript
             const menuToggleBtn = document.getElementById('menuToggleBtn');
             const navbarMenu = document.querySelector('.navbar__menu');
@@ -165,49 +172,61 @@
                     window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
                 }
             });
-        </script>
-    
-        <!-- 거래 종류 선택바 -->
-        <nav class="nav">
-            <div class="nav-item" id="directTrade">직거래</div>
-            <div class="nav-divider"></div>
-            <div class="nav-item" id="deliveryTrade">택배거래</div>
-            <div class="nav-divider"></div>
-            <div class="nav-item" id="boxTrade">비대면상자</div><br>
-        </nav>
+        </script> -->
     
         <script>
-            // 이벤트 핸들러 함수
-            function applyBorderStyle(element) {
-                // 모든 아이템의 스타일 초기화
-                const items = document.querySelectorAll('.nav-item');
-                items.forEach(item => {
-                    item.style.border = 'none';
-                    item.style.borderRadius = '0';
-                });
-    
-                // 클릭한 아이템에 스타일 적용
-                element.style.border = '2px solid #FFA800';
-                element.style.borderRadius = '8px';
+            // 거래 항목을 업데이트하는 함수
+            function updateDisplayedItems(ing_items) {
+                // TODO: 거래 항목을 업데이트하는 코드 작성
+                console.log(ing_items);
             }
-    
-            // '직거래'를 클릭했을 때 이벤트 핸들러
-            const directTradeItem = document.getElementById('directTrade');
-            directTradeItem.addEventListener('click', () => {
-                applyBorderStyle(directTradeItem);
+        
+            document.addEventListener('DOMContentLoaded', function () {
+                // 문서가 로드될 때 실행되는 코드
+        
+                // 거래 유형을 선택할 때마다 호출되는 함수
+                function handleTradeSelection(trade) {
+                    // 선택한 거래에 기반하여 표시된 항목을 업데이트하기 위한 AJAX 요청
+                    fetch('/update_data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json;charset=UTF-8',
+                        },
+                        body: JSON.stringify({ selected_trade: trade }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // 받은 데이터로 표시된 항목을 업데이트
+                        updateDisplayedItems(data.ing_items);
+                    })
+                    .catch(error => {
+                        console.error('데이터 업데이트 오류:', error);
+                    });
+                }
+        
+                // 거래 유형을 선택하는 각 버튼에 이벤트 리스너 추가
+                var allViewBtn = document.getElementById('allViewBtn');
+                var directTradeBtn = document.getElementById('directTradeBtn');
+                var parcelTradeBtn = document.getElementById('parcelTradeBtn');
+                var nondirectBoxBtn = document.getElementById('nondirectBoxBtn');
+        
+                allViewBtn.addEventListener('click', function () {
+                    handleTradeSelection(allViewBtn.getAttribute('data-trade'));
+                });
+        
+                directTradeBtn.addEventListener('click', function () {
+                    handleTradeSelection(directTradeBtn.getAttribute('data-trade'));
+                });
+        
+                parcelTradeBtn.addEventListener('click', function () {
+                    handleTradeSelection(parcelTradeBtn.getAttribute('data-trade'));
+                });
+        
+                nondirectBoxBtn.addEventListener('click', function () {
+                    handleTradeSelection(nondirectBoxBtn.getAttribute('data-trade'));
+                });
             });
-    
-            // '택배거래'를 클릭했을 때 이벤트 핸들러
-            const deliveryTradeItem = document.getElementById('deliveryTrade');
-            deliveryTradeItem.addEventListener('click', () => {
-                applyBorderStyle(deliveryTradeItem);
-            });
-    
-            // '비대면상자'를 클릭했을 때 이벤트 핸들러
-            const boxTradeItem = document.getElementById('boxTrade');
-            boxTradeItem.addEventListener('click', () => {
-                applyBorderStyle(boxTradeItem);
-            });
+        
         </script>
 
         {% endblock section %}

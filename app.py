@@ -303,11 +303,21 @@ def my_review(user_id):
 
 @application.route('/myPageIng')
 def myPageIng():
+
+    return render_template('myPageIng.html')
+
+@application.route('/update_data', methods=['POST'])
+def update_data():
+    data = request.get_json()
+
     user_id = session.get('id')
+    selected_trade = data.get('selected_trade')
+    
+    # DBhandler 클래스의 인스턴스 생성
+    db_handler = DBhandler()
+    ing_items = db_handler.get_ing_items(user_id, selected_trade)
 
-    ing_items = DB.get_ing_items(user_id)
-
-    return render_template('myPageIng.html', ing_items=ing_items)
+    return jsonify({'ing_items': ing_items})
 
 
 if __name__ == "__main__":
