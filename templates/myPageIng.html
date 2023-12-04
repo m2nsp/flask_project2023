@@ -137,10 +137,15 @@
             <div class="Ing-item">
                 <img src="../../static/img/{{ing_item.img_path}}" alt="거래 진행중 상품" width="150" height="200">
                 <div class="Ing-item-text">
-                    {{ ing_item['post_date'] }} <!-- Display post_date -->
-                    <h3>{{ ing_item['name'] }}</h3> <!-- Display name -->
-                    <h4>{{ ing_item['trans_mode'] }}</h4> <!-- Display trans_mode -->
-                    <img src="deliveryThree.png" alt="배송정보" width="150" height="50">
+                    {{ ing_item['post_date'] }} 
+                    <h3>{{ ing_item['name'] }}</h3> 
+                    {% if ing_item['trans_mode'] == 'direct' %}
+                        <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                    {% elif ing_item['trans_mode'] == 'parcel' %}
+                        <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                    {% elif ing_item['trans_mode'] == 'nondirect-box' %}
+                        <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                    {% endif %}
                 </div>
                 
             </div>
