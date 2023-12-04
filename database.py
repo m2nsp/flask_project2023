@@ -45,6 +45,10 @@ class DBhandler:
             if value['id'] == id_ and value['pw'] == pw_:
                 return True
         return False
+    
+    def get_user_by_id(self, user_id):
+        user = self.db.child("user").child(user_id).get().val()
+        return user
 
     def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, seller_id, post_date, transaction):
         item_info ={
