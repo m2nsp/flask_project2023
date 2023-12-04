@@ -137,26 +137,26 @@
             <div class="nav-item" data-trade="nondirect-box" id="nondirectBoxBtn">비대면상자</div>
         </div>
 
-        {% for ing_item in ing_items %}
-        {% if (selected_trade is none) or (ing_item['trans_mode'] == selected_trade) %}
-        <div class="Ing-list">
-            <div class="Ing-item">
-                <img src="../../static/img/{{ing_item.img_path}}" alt="거래 진행중 상품" width="150" height="200">
-                <div class="Ing-item-text">
-                    {{ ing_item['post_date'] }} 
-                    <h3>{{ ing_item['name'] }}</h3> 
-                    {% if ing_item['trans_mode'] == 'direct' %}
-                        <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
-                    {% elif ing_item['trans_mode'] == 'parcel' %}
-                        <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
-                    {% elif ing_item['trans_mode'] == 'nondirect-box' %}
-                        <img src="../../static/img/box.png" style="width:30px; height: 30px;">
-                    {% endif %}
-                </div>
-            </div>
+        <div class="Ing-list" id="ingListContainer">
+            {% for ing_item in ing_items %}
+                {% if (selected_trade is none) or (ing_item['trans_mode'] == selected_trade) %}
+                    <div class="Ing-item">
+                        <img src="../../static/img/{{ing_item.img_path}}" alt="거래 진행중 상품" width="150" height="200">
+                        <div class="Ing-item-text">
+                            {{ ing_item['post_date'] }} 
+                            <h3>{{ ing_item['name'] }}</h3> 
+                            {% if ing_item['trans_mode'] == 'direct' %}
+                                <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                            {% elif ing_item['trans_mode'] == 'parcel' %}
+                                <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                            {% elif ing_item['trans_mode'] == 'nondirect-box' %}
+                                <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-    {% endfor %}
     
 
         <!-- <script>
@@ -177,16 +177,34 @@
         <script>
             // 거래 항목을 업데이트하는 함수
             function updateDisplayedItems(ing_items) {
-                // TODO: 거래 항목을 업데이트하는 코드 작성
+                const ingListContainer = document.getElementById('ingListContainer');
+                ingListContainer.innerHTML = '';
+
                 console.log(ing_items);
+                ing_items.forEach(item => {
+                    const ingItemDiv = document.createElement('div');
+                    ingItemDiv.classList.add('Ing-item');
+
+                    ingItemDiv.innerHTML = `
+                        <img src="../../static/img/${item.img_path}" alt="거래 진행중 상품" width="150" height="200">
+                        <div class="Ing-item-text">
+                            ${item.post_date} 
+                            <h3>${item.name}</h3> 
+                            ${item.trans_mode === 'direct' ? '<img src="../../static/img/dir.png" style="width:30px; height: 30px;">' :
+                            (item.trans_mode === 'parcel' ? '<img src="../../static/img/pars.png" style="width:30px; height: 30px;">' :
+                                '<img src="../../static/img/box.png" style="width:30px; height: 30px;">')}
+                        </div>
+                    `;
+
+                    ingListContainer.appendChild(ingItemDiv);
+                });
             }
         
             document.addEventListener('DOMContentLoaded', function () {
-                // 문서가 로드될 때 실행되는 코드
-        
-                // 거래 유형을 선택할 때마다 호출되는 함수
+                // 초기 로딩 시 전체보기가 선택되도록 설정
+                handleTradeSelection(null);
+
                 function handleTradeSelection(trade) {
-                    // 선택한 거래에 기반하여 표시된 항목을 업데이트하기 위한 AJAX 요청
                     fetch('/update_data', {
                         method: 'POST',
                         headers: {
@@ -196,7 +214,6 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // 받은 데이터로 표시된 항목을 업데이트
                         updateDisplayedItems(data.ing_items);
                     })
                     .catch(error => {
@@ -204,14 +221,14 @@
                     });
                 }
         
-                // 거래 유형을 선택하는 각 버튼에 이벤트 리스너 추가
                 var allViewBtn = document.getElementById('allViewBtn');
                 var directTradeBtn = document.getElementById('directTradeBtn');
                 var parcelTradeBtn = document.getElementById('parcelTradeBtn');
                 var nondirectBoxBtn = document.getElementById('nondirectBoxBtn');
         
+                
                 allViewBtn.addEventListener('click', function () {
-                    handleTradeSelection(allViewBtn.getAttribute('data-trade'));
+                    handleTradeSelection(null);
                 });
         
                 directTradeBtn.addEventListener('click', function () {
@@ -226,7 +243,6 @@
                     handleTradeSelection(nondirectBoxBtn.getAttribute('data-trade'));
                 });
             });
-        
         </script>
 
         {% endblock section %}
