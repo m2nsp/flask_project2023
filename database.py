@@ -50,15 +50,11 @@ class DBhandler:
         user = self.db.child("user").child(user_id).get().val()
         return user
 
-    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, seller_id, post_date, transaction):
+    def insert_item(self, name, data, img_path, seller_id, post_date, transaction):
         item_info ={
             "product_description": data['product_description'],
             "img_path": img_path,
-            "trade_type": data['trade_type'],
-            "regular_price": data['regular_price'],
-            "end_date": data['end_date'],
-            "min_price": data['min_price'],
-            "max_price": data['max_price'],
+            "price": data['price'],
             "seller_id": seller_id,
             "post_date": post_date,
             "transaction": transaction,

@@ -92,62 +92,12 @@
                     <label for="cb3">비대면상자</label>
             </div>
             <br><br><br>
-            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">가격 방식</h3>
             <div>
-                <input type="radio" name="trade_type" value="auction" onchange="toggleTradeType()">
-                <label for="auction">경매</label>
-                <input type="radio" name="trade_type" value="regular" onchange="toggleTradeType()">
-                <label for="regular">일반</label>
-            </div>
-            <div id="regular_price_field" style="display:none;">
-                <label for="regular_price" style="font-family: Arial, sans-serif; font-size: 20px;">가격</label><br>
-                <input type="number" name="regular_price" id="regular_price" required style="font-family: Arial, sans-serif; font-size: 20px; width: 650px; height: 30px;"><br><br>
+                <label for="price" style="font-family: Arial, sans-serif; font-size: 20px;">가격</label><br>
+                <input type="number" name="price" id="price" required style="font-family: Arial, sans-serif; font-size: 20px; width: 650px; height: 30px;"><br><br>
             </div>
 
-            <div id="auction-fields" style="display:none;">
-                <label for="end_date">경매 종료일</label><br>
-                <input type="date" name="end_date" required><br><br>
-            
-                <label for="min_price">최소 가격</label><br>
-                <input type="number" name="min_price" required><br><br>
-            
-                <label for="max_price">최대 가격</label><br>
-                <input type="number" name="max_price" required><br><br>
-            </div>
-
-            <script>
-                function toggleTradeType() {
-                    var auctionFields = document.getElementById('auction-fields');
-                    var regularPriceField = document.getElementById('regular_price_field');
-                    var tradeType = document.querySelector('input[name="trade_type"]:checked').value;
-            
-                    if (tradeType === 'auction') {
-                        auctionFields.style.display = 'block';
-                        regularPriceField.style.display = 'none';
-                        enableFields(auctionFields);
-                        disableFields(regularPriceField);
-                    } else {
-                        auctionFields.style.display = 'none';
-                        regularPriceField.style.display = 'block';
-                        enableFields(regularPriceField);
-                        disableFields(auctionFields);
-                    }
-                }
-            
-                function enableFields(container) {
-                    var inputs = container.querySelectorAll('input, select, textarea');
-                    inputs.forEach(function (input) {
-                        input.removeAttribute('disabled');
-                    });
-                }
-            
-                function disableFields(container) {
-                    var inputs = container.querySelectorAll('input, select, textarea');
-                    inputs.forEach(function (input) {
-                        input.setAttribute('disabled', 'disabled');
-                    });
-                }
-                
+            <script>              
                 function getCurrentTime() {
                     return new Date().toISOString();
                 }
