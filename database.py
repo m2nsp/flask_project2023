@@ -302,9 +302,13 @@ class DBhandler:
     def submit_comment(self, comment, item):
         if type(comment) == str:
             comment = [comment]
-    
         comment_info = {
+            # "user_id": user_id,
             "comment": comment
         }
         self.db.child("comment_info").child(item).push(comment_info)
         return True
+
+    def get_comments(self, item):
+        comments = self.db.child("comment_info").child(item).get().val()
+        return [value for value in comments.values()] if comments else []
