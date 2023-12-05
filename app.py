@@ -111,10 +111,20 @@ def reg_item_submit_post():
     item_data = DB.get_item_by_name(str(data['name']))
     return render_template("detail_general.html", name=data['name'], data=item_data, transaction_list=data['transaction'])
 
+# @application.route("/view_detail/<name>/")
+# def view_item_detail(name):
+#     data = DB.get_item_by_name(str(name))
+#     return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
+
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
     data = DB.get_item_by_name(str(name))
-    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
+    comments = DB.get_comments(name)
+    print(comments)  # 댓글 데이터 출력
+    if comments is None:
+        comments = []
+    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'], comments=comments)
+
 
 @application.route("/list")
 def view_list():
@@ -225,7 +235,7 @@ def my_likes():
 
 @application.route("/submit_comment/<name>/", methods=['POST'])
 def submit_comment(name):
-    comment=request.form
+    comment = request.form
     DB.submit_comment(comment, name)
     return redirect(url_for("view_item_detail", name=name))
 
@@ -396,4 +406,4 @@ def update_data2():
     return jsonify({'done_items': done_items})
 
 if __name__ == "__main__":
-    application.run(host='0.0.0.0', debug=True)
+    application.run(debug=True)
