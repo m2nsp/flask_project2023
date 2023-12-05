@@ -253,22 +253,26 @@
                 <p style="font-size: 30px; font-weight: bold;">{{data.regular_price}}</p>
                 <!-- {{data.normal_price}}로 나중에 가격 바꾸기-->
             </div>
-            <div style="flex: 1; display: flex;">
-                <div class="dropdown-wrapper">
-                    <button id="purchase-btn" class="purchase-button" style="width:200px; height: 80px;">거래 진행중</button>
-                    <div class="dropdown" style="margin-right: 10px;">
-                        <button id="dropdown-btn" class="purchase-button dropdown-btn">⋮</button>
-                        <div id="dropdown-content" class="dropdown-content" style="width: 100px;">
-                            <a id="complete-btn">거래 완료</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <form method="post" action="{{ url_for('complete_transaction', name=name) }}">
+                <button type="submit" id="purchase-btn" class="purchase-button"  style="width:200px; height: 80px;">거래완료하기/리뷰작성</button>
+            </form>
+
+
+
+
+
+
+
+
         </div>
         <br>
         <h4>가능한 거래 방식</h4>
         <!-- <p style="font-size:30px; font-weight: bold;"><img src="https://ifh.cc/g/oQv5Na.png" style="width:150px; height: 60px;"></a> <a style="margin-left: 20px;"><img src="https://ifh.cc/g/SPZYrT.png" style="width: 240px; height: 60px;"></a></p> -->
         <p style="font-size: 50px; font-weight: bold;">....</p>
+
+
+
         <br>
         <div style="display: flex;">
             <div style="flex: 1;">
@@ -315,47 +319,7 @@
             <p>상품에 하자 있나요?</p>
         </div>
     </div>
-    <script>
-        // JavaScript 코드 시작
-        document.addEventListener('DOMContentLoaded', function () {
-            // 드롭다운 항목 숨김
-            document.getElementById('dropdown-content').style.display = 'none';
     
-            // '▼' 버튼 클릭 시 드롭다운 토글
-            document.getElementById('dropdown-btn').addEventListener('click', function () {
-                var dropdownContent = document.getElementById('dropdown-content');
-                if (dropdownContent.style.display === 'block') {
-                    dropdownContent.style.display = 'none';
-                } else {
-                    dropdownContent.style.display = 'block';
-                }
-            });
-    
-            // 드롭다운 항목 클릭 시 처리
-            document.getElementById('complete-btn').addEventListener('click', function () {
-                // '거래 완료' 클릭 시 처리
-                document.getElementById('purchase-btn').innerText = '거래 리뷰 확인 / 작성';
-                document.getElementById('purchase-btn').style.backgroundColor = '#d5c5f4'; 
-
-                var itemName = "{{ name }}";
-                window.location.href = "/reviewDetail/" + itemName + "/";
-            });
-        });
-    
-        // 사용자가 다른 부분을 클릭하면 드롭다운이 닫히도록 설정
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropdown-btn')) {
-                var dropdowns = document.getElementsByClassName('dropdown-content');
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === 'block') {
-                        openDropdown.style.display = 'none';
-                    }
-                }
-            }
-        }
-    </script>
     {% endblock section %}
 </section>
 

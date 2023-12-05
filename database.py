@@ -1,3 +1,4 @@
+from datetime import datetime
 import pyrebase
 import json 
 
@@ -44,6 +45,10 @@ class DBhandler:
             if value['id'] == id_ and value['pw'] == pw_:
                 return True
         return False
+    
+    def get_user_by_id(self, user_id):
+        user = self.db.child("user").child(user_id).get().val()
+        return user
 
     def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, seller_id, post_date, transaction):
         item_info ={
@@ -56,10 +61,15 @@ class DBhandler:
             "max_price": data['max_price'],
             "seller_id": seller_id,
             "post_date": post_date,
-            "transaction": transaction
+            "transaction": transaction,
+            "item_status": "available"                      #setting the initial status into 'avilable'
         }
         self.db.child("item").child(name).set(item_info)
         return True
+    
+    def get_user_by_id(self, user_id):
+        user = self.db.child("user").child(user_id).get().val()
+        return user
     
     def get_items(self):
         items = self.db.child("item").get().val()
@@ -75,12 +85,37 @@ class DBhandler:
                 target_value=res.val()
         return target_value
     
+    def get_items_bycategory(self, cate):
+        items = self.db.child("item").get()
+        target_value=[]
+        target_key=[]
+        for res in items.each():
+            value = res.val()
+            key_value = res.key()
+            if value['trade_type'] == cate:
+                target_value.append(value)
+                target_key.append(key_value)
+        print("######target_value",target_value)
+        new_dict={}
+        for k,v in zip(target_key,target_value):
+            new_dict[k]=v
+        return new_dict
+        
     def reg_buy(self, buyer_id, trans_mode, trans_media, item_name):
+        #get current date
+        current_date = datetime.now().date()
+        # Format the date as a string
+        formatted_date = current_date.isoformat()
+
         buy_info = {
             "buyer_id": buyer_id,
             "trans_mode" : trans_mode,  # 결제 정보 (직거래, 경매, 비대면 상자)
-            "trans_media" : trans_media  # 결제 수단 (카카오페이, 직거래, 카드, etc)
+            "trans_media" : trans_media,  # 결제 수단 (카카오페이, 직거래, 카드, etc)
+            "trans_date": formatted_date  # 추가: 구매하기를 누른 날짜
         }
+        #Update item_status into "거래진행중"
+        self.db.child("item").child(item_name).update({"item_status": "거래진행중"})
+
         # 각 상품에 대한 거래 정보를 저장할 때, 상품명을 키로 사용
         self.db.child("trans_info").child(item_name).set(buy_info)
         return True
@@ -88,6 +123,11 @@ class DBhandler:
     def get_trans_info(self, name):
         trans_info = self.db.child("trans_info").child(name).get().val()
         return trans_info
+    
+    def update_item_status(self, name, status):
+        # Update item_status into the specified status ('거래완료', '판매중', 등)
+        self.db.child("item").child(name).update({"item_status": status})
+        return True
 
     def get_heart_byname(self, uid, name):
         hearts = self.db.child("heart").child(uid).get()
@@ -107,6 +147,26 @@ class DBhandler:
         self.db.child("heart").child(user_id).child(item).set(heart_info)
         return True
     
+    def get_liked_items(self, user_id):
+        liked_items = []
+
+        hearts = self.db.child("heart").child(user_id).get()
+        if hearts.val() is not None:
+            for res in hearts.each():
+                key_value = res.key()
+                if res.val().get("interested") == "Y":
+                    liked_item_details = self.get_item_by_name(key_value)
+                    liked_item = {
+                        'name': key_value,
+                        'details': liked_item_details
+                    }
+                    liked_items.append(liked_item)
+
+        return liked_items
+
+
+
+
     def insert_seller_review(self, user_id, item_name, rating, review_content):
         review_info = {
             "rating": rating,
@@ -197,4 +257,49 @@ class DBhandler:
             user_reviews = []
 
         return user_reviews
+    
+    def get_ing_items(self, user_id, selected_trade):
+        ing_items = []
+        items = self.db.child("item").get().val()
 
+        for item_name, item_info in items.items():
+            trans_info = self.db.child("trans_info").child(item_name).get().val()
+
+            if trans_info and (
+                user_id == item_info.get('seller_id') or user_id == trans_info.get('buyer_id')
+            ) and item_info.get('item_status') == '거래진행중' and (
+                selected_trade is None or trans_info.get('trans_mode') == selected_trade
+            ):
+                ing_item = {
+                    'name': item_name,
+                    'img_path': item_info.get('img_path'),
+                    'post_date': item_info.get('post_date'),
+                    'trans_mode': trans_info.get('trans_mode'),
+                }
+                ing_items.append(ing_item)
+
+        return ing_items
+    
+
+    def get_done_items(self, user_id, selected_trade):
+        done_items = []
+        items = self.db.child("item").get().val()
+
+        for item_name, item_info in items.items():
+            trans_info = self.db.child("trans_info").child(item_name).get().val()
+
+            if trans_info and (
+                user_id == item_info.get('seller_id') or user_id == trans_info.get('buyer_id')
+            ) and item_info.get('item_status') == '거래완료' and (
+                selected_trade is None or trans_info.get('trans_mode') == selected_trade
+            ):
+                done_item = {
+                    'name': item_name,
+                    'img_path': item_info.get('img_path'),
+                    'post_date': item_info.get('post_date'),
+                    'trans_mode': trans_info.get('trans_mode'),
+                }
+                done_items.append(done_item)
+
+        return done_items  
+          

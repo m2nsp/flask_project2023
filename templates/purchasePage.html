@@ -166,15 +166,25 @@
                     </div>
                 </div>
                 <div class="transaction-mode"></div>
-                    <h2>거래 방식</h2>
+                <h2>거래 방식</h2>
+
+                {% for transaction_value in transaction_list %}
                     <div class="trans-mode">
-                        <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
-                        <label for="direct">직거래</label>
-                        <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
-                        <label for="nondirect-box">비대면 상자</label>
-                        <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
-                        <label for="parcel">택배</label>
+                        {% if transaction_value == 'dir' %}
+                            <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
+                            <label for="direct">직거래</label>
+                        {% endif %}
+                        {% if transaction_value == 'pars' %}
+                            <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
+                            <label for="parcel">택배</label>
+                        {% endif %}
+                        {% if transaction_value == 'box' %}
+                            <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
+                            <label for="nondirect-box">비대면 상자</label>
+                        {% endif %}
                     </div>
+                {% endfor %}
+                
                 </div>
             </div>
             <div class="right-part">

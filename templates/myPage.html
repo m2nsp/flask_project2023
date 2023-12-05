@@ -162,11 +162,11 @@
         <img src="profileImg.png" alt="프로필이미지" width="180px" height="180px">
 
         <div class="my-id">
-            감자를봐감자야<br>@potatopopo
+            {{ session['id'] }}<br>@{{ session['id'] }}
         </div>
         <div class="info-box">
             <span style="float: left;">별점</span><br>
-            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">4.6점</span>
+            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">{{ average_rating }}</span>
         </div>
 
         <div class="info-box"><span style="float: left;">판매횟수</span><br>
@@ -198,7 +198,7 @@
 
             <br>
 
-            <h4><a href="#">나의 찜(27)</a></h4>
+            <h4><a href="{{ url_for('my_likes')}}">나의 찜(27)</a></h4>
 
             <br>
 

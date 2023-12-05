@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page Ing</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-
-    <script src="{{url_for('static', filename='main.js')}}" defer></script>
     <style>
         .text-section {
             flex: 1;
@@ -129,143 +126,125 @@
 
     <section>
         {% block section %}
-
-    <script>
-        // 메뉴 토글을 위한 JavaScript
-        const menuToggleBtn = document.getElementById('menuToggleBtn');
-        const navbarMenu = document.querySelector('.navbar__menu');
-
-        menuToggleBtn.addEventListener('click', () => {
-            navbarMenu.classList.toggle('active');
-
-            // 클릭 시 menuBar.html로 이동
-            if (navbarMenu.classList.contains('active')) {
-                window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
-            }
-        });
-    </script>
-
-    <nav class="nav_bar_present">
-        <!-- 네비게이션 바 내용 -->
-        <div class="nav_links">
-            <span style="color: white;">나의 위치 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 마이페이지 &nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;전체 거래내역 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</span>진행중인 거래<a href="#"
-                class="nav_link"> x</a>
+    
+        <div class="navbar">
+            <div class="nav-item" data-trade="null" id="allViewBtn">전체보기</div>
+            <div class="nav-divider">|</div>
+            <div class="nav-item" data-trade="direct" id="directTradeBtn">직거래</div>
+            <div class="nav-divider">|</div>
+            <div class="nav-item" data-trade="parcel" id="parcelTradeBtn">택배거래</div>
+            <div class="nav-divider">|</div>
+            <div class="nav-item" data-trade="nondirect-box" id="nondirectBoxBtn">비대면상자</div>
         </div>
-    </nav>
 
-    <div class="contents">
-        <h2>진행중인 거래</h2>
-        <div class="centered-text">
-            <h4 class="num-Ing">상품 10개</h4>
+        <div class="Ing-list" id="ingListContainer">
+            {% for ing_item in ing_items %}
+                {% if (selected_trade is none) or (ing_item['trans_mode'] == selected_trade) %}
+                    <div class="Ing-item">
+                        <img src="../../static/img/{{ing_item.img_path}}" alt="거래 진행중 상품" width="150" height="200">
+                        <div class="Ing-item-text">
+                            {{ ing_item['post_date'] }} 
+                            <h3>{{ ing_item['name'] }}</h3> 
+                            {% if ing_item['trans_mode'] == 'direct' %}
+                                <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                            {% elif ing_item['trans_mode'] == 'parcel' %}
+                                <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                            {% elif ing_item['trans_mode'] == 'nondirect-box' %}
+                                <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-    </div>
+    
 
-
-    <!-- 거래 종류 선택바 -->
-    <nav class="nav">
-        <div class="nav-item" id="directTrade">직거래</div>
-        <div class="nav-divider"></div>
-        <div class="nav-item" id="deliveryTrade">택배거래</div>
-        <div class="nav-divider"></div>
-        <div class="nav-item" id="boxTrade">비대면상자</div><br>
-    </nav>
-
-    <script>
-        // 이벤트 핸들러 함수
-        function applyBorderStyle(element) {
-            // 모든 아이템의 스타일 초기화
-            const items = document.querySelectorAll('.nav-item');
-            items.forEach(item => {
-                item.style.border = 'none';
-                item.style.borderRadius = '0';
+        <!-- <script>
+            // 메뉴 토글을 위한 JavaScript
+            const menuToggleBtn = document.getElementById('menuToggleBtn');
+            const navbarMenu = document.querySelector('.navbar__menu');
+    
+            menuToggleBtn.addEventListener('click', () => {
+                navbarMenu.classList.toggle('active');
+    
+                // 클릭 시 menuBar.html로 이동
+                if (navbarMenu.classList.contains('active')) {
+                    window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
+                }
             });
+        </script> -->
+    
+        <script>
+            // 거래 항목을 업데이트하는 함수
+            function updateDisplayedItems(ing_items) {
+                const ingListContainer = document.getElementById('ingListContainer');
+                ingListContainer.innerHTML = '';
 
-            // 클릭한 아이템에 스타일 적용
-            element.style.border = '2px solid #FFA800';
-            element.style.borderRadius = '8px';
-        }
+                console.log(ing_items);
+                ing_items.forEach(item => {
+                    const ingItemDiv = document.createElement('div');
+                    ingItemDiv.classList.add('Ing-item');
 
-        // '직거래'를 클릭했을 때 이벤트 핸들러
-        const directTradeItem = document.getElementById('directTrade');
-        directTradeItem.addEventListener('click', () => {
-            applyBorderStyle(directTradeItem);
-        });
+                    ingItemDiv.innerHTML = `
+                        <img src="../../static/img/${item.img_path}" alt="거래 진행중 상품" width="150" height="200">
+                        <div class="Ing-item-text">
+                            ${item.post_date} 
+                            <h3>${item.name}</h3> 
+                            ${item.trans_mode === 'direct' ? '<img src="../../static/img/dir.png" style="width:30px; height: 30px;">' :
+                            (item.trans_mode === 'parcel' ? '<img src="../../static/img/pars.png" style="width:30px; height: 30px;">' :
+                                '<img src="../../static/img/box.png" style="width:30px; height: 30px;">')}
+                        </div>
+                    `;
 
-        // '택배거래'를 클릭했을 때 이벤트 핸들러
-        const deliveryTradeItem = document.getElementById('deliveryTrade');
-        deliveryTradeItem.addEventListener('click', () => {
-            applyBorderStyle(deliveryTradeItem);
-        });
+                    ingListContainer.appendChild(ingItemDiv);
+                });
+            }
+        
+            document.addEventListener('DOMContentLoaded', function () {
+                // 초기 로딩 시 전체보기가 선택되도록 설정
+                handleTradeSelection(null);
 
-        // '비대면상자'를 클릭했을 때 이벤트 핸들러
-        const boxTradeItem = document.getElementById('boxTrade');
-        boxTradeItem.addEventListener('click', () => {
-            applyBorderStyle(boxTradeItem);
-        });
-    </script>
+                function handleTradeSelection(trade) {
+                    fetch('/update_data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json;charset=UTF-8',
+                        },
+                        body: JSON.stringify({ selected_trade: trade }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        updateDisplayedItems(data.ing_items);
+                    })
+                    .catch(error => {
+                        console.error('데이터 업데이트 오류:', error);
+                    });
+                }
+        
+                var allViewBtn = document.getElementById('allViewBtn');
+                var directTradeBtn = document.getElementById('directTradeBtn');
+                var parcelTradeBtn = document.getElementById('parcelTradeBtn');
+                var nondirectBoxBtn = document.getElementById('nondirectBoxBtn');
+        
+                
+                allViewBtn.addEventListener('click', function () {
+                    handleTradeSelection(null);
+                });
+        
+                directTradeBtn.addEventListener('click', function () {
+                    handleTradeSelection(directTradeBtn.getAttribute('data-trade'));
+                });
+        
+                parcelTradeBtn.addEventListener('click', function () {
+                    handleTradeSelection(parcelTradeBtn.getAttribute('data-trade'));
+                });
+        
+                nondirectBoxBtn.addEventListener('click', function () {
+                    handleTradeSelection(nondirectBoxBtn.getAttribute('data-trade'));
+                });
+            });
+        </script>
 
-
-    <div class="Ing-list">
-
-        <div class="Ing-item">
-            <img src="tumbler.png" alt="거래 진행중 상품" width="150" height="200">
-            <div class="Ing-item-text">
-                3시간전
-                <h3>끝내주는 텀블러</h3>
-                <h4>20000원</h4>
-                <img src="deliveryThree.png" alt="배송정보" width="150" height="50">
-            </div>
-        </div>
-        <div class="Ing-item">
-            <img src="tumbler.png" alt="거래 진행중 상품" width="150" height="200">
-            <div class="Ing-item-text">
-                3시간전
-                <h3>끝내주는 텀블러</h3>
-                <h4>20000원</h4>
-                <img src="deliveryThree.png" alt="배송정보" width="150" height="50">
-            </div>
-        </div>
-        <div class="Ing-item">
-            <img src="tumbler.png" alt="거래 진행중 상품" width="150" height="200">
-            <div class="Ing-item-text">
-                3시간전
-                <h3>끝내주는 텀블러</h3>
-                <h4>20000원</h4>
-                <img src="deliveryThree.png" alt="배송정보" width="150" height="50">
-            </div>
-        </div>
-        <div class="Ing-item">
-            <img src="tumbler.png" alt="거래 진행중 상품" width="150" height="200">
-            <div class="Ing-item-text">
-                3시간전
-                <h3>끝내주는 텀블러</h3>
-                <h4>20000원</h4>
-                <img src="deliveryThree.png" alt="배송정보" width="150" height="50">
-            </div>
-        </div>
-
-    </div>
-
-    <footer>
-        <div class="text-section">
-            <p>
-                <hr style="border: 0; border-top: 1px solid gray; width: 200%;">
-            <h3>감자마켓</h3>
-            </p>
-            <p>여기에는 감자마켓의 설립 모토와 제공 서비스에 대한 설명이 들어갑니다. 이화여대 컴퓨터공학과 재학생 5명이 모여 만든 감자마켓에는 다양한 기능을 할 수 있는 페이지들이
-                있습니다.
-                와서
-                구경하세요!
-            </p>
-
-            <p>2023PotatoMarket. All rights reserved</p>
-        </div>
-        <div class="text-section">
-            <p>address 이화여자대학교 아산공학관 703호 감자마켓</p>
-            <p> 우편번호 011022</p>
-            <p>contact 010-9876-5432</p>
-        </div>
         {% endblock section %}
     </section>
     

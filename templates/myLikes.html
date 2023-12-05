@@ -79,83 +79,34 @@
     </style>
 </head>
 <body>
-
-
-
-
-
-
-    #찜부분 myLikes.html로 변경#
-    #이거는 없애도됨
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {% include 'header.html' %}
 
     <section>
         {% block section %}
 
-    <div class="third-navbar">
-        <a>나의 위치 | </a>
-        <a href="#">마이페이지 X</a>
-        <a href="#">나의 찜 X</a>
-    </div>
-
+    
     <div class="contents">
         <h2>회원님이 찜한 상품</h2>
         <br>
-        <h4 class="num-heart">상품 10개</h4>
+        <h4 class="num-heart">찜한 상품 갯수 : {{ liked_items|length }}</h4>
     </div>
 
-    <div class="heart-list">
-        <div class="heart-item">
-            <img src="../static/img/example.png" alt="찜한 상품">
-            <div class="heart-item-text">
-                3시간전
-                <h1>끝내주는 텀블러</h1>
-                <h3>20000원</h3>
-                <img src="../static/img/택배.png" alt="배송정보">
-            </div>
-        </div>
-        <div class="heart-item">
-            <img src="../static/img/example.png" alt="찜한 상품">
-            <div class="heart-item-text">
-                3시간전
-                <h1>끝내주는 텀블러</h1>
-                <h3>20000원</h3>
-                <img src="../static/img/택배.png" alt="배송정보">
-            </div>
-        </div>
-        <div class="heart-item">
-            <img src="../static/img/example.png" alt="찜한 상품">
-            <div class="heart-item-text">
-                3시간전
-                <h1>끝내주는 텀블러</h1>
-                <h3>20000원</h3>
-                <img src="../static/img/택배.png" alt="배송정보">
-            </div>
-        </div>
-        <div class="heart-item">
-            <img src="../static/img/example.png" alt="찜한 상품">
-            <div class="heart-item-text">
-                3시간전
-                <h1>끝내주는 텀블러</h1>
-                <h3>20000원</h3>
-                <img src="../static/img/택배.png" alt="배송정보">
-            </div>
-        </div>
-    </div>
+    <h1>My Liked Items</h1>
+    {% if liked_items %}
+        <ul>
+            {% for item in liked_items %}
+                <li>
+                    <a href="/view_detail/{{ item.name }}">
+                        <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=140, height=200>
+                    </a>
+                    <p>{{ item.name }}</p>
+                    <!-- Add more details as needed -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No liked items yet.</p>
+    {% endif %}
     {% endblock section %}
 </section>
 
