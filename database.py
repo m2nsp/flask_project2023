@@ -67,6 +67,10 @@ class DBhandler:
         self.db.child("item").child(name).set(item_info)
         return True
     
+    def get_user_by_id(self, user_id):
+        user = self.db.child("user").child(user_id).get().val()
+        return user
+    
     def get_items(self):
         items = self.db.child("item").get().val()
         return items
