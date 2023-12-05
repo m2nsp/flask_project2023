@@ -88,7 +88,7 @@ class DBhandler:
         for res in items.each():
             value = res.val()
             key_value = res.key()
-            if value['trade_type'] == cate:
+            if value['item_status'] == cate:
                 target_value.append(value)
                 target_key.append(key_value)
         print("######target_value",target_value)
