@@ -108,7 +108,13 @@ def reg_item_submit_post():
     data['seller_id'] = seller_id
 
     DB.insert_item(data['name'], data, image_file.filename, seller_id, post_date, data['transaction'])
-    return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename), transaction_list=data['transaction'])
+    item_data = DB.get_item_by_name(str(data['name']))
+    return render_template("detail_general.html", name=data['name'], data=item_data, transaction_list=data['transaction'])
+
+@application.route("/view_detail/<name>/")
+def view_item_detail(name):
+    data = DB.get_item_by_name(str(name))
+    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
 
 @application.route("/list")
 def view_list():
@@ -151,11 +157,6 @@ def view_list():
         total=item_counts,
         item_status=item_status,
     )
-
-@application.route("/view_detail/<name>/")
-def view_item_detail(name):
-    data = DB.get_item_by_name(str(name))
-    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
 
 # 상품 결제 페이지로 넘어감 -> 해결!
 @application.route("/purchase_item/<name>/")
