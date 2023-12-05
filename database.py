@@ -298,4 +298,13 @@ class DBhandler:
                 done_items.append(done_item)
 
         return done_items  
-          
+    
+    def submit_comment(self, comment, item):
+        if type(comment) == str:
+            comment = [comment]
+    
+        comment_info = {
+            "comment": comment
+        }
+        self.db.child("comment_info").child(item).push(comment_info)
+        return True
