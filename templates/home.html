@@ -213,23 +213,30 @@
 
 
     <div class="items">
-        <h4>따근따근하게 올라온 상품 <button class="view-button" onclick="showAllItems()">전체보기 ></button></h4>
+        <h4>따근따근하게 올라온 상품 <button class="view-button" onclick="redirectToViewList()">전체보기 ></button></h4>
+
+        <script>
+            function redirectToViewList() {
+                // Redirect to the view_list route in app.py
+                window.location.href = "{{ url_for('view_list') }}";
+            }
+        </script>
 
         <ul class="newList">
             <li>
-                <img src="tumbler.png" alt="Image 1">
+                <img src="../static/img/tumbler.png" alt="Image 1">
                 <a href="#">보러가기</a>
             </li>
             <li>
-                <img src="tumbler.png" alt="Image 2">
+                <img src="../static/img/tumbler.png" alt="Image 2">
                 <a href="#">보러가기</a>
             </li>
             <li>
-                <img src="tumbler.png" alt="Image 3">
+                <img src="../static/img/tumbler.png" alt="Image 3">
                 <a href="#">보러가기</a>
             </li>
             <li>
-                <img src="tumbler.png" alt="Image 4">
+                <img src="../static/img/tumbler.png" alt="Image 4">
                 <a href="#">보러가기</a>
             </li>
         </ul>

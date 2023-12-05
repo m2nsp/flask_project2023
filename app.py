@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from database import DBhandler
 import hashlib
 import sys
+import math
 from datetime import datetime
 
 application = Flask(__name__)
@@ -126,21 +127,29 @@ def reg_item_submit_post():
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 0, type=int)
+    trade_type = request.args.get("trade_type", "all")
     per_page=6
     per_row=3
     row_count=int(per_page/per_row)
     start_idx=per_page*page
     end_idx=per_page*(page+1)
-    data = DB.get_items()
+    if trade_type=="all":
+        data = DB.get_items() #read the table
+    else:
+        data = DB.get_items_bycategory(trade_type)
+    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
     item_counts = len(data)
-    data = dict(list(data.items())[start_idx:end_idx])
+    if item_counts<=per_page:
+        data = dict(list(data.items())[:item_counts])
+    else:
+        data = dict(list(data.items())[start_idx:end_idx])
     tot_count = len(data)
     for i in range(row_count):
         if (i == row_count-1) and (tot_count%per_row != 0):
             locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
         else: 
             locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
-    return render_template("all_items.html", datas=data.items(), row1=locals()['data_0'].items(), row2=locals()['data_1'].items(), limit=per_page, page=page, page_count=int((item_counts/per_page)+1), total=item_counts)
+    return render_template("all_items.html", datas=data.items(), row1=locals()['data_0'].items(), row2=locals()['data_1'].items(), limit=per_page, page=page, page_count=int(math.ceil(item_counts/per_page)), total=item_counts, trade_type=trade_type)
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
@@ -215,6 +224,11 @@ def my_likes():
     
     return render_template("myLikes.html", liked_items=liked_items)
 
+@application.route("/submit_comment/<name>/", methods=['POST'])
+def submit_comment(name):
+    comment=request.form
+    DB.submit_comment(comment, name)
+    return redirect(url_for("view_item_detail", name=name))
 
 
 @application.route("/submit_review", methods=['POST'])
@@ -300,6 +314,52 @@ def my_review(user_id):
         total=tot_count,
         user_id=user_id 
     )
+
+# 진행중거래 ver2 
+# @application.route("/view_trans_mode/<name>")
+# def view_trans_mode(name):
+#     if 'id' not in session:
+#         flash("로그인이 필요한 서비스입니다.")
+#         return redirect(url_for('login'))
+    
+#     page = request.args.get("page", 0, type=int)
+#     trans_mode = request.args.get("trans_mode", "all")
+#     per_page = 6
+#     per_row = 3
+#     row_count = int(per_page / per_row)
+#     start_idx = per_page * page
+#     end_idx = per_page * (page + 1)
+    
+#     if trans_mode == "all":
+#         data = DB.get_trans_info(name)
+#     else:
+#         data = DB.get_trans_info_by_transmode(name, trans_mode)
+
+#     if not data:  # Check if data is an empty dictionary
+#         data = {}
+#     else:
+#         data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
+
+#     item_counts = len(data)
+    
+#     if item_counts <= per_page:
+#         data = dict(list(data.items())[:item_counts])
+#     else:
+#         data = dict(list(data.items())[start_idx:end_idx])
+
+#     tot_count = len(data)
+
+#     for i in range(row_count):
+#         if (i == row_count - 1) and (tot_count % per_row != 0):
+#             locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:])
+#         else:
+#             locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:(i + 1) * per_row])
+
+#     return render_template("my_ing_items.html", datas=data.items(), row1=locals()['data_0'].items(),
+#                            row2=locals()['data_1'].items(), limit=per_page, page=page,
+#                            page_count=int(math.ceil(item_counts / per_page)), total=item_counts,
+#                            trans_mode=trans_mode, name=name)
+
 
 @application.route('/myPageIng')
 def myPageIng():
