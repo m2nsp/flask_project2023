@@ -118,6 +118,44 @@
         <div id="article">
             <br><h2>전체 상품 조회</h2><br><br>
         </div>
+        <script>
+            $(document).ready(function () {
+                // trade_type 값을 기반으로 선택된 옵션을 설정합니다.
+                var trade_type = "{{ trade_type }}";  
+
+                // 옵션을 선택한 경우에만 URL을 업데이트하도록 수정합니다.
+                $('#trade_type').on('change', function() {
+                    var selectedTradeType = $(this).val();
+                    var currentPage = "{{ page }}";  // 현재 페이지 정보를 가져옵니다.
+
+                    if (selectedTradeType !== trade_type) {
+                        location.href = "{{ url_for('view_list') }}?page=" + currentPage + "&trade_type=" + selectedTradeType;
+                    }
+                });
+
+                // 페이지네이션 링크 클릭 시 드롭다운 메뉴의 값을 유지합니다.
+                $('.pagination-link').on('click', function(e) {
+                    e.preventDefault();
+                    var targetPage = $(this).data('page');  // 페이지 번호를 가져옵니다.
+                    location.href = "{{ url_for('view_list') }}?page=" + targetPage + "&trade_type=" + trade_type;
+                });
+
+                // trade_type 값을 기반으로 선택된 옵션을 설정합니다.
+                $('#trade_type option[value="' + trade_type + '"]').prop("selected", true);
+            });
+        </script>
+
+
+        <div>
+            <!-- trade_type 매개변수를 포함한 URL로 업데이트합니다. -->
+            <select id="trade_type" name="trade_type" onchange="location=this.value">
+                <option value="{{url_for('view_list', page=i, trade_type='all')}}" {% if trade_type == 'all' %}selected{% endif %}>전체</option>
+                <option value="{{url_for('view_list', page=i, trade_type='regular')}}" {% if trade_type == 'regular' %}selected{% endif %}>일반</option>
+                <option value="{{url_for('view_list', page=i, trade_type='auction')}}" {% if trade_type == 'auction' %}selected{% endif %}>경매</option>
+            </select>
+        </div>
+
+
         {% if total > 0 %}
         <p>
             상품 리스트 -- 현재까지 {{total}}개 등록됨
@@ -151,9 +189,10 @@
             <div class="page-nation">
                 <ul>
                 <li>
-                {% for i in range(page_count)%}
-                    <a href="{{url_for('view_list', page=i)}}" color="black">{{i}}</a>
-                {% endfor %} </li>
+                    {% for i in range(page_count) %}
+                        <a href="{{ url_for('view_list', page=i, trade_type=trade_type) }}" class="pagination-link" data-page="{{ i }}">{{ i }}</a>
+                    {% endfor %}
+                </li>
                 </ul>
             </div>
         </div>
