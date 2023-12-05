@@ -113,21 +113,44 @@ def reg_item_submit_post():
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 0, type=int)
-    per_page=6
-    per_row=3
-    row_count=int(per_page/per_row)
-    start_idx=per_page*page
-    end_idx=per_page*(page+1)
-    data = DB.get_items()
+    item_status = request.args.get("item_status", "all")
+    per_page = 6
+    per_row = 3
+    row_count = int(per_page / per_row)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
+    if item_status == "all":
+        data = DB.get_items()  # read the table
+    else:
+        data = DB.get_items_bycategory(item_status)
+
+    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
     item_counts = len(data)
-    data = dict(list(data.items())[start_idx:end_idx])
+
+    if item_counts <= per_page:
+        data = dict(list(data.items())[:item_counts])
+    else:
+        data = dict(list(data.items())[start_idx:end_idx])
+
     tot_count = len(data)
     for i in range(row_count):
-        if (i == row_count-1) and (tot_count%per_row != 0):
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
-        else: 
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
-    return render_template("all_items.html", datas=data.items(), row1=locals()['data_0'].items(), row2=locals()['data_1'].items(), limit=per_page, page=page, page_count=int((item_counts/per_page)+1), total=item_counts)
+        if (i == row_count - 1) and (tot_count % per_row != 0):
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:])
+        else:
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:(i + 1) * per_row])
+
+    return render_template(
+        "all_items.html",
+        datas=data.items(),
+        row1=locals()['data_0'].items(),
+        row2=locals()['data_1'].items(),
+        limit=per_page,
+        page=page,
+        page_count=int(math.ceil(item_counts / per_page)),
+        total=item_counts,
+        item_status=item_status,
+    )
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
@@ -243,7 +266,7 @@ def review_detail(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
-    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review)
+    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review)
 
 @application.route("/reviewRegister/<name>")
 def review_register(name):
@@ -259,7 +282,7 @@ def review_register(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
-    return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], regular_price=item_data['regular_price'], user_id=user_id)
+    return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], user_id=user_id)
 
 @application.route("/myReview/<user_id>")
 def my_review(user_id):
