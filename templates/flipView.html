@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>플립뷰</title>
+    <style>
+        .swipe-things{
+            display: flex;
+            height: 75%;
+        }
+        .things{
+            display:flex;
+            width: 55%;
+            padding-top: 7%;
+            padding-left: 8%;
+
+        }
+        .things button{
+            color: rgb(42, 42, 42);
+            border: none;
+            border-radius: 5px;
+            font-size: 40px;
+            margin: 100px 50px 0 50px;
+            height: 70px;
+            width: 200px;
+        }
+
+        .image-container {
+        width: 1000px; /* 이미지 컨테이너의 너비를 설정 */
+        height: 500px; /* 이미지 컨테이너의 높이를 설정 */
+        background-color: gray; /* 이미지 컨테이너의 배경색을 설정 */
+        display: flex;
+        justify-content: center; /* 내부 내용을 가로 중앙 정렬 */
+        align-items: center; /* 내부 내용을 세로 중앙 정렬 */
+        }
+
+
+        .explanation-thing{
+            padding-top: 10%;
+            padding-left: 5%;
+            width:45%;
+        }
+
+        .explanation-thing button{
+            background-color: #F8D57E;
+            color: #000000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 300px;
+            height: 70px;
+            font-size: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .things {
+            display: none; /* 초기에 모든 상품을 숨김 */
+        }
+        .things.active {
+            display: flex; /* active 클래스를 가진 상품만 표시 */
+        }
+
+    </style>
+
+    <script>
+        var currentIndex = 0;  // 현재 인덱스를 저장하는 변수
+        var cards;  // 카드 요소를 저장하는 변수
+
+        function showCard(index) {
+            // 모든 카드에 active 클래스를 제거
+            cards.forEach(function(card) {
+                card.classList.remove('active');
+            });
+
+            // 현재 인덱스에 해당하는 카드에 active 클래스 추가
+            cards[index].classList.add('active');
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % cards.length;
+            showCard(currentIndex);
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            showCard(currentIndex);
+        }
+
+        // 페이지 로드 시 카드 요소들을 가져와 cards 변수에 저장하고 첫 번째 카드 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            cards = document.querySelectorAll('.things');
+            showCard(currentIndex);
+        });
+    </script>
+    </head>
+    <body>
+        {% include 'header.html' %}
+
+        <section>
+            {% block section %}
+            <div class="swipe-things">
+                {% for item in items %}
+                    <div class="things">
+                        <button class="prev-button" onclick="showPrev()">prev < </button>
+                        <div class="image-container">
+                            <img src="{{ item.img_path }}" alt="{{ item.name }}">
+                        </div>
+                        <button class="arrow-button" onclick="showNext()"> > next</button>
+                    </div>
+            
+                    <div class="explanation-thing">
+                        <h2>끝내주는 텀블러{{ item.name }}</h2>
+                        <h3>20000원</h3>
+                        <p>{{ item.post_date }}</p>
+                        <br><br>
+                        <!-- 여기에 배송관련 정보 들어가야함 -->
+                        <p>Transaction Mode: {{ item.trans_mode }}</p>
+                        <button>상품 상세보기</button><br><br>
+                        *방향키를 활용해 플립뷰 기능을 이용할 수 있어요.
+                    </div>
+                {% endfor %}
+            </div>
+            {% endblock section %}
+        </section>
+
+{% include 'footer.html' %}
+</body>
