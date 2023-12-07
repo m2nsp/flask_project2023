@@ -74,33 +74,28 @@
         </p>
         
     </div>
-    <div class="contents-of-purchase">
-        <p style="font-size: 15px;">상품명(글제목)</p>
-        <p style="font-size: 30px;">
-             {{ data.name}}
-        </p>
-    </div>
+    
 
     <div class="contents-of-purchase">
         <p style="font-size: 15px;">상품명(글제목)</p>
         <p style="font-size: 30px;">{{ data.name}}</p>
-
         <p style="font-size: 15px;">거래 방식</p>
-        <p style="font-size: 30px;">{{ '경매' if data['trade_type'] == 'auction' else '일반' }}</p>
-
-        {% if data['trade_type'] == 'auction' %}
-            <p style="font-size: 15px;">마감일</p>
-            <p style="font-size: 30px;">{{ data['end_date'] }}</p>
-
-            <p style="font-size: 15px;">최소 가격</p>
-            <p style="font-size: 30px;">{{ data['min_price'] }}</p>
-
-            <p style="font-size: 15px;">최대 가격</p>
-            <p style="font-size: 30px;">{{ data['max_price'] }}</p>
-        {% else %}
-            <p style="font-size: 15px;">가격</p>
-            <p style="font-size: 30px;">{{ data['regular_price'] }}</p>
-        {% endif %}
+        <p style="font-size:30px; font-weight: bold;">
+            {% for transaction_value in transaction_list %}
+                <p>
+                    {% if transaction_value == 'dir' %}
+                        직거래
+                    {% endif %}
+                    {% if transaction_value == 'pars' %}
+                        택배거래
+                    {% endif %}
+                    {% if transaction_value == 'box' %}
+                        비대면상자
+                    {% endif %}
+                </p>
+            {% endfor %}
+        <p style="font-size: 15px;">가격</p>
+        <p style="font-size: 30px;">{{ data['price'] }}</p>
     </div>
 
     {% endblock section %}

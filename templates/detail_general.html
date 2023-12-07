@@ -274,37 +274,23 @@
         <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{data.product_description}}</p>
     </div>
     <br><br>
-    <!-- 댓글 달기 기능을 링크로 따로 뺌 -->
-    <!-- <button class="comment-submit-button" onclick="location.href='/reg_comment_init/{{name}}/';" style="margin-left: 800px;">댓글 달러 가기</button> -->
-
     <!-- 폼 타입으로 댓글 받기 -->
     <form action="/submit_comment/{{name}}/" method="post" enctype="multipart/form-data">
+        작성자: <input type="text" name="id" id="id" value="{{session['id']}}" readonly><br><br>
         <textarea name="content" id="content" rows="5" cols="180" style="margin-left: 150px;"></textarea>
         <input type="submit" value="게시" class="comment-submit-button" style="width: 100px; height: 60px;">
     </form>
     <br><br>
-    <p style="font-size: 30px;">{{content}}</p>
-    <br>
-    <!-- <div class="buy-reply">
-        <div class="comment-description">
-            <h3>구매하려고 하는 사람 1</h3>
-            <p>감사합니다~</p>
+    {% for comment in comments %}
+        <div class="comment" style="border: 3px solid #d5c5f4; border-radius: 20px; margin: 0 0 10px 50px; padding: 10px;">
+            <p style="font-weight: bold;">{{ comment['comment']['id'] }}</p>
+            <p style="margin-left: 20px;">{{ comment['comment']['content'] }}</p>
         </div>
-    </div>
+    {% endfor %}
+
+
+
     <br>
-    <div class="sel-reply">
-        <div class="comment-description">
-            <h3>판매자 ({{data.seller_id}})</h3>
-            <p>완전 새제품이에용~</p>
-        </div>
-    </div>
-    <br>
-    <div class="buy-reply">
-        <div class="comment-description">
-            <h3>구매하려고 하는 사람 1</h3>
-            <p>상품에 하자 있나요?</p>
-        </div>
-    </div> -->
     
     <script>
         
@@ -353,32 +339,6 @@
                 }
             });
         }
-
-        // 댓글 ajax 처리
-        // function submitComment() {
-        //     console.log("Submit Comment function is called!");  // 확인용 로그
-
-        //     // 댓글 값 가져오기
-        //     var commentText = $(".comment-textbox").val();
-
-        //     // 값이 비어 있으면 알림을 표시하고 함수 종료
-        //     if (commentText.trim() === "") {
-        //         alert('댓글이 비어 있습니다.');
-        //         return;
-        //     }
-
-        //     // AJAX로 서버에 데이터 전송
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/submit_comment/{{name}}/",
-        //         data: { comment: commentText },
-        //         success: function(response) {
-        //             $(".comment-box").after('<div class="buy-reply"><div class="comment-description"><h3>Your Username</h3><p>' + commentText + '</p></div></div>');
-        //             $(".comment-textbox").val('');
-        //         }
-        //     });
-        // }
-
 
         $(document).ready(function () {
             showHeart();

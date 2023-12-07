@@ -50,15 +50,11 @@ class DBhandler:
         user = self.db.child("user").child(user_id).get().val()
         return user
 
-    def insert_item(self, name, data, img_path, trade_type, end_date, min_price, max_price, seller_id, post_date, transaction):
+    def insert_item(self, name, data, img_path, seller_id, post_date, transaction):
         item_info ={
             "product_description": data['product_description'],
             "img_path": img_path,
-            "trade_type": data['trade_type'],
-            "regular_price": data['regular_price'],
-            "end_date": data['end_date'],
-            "min_price": data['min_price'],
-            "max_price": data['max_price'],
+            "price": data['price'],
             "seller_id": seller_id,
             "post_date": post_date,
             "transaction": transaction,
@@ -85,6 +81,22 @@ class DBhandler:
                 target_value=res.val()
         return target_value
     
+    def get_items_bycategory(self, cate):
+        items = self.db.child("item").get()
+        target_value=[]
+        target_key=[]
+        for res in items.each():
+            value = res.val()
+            key_value = res.key()
+            if value['item_status'] == cate:
+                target_value.append(value)
+                target_key.append(key_value)
+        print("######target_value",target_value)
+        new_dict={}
+        for k,v in zip(target_key,target_value):
+            new_dict[k]=v
+        return new_dict
+        
     def reg_buy(self, buyer_id, trans_mode, trans_media, item_name):
         #get current date
         current_date = datetime.now().date()
@@ -286,4 +298,17 @@ class DBhandler:
                 done_items.append(done_item)
 
         return done_items  
-          
+    
+    def submit_comment(self, comment, item):
+        if type(comment) == str:
+            comment = [comment]
+        comment_info = {
+            # "user_id": user_id,
+            "comment": comment
+        }
+        self.db.child("comment_info").child(item).push(comment_info)
+        return True
+
+    def get_comments(self, item):
+        comments = self.db.child("comment_info").child(item).get().val()
+        return [value for value in comments.values()] if comments else []

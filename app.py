@@ -96,68 +96,77 @@ def reg_item_submit_post():
         seller_id = session['id']
     else:
         flash("로그인 해야 이용 가능한 기능입니다!")
-        return redirect(url_for('login'))    
-    
+        return redirect(url_for('login'))
+
     image_file = request.files["file"]
     image_file.save("static/img/{}".format(image_file.filename))
     data = request.form.to_dict()
-    trade_type = data.get('trade_type')
-
-    if trade_type == 'auction':
-        end_date = data.get('end_date')
-        min_price = data.get('min_price')
-        max_price = data.get('max_price')
-        data['regular_price'] = None
-    else:
-        regular_price = data.get('regular_price')
-        data['end_date'] = None
-        data['min_price'] = None
-        data['max_price'] = None
 
     # 'transaction' 필드를 항상 리스트로 처리
     data['transaction'] = request.form.getlist('transaction')
-
-    data['trade_type'] = trade_type
     data['post_date'] = post_date
     data['seller_id'] = seller_id
-    
-    DB.insert_item(data['name'], data, image_file.filename, data['trade_type'], data['end_date'], data['min_price'], data['max_price'], seller_id, post_date, data['transaction'])
-    return render_template("productSubmitResult.html", data=data, img_path="static/img/{}".format(image_file.filename), transaction_list=data['transaction'])
 
-@application.route("/list")
-def view_list():
-    page = request.args.get("page", 0, type=int)
-    trade_type = request.args.get("trade_type", "all")
-    per_page=6
-    per_row=3
-    row_count=int(per_page/per_row)
-    start_idx=per_page*page
-    end_idx=per_page*(page+1)
-    if trade_type=="all":
-        data = DB.get_items() #read the table
-    else:
-        data = DB.get_items_bycategory(trade_type)
-    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
-    item_counts = len(data)
-    if item_counts<=per_page:
-        data = dict(list(data.items())[:item_counts])
-    else:
-        data = dict(list(data.items())[start_idx:end_idx])
-    tot_count = len(data)
-    for i in range(row_count):
-        if (i == row_count-1) and (tot_count%per_row != 0):
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
-        else: 
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
-    return render_template("all_items.html", datas=data.items(), row1=locals()['data_0'].items(), row2=locals()['data_1'].items(), limit=per_page, page=page, page_count=int(math.ceil(item_counts/per_page)), total=item_counts, trade_type=trade_type)
+    DB.insert_item(data['name'], data, image_file.filename, seller_id, post_date, data['transaction'])
+    item_data = DB.get_item_by_name(str(data['name']))
+    return render_template("detail_general.html", name=data['name'], data=item_data, transaction_list=data['transaction'])
+
+# @application.route("/view_detail/<name>/")
+# def view_item_detail(name):
+#     data = DB.get_item_by_name(str(name))
+#     return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
     data = DB.get_item_by_name(str(name))
-    if data['trade_type'] == 'regular':
-        return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
+    comments = DB.get_comments(name)
+    print(comments)  # 댓글 데이터 출력
+    if comments is None:
+        comments = []
+    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'], comments=comments)
+
+
+@application.route("/list")
+def view_list():
+    page = request.args.get("page", 0, type=int)
+    item_status = request.args.get("item_status", "all")
+    per_page = 6
+    per_row = 3
+    row_count = int(per_page / per_row)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
+    if item_status == "all":
+        data = DB.get_items()  # read the table
     else:
-        return render_template("detail_auction.html", name=name, data=data, transaction_list=data['transaction'])
+        data = DB.get_items_bycategory(item_status)
+
+    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
+    item_counts = len(data)
+
+    if item_counts <= per_page:
+        data = dict(list(data.items())[:item_counts])
+    else:
+        data = dict(list(data.items())[start_idx:end_idx])
+
+    tot_count = len(data)
+    for i in range(row_count):
+        if (i == row_count - 1) and (tot_count % per_row != 0):
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:])
+        else:
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:(i + 1) * per_row])
+
+    return render_template(
+        "all_items.html",
+        datas=data.items(),
+        row1=locals()['data_0'].items(),
+        row2=locals()['data_1'].items(),
+        limit=per_page,
+        page=page,
+        page_count=int(math.ceil(item_counts / per_page)),
+        total=item_counts,
+        item_status=item_status,
+    )
 
 
 
@@ -235,7 +244,7 @@ def my_likes():
 
 @application.route("/submit_comment/<name>/", methods=['POST'])
 def submit_comment(name):
-    comment=request.form
+    comment = request.form
     DB.submit_comment(comment, name)
     return redirect(url_for("view_item_detail", name=name))
 
@@ -277,7 +286,7 @@ def review_detail(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
-    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, regular_price=item_data['regular_price'], user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review)
+    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review)
 
 @application.route("/reviewRegister/<name>")
 def review_register(name):
@@ -293,7 +302,7 @@ def review_register(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
-    return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], regular_price=item_data['regular_price'], user_id=user_id)
+    return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], user_id=user_id)
 
 @application.route("/myReview/<user_id>")
 def my_review(user_id):
