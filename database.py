@@ -202,7 +202,7 @@ class DBhandler:
                     
                     review_info = {
                         'name': item_name,
-                        'regular_price': item_info.get('regular_price'),
+                        'price': item_info.get('price'),
                         'img_path' : item_info.get('img_path'),
                         'seller_id': item_info.get('seller_id'),
                         'trader_id': trader_id,
@@ -235,7 +235,7 @@ class DBhandler:
 
                     review_info = {
                         'name': item_name,
-                        'regular_price': item_info.get('regular_price'),
+                        'price': item_info.get('price'),
                         'img_path' : item_info.get('img_path'),
                         'seller_id': item_info.get('seller_id'),
                         'trader_id': trader_id,
@@ -267,6 +267,7 @@ class DBhandler:
                         'trans_date': trans_info.get('trans_date'),
                         'trans_mode': trans_info.get('trans_mode'),
                         'img_path': item_info.get('img_path'),
+                        'price': item_info.get('price')
                     }
                     ing_items.append(ing_items_info)
 
@@ -293,6 +294,7 @@ class DBhandler:
                         'trans_date': trans_info.get('trans_date'),
                         'trans_mode': trans_info.get('trans_mode'),
                         'img_path': item_info.get('img_path'),
+                        'price': item_info.get('price')
                     }
                     done_items.append(done_items_info)
 

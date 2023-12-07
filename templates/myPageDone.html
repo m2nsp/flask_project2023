@@ -142,6 +142,7 @@
                         <div class="Ing-item-text">
                             <h3>{{ item.name }}</h3> 
                             {{ item.trans_date }}<br>
+                            {{ item.price }}<br>
                             {% if item.trans_mode == 'direct' %}
                             <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
                             {% elif item.trans_mode == 'parcel' %}
