@@ -13,6 +13,11 @@ DB = DBhandler()
 def hello():
     return render_template("home.html")
 
+@application.route("/base", methods=['GET', 'POST'])
+def base():
+    return render_template("base.html")
+
+
 @application.route('/login')
 def login():
     return render_template("login.html")

@@ -1,14 +1,11 @@
-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: white;
-    
+
+footer{
+  height: 20px;
+  position : relative;
+  transform : translateY(-100%);
 }
 
 .text-section {
     max-width: 100%;
-    margin: 5% auto;
-    /* overflow-x: hidden; */
+    margin: 5%;
 }

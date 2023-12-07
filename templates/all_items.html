@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,7 +108,19 @@
             margin: auto;
             width: 70%;
         }
+
+        /* 추가된 부분 */
+        #item_status {
+            margin-top: 1%;
+        }
+
+        p {
+            color: black;
+            margin-bottom: 10px;
+            text-align: left;
+        }
     </style>
+
 </head>
 
 <body>
@@ -115,101 +128,109 @@
 
     <section>
         {% block section %}
-    
-    <article>
-        <div id="article">
-            <br><h2>전체 상품 조회</h2><br><br>
-        </div>
-        <script>
-            $(document).ready(function () {
-                // item_status 값을 기반으로 선택된 옵션을 설정합니다.
-                var item_status = "{{ item_status }}";  
 
-                // 옵션을 선택한 경우에만 URL을 업데이트하도록 수정합니다.
-                $('#item_status').on('change', function() {
-                    var selectedItemStatus = $(this).val();
-                    var currentPage = "{{ page }}";  // 현재 페이지 정보를 가져옵니다.
-
-                    if (selectedTradeType !== item_status) {
-                        location.href = "{{ url_for('view_list') }}?page=" + currentPage + "&item_status=" + selectedItemStatus;
-                    }
-                });
-
-                // 페이지네이션 링크 클릭 시 드롭다운 메뉴의 값을 유지합니다.
-                $('.pagination-link').on('click', function(e) {
-                    e.preventDefault();
-                    var targetPage = $(this).data('page');  // 페이지 번호를 가져옵니다.
-                    location.href = "{{ url_for('view_list') }}?page=" + targetPage + "&item_status=" + item_status;
-                });
-
-                // item_status 값을 기반으로 선택된 옵션을 설정합니다.
-                $('#item_status option[value="' + item_status + '"]').prop("selected", true);
-            });
-        </script>
-
-
-        <div>
-            <!-- trade_type 매개변수를 포함한 URL로 업데이트합니다. -->
-            <select id="item_status" name="item_status" onchange="location=this.value">
-                <option value="{{url_for('view_list', page=i, item_status='all')}}" {% if item_status == 'all' %}selected{% endif %}>전체</option>
-                <option value="{{url_for('view_list', page=i, item_status='available')}}" {% if item_status == 'available' %}selected{% endif %}>구매 가능</option>
-                <option value="{{url_for('view_list', page=i, item_status='거래완료')}}" {% if item_status == '거래완료' %}selected{% endif %}>거래 완료</option>
-            </select>
-        </div>
-
-
-        {% if total > 0 %}
-        <p>
-            상품 리스트 -- 현재까지 {{total}}개 등록됨
-        </p>
-        <table>
-            <tr>
-                {% for key, value in row1 %}
-                    <td>상품이름: {{key}}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in row1 %}
-                    <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-                        <img src="static/img/{{value.img_path}}", width=140, height=200></td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in row2 %}
-                    <td><strong>상품명 : {{key}}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in row2 %}
-                    <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-                        <img src="static/img/{{value.img_path}}", width=140, height=200></td>
-                {% endfor %}
-            </tr>
-        </table>
-        <!-- 페이지네이션을 위한 코드 시작 -->
-        <div class="page-wrap">
-            <div class="page-nation">
-                <ul>
-                <li>
-                    {% for i in range(page_count) %}
-                        <a href="{{ url_for('view_list', page=i, item_status=item_status) }}" class="pagination-link" data-page="{{ i }}">{{ i }}</a>
-                    {% endfor %}
-                </li>
-                </ul>
+        <article>
+            <div id="article">
+                <br>
+                <h2>전체 상품 조회</h2><br><br>
             </div>
-        </div>
-        {% else %}
-        <p><strong>
+            <script>
+                $(document).ready(function () {
+                    // item_status 값을 기반으로 선택된 옵션을 설정합니다.
+                    var item_status = "{{ item_status }}";
 
-            등록된 상품이 없습니다.
-        </p></strong>
+                    // 옵션을 선택한 경우에만 URL을 업데이트하도록 수정합니다.
+                    $('#item_status').on('change', function () {
+                        var selectedItemStatus = $(this).val();
+                        var currentPage = "{{ page }}";  // 현재 페이지 정보를 가져옵니다.
 
-        {% endif %}
-        
-    </article>
-    {% endblock section %}
-</section>
+                        if (selectedTradeType !== item_status) {
+                            location.href = "{{ url_for('view_list') }}?page=" + currentPage + "&item_status=" + selectedItemStatus;
+                        }
+                    });
 
-{% include 'footer.html' %}
+                    // 페이지네이션 링크 클릭 시 드롭다운 메뉴의 값을 유지합니다.
+                    $('.pagination-link').on('click', function (e) {
+                        e.preventDefault();
+                        var targetPage = $(this).data('page');  // 페이지 번호를 가져옵니다.
+                        location.href = "{{ url_for('view_list') }}?page=" + targetPage + "&item_status=" + item_status;
+                    });
+
+                    // item_status 값을 기반으로 선택된 옵션을 설정합니다.
+                    $('#item_status option[value="' + item_status + '"]').prop("selected", true);
+                });
+            </script>
+
+
+            <div>
+                <!-- trade_type 매개변수를 포함한 URL로 업데이트합니다. -->
+                <select id="item_status" name="item_status" onchange="location=this.value">
+                    <option value="{{url_for('view_list', page=i, item_status='all')}}" {% if item_status=='all'
+                        %}selected{% endif %}>전체</option>
+                    <option value="{{url_for('view_list', page=i, item_status='available')}}" {% if
+                        item_status=='available' %}selected{% endif %}>구매 가능</option>
+                    <option value="{{url_for('view_list', page=i, item_status='거래완료')}}" {% if item_status=='거래완료'
+                        %}selected{% endif %}>거래 완료</option>
+                </select>
+            </div>
+
+
+            {% if total > 0 %}
+            <p style="color: black; margin-bottom: 10px; text-align: left;">
+                <span style="color: orange;">2023/10/17</span> 까지 등록된 구매 가능한 모든 상품입니다.<br><br>
+                <span style="color: brown; text-align: right; display: block;">현재까지 등록된 상품 {{ total }}개</span>
+            </p>
+            <table>
+                <tr>
+                    {% for key, value in row1 %}
+                    <td><strong>상품명 : {{key}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for key, value in row1 %}
+                    <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
+                        <img src="static/img/{{value.img_path}}" , width=140, height=200>
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for key, value in row2 %}
+                    <td><strong>상품명 : {{key}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for key, value in row2 %}
+                    <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
+                        <img src="static/img/{{value.img_path}}" , width=140, height=200>
+                    </td>
+                    {% endfor %}
+                </tr>
+            </table>
+            <!-- 페이지네이션을 위한 코드 시작 -->
+            <div class="page-wrap">
+                <div class="page-nation">
+                    <ul>
+                        <li>
+                            {% for i in range(page_count) %}
+                            <a href="{{ url_for('view_list', page=i, item_status=item_status) }}"
+                                class="pagination-link" data-page="{{ i }}">{{ i }}</a>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% else %}
+            <p><strong>
+
+                    등록된 상품이 없습니다.
+            </p></strong>
+
+            {% endif %}
+
+        </article>
+        {% endblock section %}
+    </section>
+
+    {% include 'footer.html' %}
 
 </body>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base</title>
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <section>
+        {% block section %}
+        <p>기본 화면입니다.</p>
+  
+        {% endblock section %}
+    </section>
+
+    {% include 'footer.html' %}
+</body>
+
+</html>
