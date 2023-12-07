@@ -6,3 +6,9 @@ footer {
     background-color: white;
     
 }
+
+.text-section {
+    max-width: 100%;
+    margin: 5% auto;
+    /* overflow-x: hidden; */
+}
