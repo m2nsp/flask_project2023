@@ -45,10 +45,6 @@ class DBhandler:
             if value['id'] == id_ and value['pw'] == pw_:
                 return True
         return False
-    
-    def get_user_by_id(self, user_id):
-        user = self.db.child("user").child(user_id).get().val()
-        return user
 
     def insert_item(self, name, data, img_path, seller_id, post_date, transaction):
         item_info ={
@@ -277,27 +273,30 @@ class DBhandler:
         return ing_items
     
 
-    def get_done_items(self, user_id, selected_trade):
+    def get_done_items_by_user_id(self, user_id):
+        all_transactions = self.db.child("trans_info").get().val()
+        all_items = self.db.child("item").get().val()
+
         done_items = []
-        items = self.db.child("item").get().val()
 
-        for item_name, item_info in items.items():
-            trans_info = self.db.child("trans_info").child(item_name).get().val()
+        for item_name, item_info in all_items.items():
+            trans_info = all_transactions.get(item_name, {})
+            buyer_id = trans_info.get('buyer_id')
 
-            if trans_info and (
-                user_id == item_info.get('seller_id') or user_id == trans_info.get('buyer_id')
-            ) and item_info.get('item_status') == '거래완료' and (
-                selected_trade is None or trans_info.get('trans_mode') == selected_trade
-            ):
-                done_item = {
-                    'name': item_name,
-                    'img_path': item_info.get('img_path'),
-                    'post_date': item_info.get('post_date'),
-                    'trans_mode': trans_info.get('trans_mode'),
-                }
-                done_items.append(done_item)
+            # print(f"Item: {item_name}, Seller ID: {item_info['seller_id']}, Buyer ID: {buyer_id}, Item Status: {item_info['item_status']}")
 
-        return done_items  
+            if item_info['seller_id'] == user_id or (buyer_id and buyer_id == user_id and item_info['item_status'] == '거래완료'):
+                if item_info['item_status'] == '거래완료':
+                    # print(f"Done Item: {item_name}")
+                    done_items_info = {
+                        'name': item_name,
+                        'trans_date': trans_info.get('trans_date'),
+                        'trans_mode': trans_info.get('trans_mode'),
+                        'img_path': item_info.get('img_path'),
+                    }
+                    done_items.append(done_items_info)
+
+        return done_items
     
     def submit_comment(self, comment, item):
         if type(comment) == str:

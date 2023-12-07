@@ -324,86 +324,41 @@ def my_review(user_id):
         user_id=user_id 
     )
 
-# 진행중거래 ver2 
-# @application.route("/view_trans_mode/<name>")
-# def view_trans_mode(name):
-#     if 'id' not in session:
-#         flash("로그인이 필요한 서비스입니다.")
-#         return redirect(url_for('login'))
-    
-#     page = request.args.get("page", 0, type=int)
-#     trans_mode = request.args.get("trans_mode", "all")
-#     per_page = 6
-#     per_row = 3
-#     row_count = int(per_page / per_row)
-#     start_idx = per_page * page
-#     end_idx = per_page * (page + 1)
-    
-#     if trans_mode == "all":
-#         data = DB.get_trans_info(name)
-#     else:
-#         data = DB.get_trans_info_by_transmode(name, trans_mode)
+@application.route("/myPageDone/<user_id>")
+def my_page_done(user_id):
+    if 'id' not in session:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
 
-#     if not data:  # Check if data is an empty dictionary
-#         data = {}
-#     else:
-#         data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
+    done_items = DB.get_done_items_by_user_id(user_id)
+    print("Done Items:", done_items)
 
-#     item_counts = len(data)
-    
-#     if item_counts <= per_page:
-#         data = dict(list(data.items())[:item_counts])
-#     else:
-#         data = dict(list(data.items())[start_idx:end_idx])
+    sort_mode = request.args.get("sort", "all")
+    if sort_mode == "direct":
+        done_items = [item for item in done_items if item.get('trans_mode') == "direct"]
+    elif sort_mode == "parcel":
+        done_items = [item for item in done_items if item.get('trans_mode') == "parcel"]
+    elif sort_mode == "nondirect-box":
+        done_items = [item for item in done_items if item.get('trans_mode') == "nondirect-box"]
 
-#     tot_count = len(data)
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
 
-#     for i in range(row_count):
-#         if (i == row_count - 1) and (tot_count % per_row != 0):
-#             locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:])
-#         else:
-#             locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:(i + 1) * per_row])
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
 
-#     return render_template("my_ing_items.html", datas=data.items(), row1=locals()['data_0'].items(),
-#                            row2=locals()['data_1'].items(), limit=per_page, page=page,
-#                            page_count=int(math.ceil(item_counts / per_page)), total=item_counts,
-#                            trans_mode=trans_mode, name=name)
+    data = done_items[start_idx:end_idx]
+    tot_count = len(done_items)
 
+    return render_template(
+        "myPageDone.html",
+        done_items=data,
+        page=page,
+        page_count=int((tot_count / per_page) + 1),
+        user_id=user_id,
+        sort_mode=sort_mode 
+    )
 
-@application.route('/myPageIng')
-def myPageIng():
-
-    return render_template('myPageIng.html')
-
-@application.route('/update_data', methods=['POST'])
-def update_data():
-    data = request.get_json()
-
-    user_id = session.get('id')
-    selected_trade = data.get('selected_trade')
-    
-    # DBhandler 클래스의 인스턴스 생성
-    db_handler = DBhandler()
-    ing_items = db_handler.get_ing_items(user_id, selected_trade)
-
-    return jsonify({'ing_items': ing_items})
-
-@application.route('/myPageDone')
-def myPageDone():
-    return render_template('myPageDone.html')
-
-@application.route('/update_data2', methods=['POST'])
-def update_data2():
-    data = request.get_json()
-
-    user_id = session.get('id')
-    selected_trade = data.get('selected_trade')
-
-    # DBhandler 클래스의 인스턴스 생성
-    db_handler = DBhandler()
-    done_items = db_handler.get_done_items(user_id, selected_trade)
-
-    return jsonify({'done_items': done_items})
 
 if __name__ == "__main__":
     application.run(debug=True)
