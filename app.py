@@ -333,6 +333,41 @@ def my_review(user_id):
         user_id=user_id 
     )
 
+@application.route("/myPageIng/<user_id>")
+def my_page_ing(user_id):
+    if 'id' not in session:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
+
+    ing_items = DB.get_ing_items_by_user_id(user_id)
+    print("Ing Items:", ing_items)
+
+    sort_mode = request.args.get("sort", "all")
+    if sort_mode == "direct":
+        ing_items = [item for item in ing_items if item.get('trans_mode') == "direct"]
+    elif sort_mode == "parcel":
+        ing_items = [item for item in ing_items if item.get('trans_mode') == "parcel"]
+    elif sort_mode == "nondirect-box":
+        ing_items = [item for item in ing_items if item.get('trans_mode') == "nondirect-box"]
+
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
+
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
+    data = ing_items[start_idx:end_idx]
+    tot_count = len(ing_items)
+
+    return render_template(
+        "myPageIng.html",
+        ing_items=data,
+        page=page,
+        page_count=int((tot_count / per_page) + 1),
+        user_id=user_id,
+        sort_mode=sort_mode 
+    )
+
 @application.route("/myPageDone/<user_id>")
 def my_page_done(user_id):
     if 'id' not in session:

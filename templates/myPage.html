@@ -184,25 +184,23 @@
 
             <br>
 
-            <h4><a href="#">전체 거래내역(52)</a></h4>
-            <h4><a href="#">진행중인 거래(11)</a></h4>
-            <h4><a href="#">완료된 거래(41)</a></h4>
+            <h4><a href="{{ url_for('my_page_ing', user_id=session['id']) }}">진행중인 거래</a></h4>
+            <h4><a href="{{ url_for('my_page_done', user_id=session['id']) }}">완료된 거래</a></h4>
 
             <br>
 
-            <h4><a href="#">경매 내역(10)</a></h4>
         </div>
 
         <div class="right-part-prof">
-            <h4><a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰(5)</a></h4>
+            <h4><a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a></h4>
 
             <br>
 
-            <h4><a href="{{ url_for('my_likes')}}">나의 찜(27)</a></h4>
+            <h4><a href="{{ url_for('my_likes')}}">나의 찜</a></h4>
 
             <br>
 
-            <h4><a href="{{ url_for('view_list') }}">판매중인 상품(7)</a></h4>
+            <h4><a href="{{ url_for('view_list') }}">상품 목록</a></h4>
 
             <br>
 
