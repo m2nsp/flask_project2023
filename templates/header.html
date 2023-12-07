@@ -5,18 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/header.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
 </head>
 
 <body>
+
     <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <button class="nav-button" onclick="changePage()">
-                    <img src="{{ url_for('static', filename='img/menu.png') }}" width="20" height="20">
-                </button>
-            </ul>
+        <h2 id="gamjaMarketLink">GamjaMarket</h2>
+        <nav class="menu-container">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
 
             <div class="searchbar">
                 <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요"
@@ -28,15 +30,31 @@
 
             <ul>
                 {% if session['id'] %}
-                <li><a href="/logout"><b>{{ session['id'] }}님 반갑습니다!</b>logout</a></li>
+                    <li><a href="/logout"><b>{{ session['id'] }}님 반갑습니다!</b>logout</a></li>
                 {% else %}
-                <li><a href="{{ url_for('login') }}">회원가입/로그인</a></li>
+                    <li><a href="{{ url_for('login') }}">회원가입/로그인</a></li>
                 {% endif %}
                 <li><a href="{{ url_for('myPage') }}">마이페이지</a></li>
             </ul>
         </nav>
     </header>
 
+    <div class="sidebar">
+        <a href="home.html">홈화면</a><br>
+        <a href="#">상품거래</a><br>
+        <a href="/productRegister.html">--상품 등록</a>
+    </div>
+
+    <script>
+        function goToHomePage() {
+            window.location.href = "home.html";
+        }
+
+        function toggleMenu() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('sidebar-active');
+        }
+    </script>
 </body>
 
 </html>
