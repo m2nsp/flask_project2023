@@ -5,80 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='header.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='footer.css')}}">
 
-    <script src="{{url_for('static', filename='main.js')}}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='footer.css') }}">
+
+    <script src="{{ url_for('static', filename='menuBar.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
+
     <style>
         .swipe {
             background-color: #F7F5FD;
+            padding: 1% 1% 2% 2% /* 상하좌우 여백을 %로 조절 */
+           
         }
 
         .swipe-button {
             background-color: #F8D57E;
             color: black;
-            padding: 8px 15px;
+            padding: 2% 3%; /* 상하좌우 패딩을 %로 조절 */
+            margin: 2% 0 4%; /* 상하여백을 %로 조절 */
+            font-size: 1.5vw; /* 폰트 크기를 vw로 조절 */
             border: none;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 13px;
-            margin: 10px;
             cursor: pointer;
         }
 
-        .view-button {
-            background-color: #f6dea8;
-            color: black;
-            padding: 8px 15px;
-            border: 1px solid #f7e6bd;
-            border-radius: 7px;
-            /* 끝이 둥근 네모 상자로 만듭니다 */
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 13px;
-            margin: 10px;
-            cursor: pointer;
-
-        }
 
         .items {
-            margin-left: 20px;
+            margin-left: 2%;
+            margin-top : 5%;
         }
 
         .heart {
-            margin-left: 20px;
+            margin-left: 2%;
+            margin-bottom: 8%;
+            margin-top : 5%;
         }
 
-        .newList,
-        .heartList {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            background-color: white;
-            /* 배경색을 하얀색으로 설정 */
-        }
-
-        .newList li,
-        .heartList li {
-            display: flex;
-            /* 항목 내에서 이미지와 텍스트를 세로로 나열하기 위해 Flexbox 사용 */
-            flex-direction: column;
-            /* 항목 내에서 아이템을 세로로 배치 */
-            align-items: center;
-            /* 항목을 수평 가운데 정렬 */
+        .items h4,
+        .heart h4 {
             text-align: center;
-            /* 텍스트 가운데 정렬 */
-            border: 2px solid black;
-            /* 테두리를 검은색으로 추가 */
-            margin: 5px;
-            padding: 10px;
-            /* 테두리와 내용 사이의 간격 설정 */
-            border-radius: 10px;
-            /* 끝이 둥근 네모 상자로 만듭니다 */
-
+            font-size: 2vw; /* 글자 크기를 1.5vw로 설정 (원래의 0.75vw의 2배) */
         }
 
         .newList {
@@ -91,27 +60,42 @@
             /* 왼쪽 간격을 추가하여 겹치지 않게 만듭니다 */
         }
 
+        .newList,
+        .heartList {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* 가로 가운데 정렬 */
+            align-items: center; /* 세로 가운데 정렬 */
+            background-color: white;
+        }
+
+        .newList li,
+        .heartList li {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 2px solid grey;
+            margin: 3%; /* 상하좌우 여백을 %로 조절 */
+            padding: 1%; /* 내부 패딩을 %로 조절 */
+            border-radius: 3px;
+        }
 
         .newList img,
         .heartList img {
-            width: 60px;
-            /* 이미지의 너비 설정 */
-            height: 80px;
-            /* 이미지의 높이 설정 */
-            margin-bottom: 5px;
-            /* 이미지 아래와 텍스트 간의 간격 설정 */
-            border: 1px solid black;
-            /* 이미지에도 테두리를 검은색으로 추가 */
-            padding: 5px;
-            /* 이미지와 테두리 사이의 간격 설정 */
+            width: 18vw; /* 이미지 너비를 vw로 조절 (원래의 8vw의 2배) */
+            height: 30vh; /* 이미지 높이를 vh로 조절 (원래의 10vh의 2배) */
+            margin-bottom: 2%; /* 이미지 아래 여백을 %로 조절 */
 
+            padding: 5px; /* 이미지와 테두리 사이의 간격 설정 */
         }
+
 
         .text-section {
             flex: 1;
-            /* 공간을 남은 공간에 맞게 분배 */
-            margin: 20px;
-            /* 여백 추가 */
+            margin: 2%;
         }
 
         /* 메뉴 토글 버튼을 위한 CSS */
@@ -131,15 +115,43 @@
             background-color: white;
             z-index: 1;
         }
+
+        #slideshow-container {
+            position: relative;
+            margin-right: 2%; /* 우측 여백을 %로 조절 */
+        }
+
+        .slide {
+            width: 25vw; /* 슬라이드 이미지의 너비를 vw로 조절 */
+            height: 10vh; /* 슬라이드 이미지의 높이를 vh로 조절 */
+        }
+
+        .floating-image-link {
+            position: fixed;
+            top: 10px; /* 이미지의 위쪽 위치를 조절 */
+            right: 20px; /* 이미지의 오른쪽 위치를 더 조절 */
+            width:70%;
+            height:50%;
+
+
+        }
+
+        .floating-image {
+            width: 18%;
+            margin-top: 28vw;
+            margin-left: 50vw;
+            cursor: pointer;
+        }
+
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    {% include 'header.html' %}
-
-    <section>
-        {% block section %}
+{% include 'header.html' %}
+<section>
+    {% block section %}
         <script>
             // 메뉴 토글을 위한 JavaScript
             const menuToggleBtn = document.getElementById('menuToggleBtn');
@@ -172,108 +184,110 @@
                 <!-- 플립뷰 이미지와 문구 추가 -->
                 <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                     <div id="slideshow-container" style="position: relative; margin-right: 20px;">
-                        <img src="flipView1.png" class="slide" style="width: 480px; height: 200px;">
-                        <img src="flipView2.jpg" class="slide" style="width: 420px; height: 200px;">
-                        <img src="flipView3.jpg" class="slide" style="width: 400px; height: 200px;">
+                        <img src="../static/img/flipView1.png" class="slide" style="width: 480px; height: 200px;">
+                        <img src="../static/img/flipView2.jpg" class="slide" style="width: 420px; height: 200px;">
+                        <img src="../static/img/flipView3.jpg" class="slide" style="width: 400px; height: 200px;">
                     </div>
                     <p style="font-weight: bold; margin-top: 10px; margin-left: 30px;">슬라이드하여 넘겨보세요</p>
                 </div>
             </div>
-            <button style="margin-left: 50px;" class="swipe-button" onclick="redirectToFlipView()">플립뷰 사용하기</button>
+            <button style="margin-left: 50px;" class="swipe-button">플립뷰 사용하기</button>
             <br><br><br><br>
         </div>
 
-    <!-- 5초후에 자동으로 이미지 슬라이드 되게 js코드 추가-->
-    <script>
-        function redirectToFlipView() {
-            // 페이지 이동을 처리하는 코드
-            window.location.href = '{{ url_for("flip_view") }}';
-        }
-        var slideIndex = 1;
-        showSlides(slideIndex);
-
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
-
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
-        }
-
-        function showSlides(n) {
-            var i;
-            var slides = document.getElementsByClassName("slide");
-            if (n > slides.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = slides.length }
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slides[slideIndex - 1].style.display = "block";
-        }
-
-        // 5초마다 자동으로 슬라이드를 넘깁니다.
-        var autoSlide = setInterval(function () { plusSlides(1); }, 5000);
-    </script>
-
-
-    <div class="items">
-        <h4>따근따근하게 올라온 상품 <button class="view-button" onclick="redirectToViewList()">전체보기 ></button></h4>
-
+        <!-- 5초후에 자동으로 이미지 슬라이드 되게 js코드 추가-->
         <script>
-            function redirectToViewList() {
-                // Redirect to the view_list route in app.py
-                window.location.href = "{{ url_for('view_list') }}";
+            var slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
             }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                var i;
+                var slides = document.getElementsByClassName("slide");
+                if (n > slides.length) {
+                    slideIndex = 1
+                }
+                if (n < 1) {
+                    slideIndex = slides.length
+                }
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slides[slideIndex - 1].style.display = "block";
+            }
+
+            // 5초마다 자동으로 슬라이드를 넘깁니다.
+            var autoSlide = setInterval(function () {
+                plusSlides(1);
+            }, 5000);
         </script>
 
-        <ul class="newList">
-            <li>
-                <img src="../static/img/tumbler.png" alt="Image 1">
-                <a href="#">보러가기</a>
-            </li>
-            <li>
-                <img src="../static/img/tumbler.png" alt="Image 2">
-                <a href="#">보러가기</a>
-            </li>
-            <li>
-                <img src="../static/img/tumbler.png" alt="Image 3">
-                <a href="#">보러가기</a>
-            </li>
-            <li>
-                <img src="../static/img/tumbler.png" alt="Image 4">
-                <a href="#">보러가기</a>
-            </li>
-        </ul>
-    </div>
+
+        <div class="items">
+            <h2>따끈따끈하게 올라온 신상품 &emsp;&nbsp;<a href="all_items.html"
+                                  style="display: inline-block; background-color: #E2C6B4; padding: 5px 10px; border-radius: 5px; color: #943F2F; text-decoration: none;">전체보기></a>
+            </h2>
 
 
-    <div class="heart">
-        <h4>내가 찜한 상품 <button class="view-button" onclick="showAllItems()">전체보기 ></button></h4>
+            <ul class="newList">
+                <li>
+                    <img src="../static/img/example.png" alt="Image 1">
+                    <a href="detail_general.html">제품상세</a>
+                </li>
+                <li>
+                    <img src="../static/img/example.png" alt="Image 2">
+                    <a href="detail_general.html">제품상세</a>
+                </li>
+                <li>
+                    <img src="../static/img/example.png" alt="Image 3">
+                    <a href="detail_general.html">제품상세</a>
+                </li>
+                <li>
+                    <img src="../static/img/example.png" alt="Image 4">
+                    <a href="detail_general.html">제품상세</a>
+                </li>
+            </ul>
+        </div>
 
-        <ul class="heartList">
-            <li>
-                <img src="tumbler.png" alt="Image 1">
-                <a href="#">보러가기</a>
-            </li>
-            <li>
-                <img src="tumbler.png" alt="Image 2">
-                <a href="#">보러가기</a>
-            </li>
-            <li>
-                <img src="tumbler.png" alt="Image 3">
-                <a href="#">보러가기</a>
-            </li>
-            <li>
-                <img src="tumbler.png" alt="Image 4">
-                <a href="#">보러가기</a>
-            </li>
-        </ul>
 
-        <a href="productRegister.html">
-            <img src="potatoRegister.png" alt="Product Register"
-                style="position: absolute; left: 600px; bottom: -580px; width: 7%; cursor: pointer;">
-        </a>
-    </div>
+        <div class="heart">
+            <h2>내가 찜한 상품 &nbsp;&emsp;<a href="myprofile_myheart.html"
+                            style="display: inline-block; background-color: #E2C6B4; padding: 5px 10px; border-radius: 5px; color: #943F2F; text-decoration: none;">전체보기></a>
+            </h2>
+
+
+            <ul class="heartList">
+                <li>
+                    <img src="../static/img/example.png" alt="Image 1">
+
+                </li>
+                <li>
+                    <img src="../static/img/example.png" alt="Image 2">
+
+                </li>
+                <li>
+                    <img src="../static/img/example.png" alt="Image 3">
+
+                </li>
+                <li>
+                    <img src="../static/img/example.png" alt="Image 4">
+
+                </li>
+            </ul>
+
+    <!-- <a href="reg_items.html" class="floating-image-link">
+    <img src="../static/img/potatoRegister.png" alt="Product Register" class="floating-image" style="width: 20%; cursor: pointer;"> -->
+</a>
+
+
+        </div>
     {% endblock section %}
 </section>
 

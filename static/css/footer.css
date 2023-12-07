@@ -1,10 +1,8 @@
 footer {
     display: flex;
     justify-content: space-between;
-    /* 왼쪽과 오른쪽을 공간을 균등하게 배치 */
     align-items: center;
-    /* 아이템을 수직 가운데 정렬 */
-    padding: 10px;
-    /* 내용 주위에 간격 추가 */
+    padding: 20px;
     background-color: white;
+    
 }

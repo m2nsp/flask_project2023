@@ -40,11 +40,26 @@
     </header>
 
     <div class="sidebar">
-        <a href="home.html">홈화면</a><br>
-        <a href="#">상품거래</a><br>
-        <a href="/productRegister.html">--상품 등록</a>
+        
+        <div class="menu-title">상품거래</div><br>
+        <div class="menu-group">
+            <a href="{{ url_for('reg_items') }}">상품 등록</a>
+            <a href="{{ url_for('view_list') }}">전체 상품 조회</a>
+            <a href="/flipView.html">플립뷰</a>
+        </div>
+        <br><br>
+        <div class="menu-title">마이페이지</div><br>
+        <div class="menu-group">
+            <a href="{{ url_for('my_page_ing', user_id=session['id']) }}">진행중인 거래</a>
+            <a href="{{ url_for('my_page_done', user_id=session['id']) }}">완료된 거래</a>
+            <a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a>
+            <a href="{{ url_for('my_likes')}}">나의 찜</a>
+            <a href="/mypage_profile.html">마이프로필</a>
+            <a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a>
+        </div>
     </div>
 
+    
     <script>
         function goToHomePage() {
             window.location.href = "home.html";
