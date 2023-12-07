@@ -1,51 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Done Items Page</title>
+    <title>My Page Ing</title>
+    <style>
+        .text-section {
+            flex: 1;
+            /* 공간을 남은 공간에 맞게 분배 */
+            margin: 20px;
+            /* 여백 추가 */
+        }
+
+        /* 메뉴 토글 버튼을 위한 CSS */
+        #menuToggleBtn {
+            font-size: 24px;
+            /* 필요에 따라 크기를 조정합니다 */
+            cursor: pointer;
+        }
+
+        /* 'active' 메뉴 상태를 위한 CSS */
+        .navbar__menu.active {
+            display: block;
+            position: absolute;
+            top: 50px;
+            /* 필요에 따라 상단 위치를 조정합니다 */
+            right: 0;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .nav_bar_present {
+            background-color: #E5C3A6;
+            padding: 10px 30px;
+            text-align: left;
+            font-size: medium;
+        }
+
+        .nav_links {
+            color: #943F2F;
+            font-weight: bold;
+        }
+
+        .nav_link {
+            text-decoration: none;
+            color: #943F2F;
+            transition: color 0.3s;
+        }
+
+        .nav_link:hover {
+            color: white;
+            font-weight: bold;
+        }
+
+        .contents {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+
+        .centered-text {
+            text-align: center;
+            color: #943F2F;
+        }
+
+        .num-Ing {
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .Ing-list {
+            display: flex;
+            margin-left: 10px;
+            margin-top: 20px;
+        }
+
+        .Ing-item {
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 180px;
+            /* 원하는 너비로 조정 */
+            height: 400px;
+            /* 원하는 높이로 조정 */
+            margin-right: 20px;
+            /* 원하는 여백으로 조정 */
+            text-align: center;
+        }
+
+        .Ing-item-text {
+            padding: 10px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            font-size: x-large;
+            text-align: center;
+            margin-left: 180px;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 10px 20px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background-color: #f4d8d8;
+        }
+
+        .nav-divider {
+            width: 0.1px;
+            height: 30px;
+            background-color: rgb(48, 47, 47);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
+    {% include 'header.html' %}
 
-    
-<h1>My Done Items</h1>
+    <section>
+        {% block section %}
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='all') }}">전체보기</a></li>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='direct') }}">직거래</a></li>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='parcel') }}">택배거래</a></li>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='nondirect-box') }}">비대면상자</a></li>
+            </ul>
+        </nav>
 
-<nav>
-    <ul>
-        <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='all') }}">전체보기</a></li>
-        <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='direct') }}">직거래</a></li>
-        <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='parcel') }}">택배거래</a></li>
-        <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='nondirect-box') }}">비대면상자</a></li>
-    </ul>
-</nav>
-{% if done_items %}
-    <ul>
-        {% for item in done_items %}
-            <li>
-                <strong>Item Name:</strong> {{ item.name }}<br>
-                <strong>Transaction Date:</strong> {{ item.trans_date }}<br>
-                <strong>Transaction Mode:</strong> {{ item.trans_mode }}<br>
-                <img src="../../static/img/{{ item.img_path }}" alt="Item Image"><br>
-            </li>
-        {% endfor %}
-    </ul>
-
-    {% if page_count > 1 %}
-        <div>
-            {% if page > 0 %}
-                <a href="{{ url_for('my_page_done', user_id=user_id, page=page-1, sort=sort_mode) }}">Previous</a>
-            {% endif %}
-
-            {% if page < page_count - 1 %}
-                <a href="{{ url_for('my_page_done', user_id=user_id, page=page+1, sort=sort_mode) }}">Next</a>
-            {% endif %}
+        <div class="Ing-list" id="ingListContainer">
+            {% for item in done_items %}
+                    <div class="Ing-item">
+                        <img src="../../static/img/{{ item.img_path }} "width="150" height="200">
+                        <div class="Ing-item-text">
+                            <h3>{{ item.name }}</h3> 
+                            {{ item.trans_date }}<br>
+                            {% if item.trans_mode == 'direct' %}
+                            <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                            {% elif item.trans_mode == 'parcel' %}
+                                <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                            {% elif item.trans_mode == 'nondirect-box' %}
+                                <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                            {% endif %}  
+                        </div>
+                    </div>
+            {% endfor %}
         </div>
-    {% endif %}
 
-{% else %}
-    <p>No done items available.</p>
-{% endif %}
+    {% endblock section %}
+    </section>
 
+{% include 'footer.html' %}
 </body>
+
 </html>
