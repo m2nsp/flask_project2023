@@ -159,6 +159,15 @@ def view_item_detail(name):
     else:
         return render_template("detail_auction.html", name=name, data=data, transaction_list=data['transaction'])
 
+
+
+@application.route("/flip_view")
+def flip_view():
+    items = DB.get_items()
+    return render_template("flipView.html", items=items)
+
+
+
 # 상품 결제 페이지로 넘어감 -> 해결!
 @application.route("/purchase_item/<name>/")
 def purchase_item(name):

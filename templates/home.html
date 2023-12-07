@@ -179,12 +179,16 @@
                     <p style="font-weight: bold; margin-top: 10px; margin-left: 30px;">슬라이드하여 넘겨보세요</p>
                 </div>
             </div>
-            <button style="margin-left: 50px;" class="swipe-button">플립뷰 사용하기</button>
+            <button style="margin-left: 50px;" class="swipe-button" onclick="redirectToFlipView()">플립뷰 사용하기</button>
             <br><br><br><br>
         </div>
 
     <!-- 5초후에 자동으로 이미지 슬라이드 되게 js코드 추가-->
     <script>
+        function redirectToFlipView() {
+            // 페이지 이동을 처리하는 코드
+            window.location.href = '{{ url_for("flip_view") }}';
+        }
         var slideIndex = 1;
         showSlides(slideIndex);
 
