@@ -204,7 +204,7 @@ def reg_buy(name):
     DB.reg_buy(buyer_id, trans_mode, trans_media, name)
 
     # 구매 완료 페이지로 이동
-    return render_template("detail_purchased.html", name=name, data=data)
+    return render_template("detail_purchased.html", name=name, data=data, trans_mode = trans_mode)
 
 
 @application.route("/detail_purchased/<name>/")
