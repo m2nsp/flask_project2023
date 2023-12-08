@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>상품상세 - 일반거래하는 경우</title>
+    <title>상품상세</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
@@ -215,13 +215,13 @@
             <p style="font-size: 2vw; font-weight: bold;">
                 {% for transaction_value in transaction_list %}
             <p>
-                {% if transaction_value == 'dir' %}
+                {% if transaction_value == 'direct' %}
                 직거래 <img src="../../static/img/dir.png" style="width: 2.5vw; height: 2.5vw;">
                 {% endif %}
-                {% if transaction_value == 'pars' %}
+                {% if transaction_value == 'parcel' %}
                 택배거래 <img src="../../static/img/pars.png" style="width: 2.5vw; height: 2.5vw;">
                 {% endif %}
-                {% if transaction_value == 'box' %}
+                {% if transaction_value == 'non-direct-box' %}
                 비대면상자 <img src="../../static/img/box.png" style="width: 2.5vw; height: 2.5vw;">
                 {% endif %}
             </p>
