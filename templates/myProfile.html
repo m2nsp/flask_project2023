@@ -6,30 +6,37 @@
     <link rel="stylesheet" href="styles.css">
     <title>마이페이지-마이프로필</title>
     <style>
-        .my-info{
+        .my-info {
             display: flex;
-            margin-top: 100px;
+            margin-top: 50px;
             font-size: 20px;
         }
 
-        .my-info img{
-            margin-left: 12%;
+        .my-info img {
+            margin-left: 15%;
             margin-right: 60px;
         }
 
-        .my-id{
-            margin-right:90px;
+        .my-id {
+            margin-right: 90px;
             margin-top: 70px;
+            font-size: large;
+            font-weight: bold;
+            white-space: nowrap;
+            /* 글자 줄바꿈 방지 */
         }
 
-        .info-box{
-            border: 3px solid #F8D57E;
-            border-radius:10px;
-            margin-right:100px;
+        .info-box {
+            border: 3px solid #FFA800;
+            border-radius: 10px;
+            margin-right: 40px;
+            margin-top: 40px;
+            width: 150px;
+            height: 60px;
             padding: 20px;
-            width: 250px;
-            height: 100px;
+            font-size: medium;
         }
+
 
         .on-purchase{
             margin-left: 12%;
@@ -75,20 +82,25 @@
         {% block section %}
 
 
-    <div class="third-navbar">
-        <a>나의 위치 | </a>
-        <a href="#">마이페이지 X</a>
-        <a href="#">마이프로필 X</a>
-    </div>
-
     <div class="my-info">
-        <img src="프로필사진.png" alt="프로필이미지">
+        <img src="../static/img/profileImg.png" alt="프로필이미지" width="180px" height="180px">
+
+
         <div class="my-id">
-            감자를봐감자야<br>@potatopopo
+            {{ session['id'] }}<br>@{{ session['id'] }}
         </div>
-        <div class="info-box">별점        </div>
-        <div class="info-box">판매횟수    </div>
-        <div class="info-box">구매횟수    </div>
+        <div class="info-box">
+            <span style="float: left;">별점</span><br>
+            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">{{ average_rating
+                }}</span>
+        </div>
+
+        <div class="info-box"><span style="float: left;">판매횟수</span><br>
+            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">24회</span>
+        </div>
+        <div class="info-box"><span style="float: left;">구매횟수</span><br>
+            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">17회</span>
+        </div>
     </div>
 
     <div class="on-purchase">
