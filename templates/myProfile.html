@@ -9,7 +9,7 @@
         .my-info {
             display: flex;
             margin-top: 50px;
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .my-info img {
@@ -20,7 +20,7 @@
         .my-id {
             margin-right: 90px;
             margin-top: 70px;
-            font-size: large;
+            font-size: 18px;
             font-weight: bold;
             white-space: nowrap;
             /* 글자 줄바꿈 방지 */
@@ -34,7 +34,7 @@
             width: 150px;
             height: 60px;
             padding: 20px;
-            font-size: medium;
+            font-size: 18px;
         }
 
 
@@ -51,8 +51,6 @@
             margin-right: 100px;
             border: 1px solid black;
             border-radius: 10px;
-            width: 320px;
-            height: 450px;
         }
 
         .on-purchase-item-text{
@@ -67,7 +65,7 @@
         .reviews{
             margin-bottom: 2%;
             background-color: #ece9f8;
-            font-size: 20px;
+            font-size: 18px;
             text-align: left;
             padding: 20px;
             width: 1600px;
@@ -106,56 +104,44 @@
     <div class="on-purchase">
         <h2>현재 판매중인 상품 <button onclick="location.href='{{ url_for('my_page_ing', user_id=session['id']) }}';">전체보기></button></h2>
         <div class="on-purchase-list">
+        {% for item in ing_items %}
             <div class="on-purchase-item">
-                <img src="찜상품.png" alt="판매중한 상품">
+                <img src="static/img/{{ item.img_path }}" alt="{{ item.name }}", width=250, height=280>
                 <div class="on-purchase-item-text">
-                    3시간전
-                    <h1>끝내주는 텀블러</h1>
-                    <h3>20000원</h3>
-                    <img src="배송정보이미지.png" alt="배송정보">
+                    <h1>{{ item.name }}</h1>
+
+                    <h3>{{item.price }}</h3>
+
+                    {% if item.trans_mode == 'direct' %}
+                        <img src="{{ url_for('static', filename='img/dir.png') }}" style="width:30px; height: 30px;">
+                    {% elif item.trans_mode == 'parcel' %}
+                        <img src="{{ url_for('static', filename='img/pars.png') }}" style="width:30px; height: 30px;">
+                    {% elif item.trans_mode == 'nondirect-box' %}
+                        <img src="{{ url_for('static', filename='img/box.png') }}" style="width:30px; height: 30px;">
+                    {% endif %}
+
                 </div>
             </div>
-            <div class="on-purchase-item">
-                <img src="찜상품.png" alt="판매중 상품">
-                <div class="on-purchase-item-text">
-                    3시간전
-                    <h1>끝내주는 텀블러</h1>
-                    <h3>20000원</h3>
-                    <img src="배송정보이미지.png" alt="배송정보">
-                </div>
-            </div>
-            <div class="on-purchase-item">
-                <img src="찜상품.png" alt="판매중 상품">
-                <div class="on-purchase-item-text">
-                    3시간전
-                    <h1>끝내주는 텀블러</h1>
-                    <h3>20000원</h3>
-                    <img src="배송정보이미지.png" alt="배송정보">
-                </div>
-            </div>
-            <div class="on-purchase-item">
-                <img src="찜상품.png" alt="판매중 상품">
-                <div class="on-purchase-item-text">
-                    3시간전
-                    <h1>끝내주는 텀블러</h1>
-                    <h3>20000원</h3>
-                    <img src="배송정보이미지.png" alt="배송정보">
-                </div>
-            </div>
+        {% endfor %}
         </div>
+
+
+
     </div>
     <div class="review">
-        <h2>감자를봐감자야 님과의 거래후기<button onclick="location.href='{{ url_for('my_review', user_id=session['id']) }}';">전체보기></button></h2>
+        <h2>{{ session['id'] }}님과의 거래후기 <button onclick="location.href='{{ url_for('my_review', user_id=session['id']) }}';">전체보기></button></h2>
+        {% for review in buyer_reviews %}
         <div class="reviews">
-            별별별별별
-            거래자 닉네임<br>
-            최고의 거래였어요<br>
-            완전 친절하고 약속 잘지킴
+            Rating: {{ review.rating }}
+            <p> 거래자: {{ review.buyer_id }}</p>
+            <p> {{review.review_content}}</p>
         </div>
-        <div class="reviews">
-            최고의 거래였어요<br>
-            완전 친절하고 약속 잘지킴
-        </div>
+        {% endfor %}
+
+
+
+
+
     </div>
 
     {% endblock section %}

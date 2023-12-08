@@ -100,7 +100,9 @@ def myProfile():
     else:
         average_rating = 0
 
-    return render_template('myProfile.html', average_rating=average_rating, session=session)
+    ing_items = DB.get_ing_items_by_user_id(user_id)
+
+    return render_template('myProfile.html', average_rating=average_rating, session=session, ing_items=ing_items, buyer_reviews=buyer_reviews)
 
 
 
@@ -363,6 +365,7 @@ def my_review(user_id):
         user_id=user_id 
     )
 
+
 @application.route("/myPageIng/<user_id>")
 def my_page_ing(user_id):
     if 'id' not in session:
@@ -397,6 +400,7 @@ def my_page_ing(user_id):
         user_id=user_id,
         sort_mode=sort_mode 
     )
+
 
 @application.route("/myPageDone/<user_id>")
 def my_page_done(user_id):

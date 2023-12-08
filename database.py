@@ -157,6 +157,30 @@ class DBhandler:
         return liked_items
 
 
+    def get_ing_items_by_user_id(self, user_id):
+        all_transactions = self.db.child("trans_info").get().val()
+        all_items = self.db.child("item").get().val()
+
+        ing_items = []
+
+        for item_name, item_info in all_items.items():
+            trans_info = all_transactions.get(item_name, {})
+            buyer_id = trans_info.get('buyer_id')
+
+            if item_info['seller_id'] == user_id or (buyer_id and buyer_id == user_id and item_info['item_status'] == '거래진행중'):
+                if item_info['item_status'] == '거래진행중':
+                    ing_items_info = {
+                        'name': item_name,
+                        'trans_date': trans_info.get('trans_date'),
+                        'trans_mode': trans_info.get('trans_mode'),
+                        'img_path': item_info.get('img_path'),
+                        'price': item_info.get('price')
+                    }
+                    ing_items.append(ing_items_info)
+
+        return ing_items
+
+
 
 
     def insert_seller_review(self, user_id, item_name, rating, review_content):
