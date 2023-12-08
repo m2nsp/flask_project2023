@@ -133,6 +133,7 @@ def view_item_detail(name):
 
 @application.route("/list")
 def view_list():
+    post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     page = request.args.get("page", 0, type=int)
     item_status = request.args.get("item_status", "all")
     per_page = 6
@@ -171,6 +172,7 @@ def view_list():
         page_count=int(math.ceil(item_counts / per_page)),
         total=item_counts,
         item_status=item_status,
+        post_date=post_date
     )
 
 

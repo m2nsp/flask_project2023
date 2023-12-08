@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전체 상품 조회</title>
     <style>
         label {
-            font-size: 2%;
-            margin-right: 5%;
+            font-size: 20px; /* 원하는 글꼴 크기로 조절 */
+            margin-right: 100px;
         }
 
         article {
@@ -20,107 +19,108 @@
         }
 
         #banner {
-            width: 70%;
+            width: 1024px;
             height: 100%;
             display: flex;
             align-items: center;
         }
 
-        #banner>img {
+        #banner > img {
             width: 100%;
         }
 
-        #article>h2 {
-            margin-top: 1%;
+        #article > h2 {
+            margin-top: 16px;
         }
 
         #product-list {
             display: flex;
             flex-wrap: wrap;
-            margin-top: 1%;
+            margin-top: 12px;
         }
 
         .product-card {
-            width: 20%;
-            height: 20%;
-            margin-right: 2%;
-            margin-bottom: 2%;
-            border: 0.1vw solid rgb(170, 170, 170);
-            border-radius: 1%;
+            width: 180px;
+            height: 300px;
+            margin-right: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgb(170, 170, 170);
+            border-radius: 12px;
         }
 
-        .product-img {
+        .product-img{
             width: 100%;
-            height: 80%;
+            height: 217px;
         }
 
         .product-contexts {
             display: flex;
             flex-direction: column;
-            padding: 1%;
+            padding: 8px;
         }
 
         .product-name {
-            font-size: 2%;
-            padding-left: 0.2%;
+            font-size: 20px;
+            padding-left: 4px;
         }
 
         .product-price {
-            font-size: 2%;
+            font-size: 22px;
             font-weight: 600;
-            margin-top: 0.2%;
-            padding-left: 0.2%;
+            margin-top: 2px;
+            padding-left: 4px;
         }
-
-        .page-nation li {
-            list-style: none;
+        
+        .page-nation li{
+             list-style: none;
         }
-
-        .page-wrap {
-            text-align: center;
-            font-size: 0;
+        .page-wrap{
+             text-align: center;
+             font-size: 0;
         }
-
-        .page-nation {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 1%;
+        .page-nation{
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             margin-top: 20px;
         }
-
-        .page-nation a {
-            display: block;
-            margin: 0 0.2%;
-            float: left;
-            border: 0.1vw solid #e6e6e6;
-            width: 2.8%;
-            height: 2.8%;
-            line-height: 2.8%;
-            text-align: center;
-            background-color: #fff;
-            font-size: 1.3%;
-            color: black;
-            text-decoration: none;
-            font-weight: bold;
+        .page-nation a{
+             display: block;
+             margin: 0 3px;
+             float: left;
+             border: 1px solid #e6e6e6;
+             width: 28px;
+             height: 28px;
+             line-height: 28px;
+             text-align: center;
+             background-color: #fff;
+             font-size: 13px;
+             color: black;
+             text-decoration: none;
+             font-weight:bold;
         }
-
-        table {
+        
+        table{
             margin: auto;
-            width: 70%;
+            width: 700px;
         }
 
-        /* 추가된 부분 */
         #item_status {
-            margin-top: 1%;
+            margin-top: 5%;
         }
 
-        p {
-            color: black;
-            margin-bottom: 10px;
-            text-align: left;
+        .main-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
         }
+
+        .info-container, .select-container {
+            width: 48%; /* 조정 가능한 너비 */
+        }
+
+
     </style>
-
 </head>
 
 <body>
@@ -128,109 +128,101 @@
 
     <section>
         {% block section %}
+    
+    <article>
+        <script>
+            $(document).ready(function () {
+                // item_status 값을 기반으로 선택된 옵션을 설정합니다.
+                var item_status = "{{ item_status }}";  
 
-        <article>
-            <div id="article">
-                <br>
-                <h2>전체 상품 조회</h2><br><br>
-            </div>
-            <script>
-                $(document).ready(function () {
-                    // item_status 값을 기반으로 선택된 옵션을 설정합니다.
-                    var item_status = "{{ item_status }}";
+                // 옵션을 선택한 경우에만 URL을 업데이트하도록 수정합니다.
+                $('#item_status').on('change', function() {
+                    var selectedItemStatus = $(this).val();
+                    var currentPage = "{{ page }}";  // 현재 페이지 정보를 가져옵니다.
 
-                    // 옵션을 선택한 경우에만 URL을 업데이트하도록 수정합니다.
-                    $('#item_status').on('change', function () {
-                        var selectedItemStatus = $(this).val();
-                        var currentPage = "{{ page }}";  // 현재 페이지 정보를 가져옵니다.
-
-                        if (selectedTradeType !== item_status) {
-                            location.href = "{{ url_for('view_list') }}?page=" + currentPage + "&item_status=" + selectedItemStatus;
-                        }
-                    });
-
-                    // 페이지네이션 링크 클릭 시 드롭다운 메뉴의 값을 유지합니다.
-                    $('.pagination-link').on('click', function (e) {
-                        e.preventDefault();
-                        var targetPage = $(this).data('page');  // 페이지 번호를 가져옵니다.
-                        location.href = "{{ url_for('view_list') }}?page=" + targetPage + "&item_status=" + item_status;
-                    });
-
-                    // item_status 값을 기반으로 선택된 옵션을 설정합니다.
-                    $('#item_status option[value="' + item_status + '"]').prop("selected", true);
+                    if (selectedTradeType !== item_status) {
+                        location.href = "{{ url_for('view_list') }}?page=" + currentPage + "&item_status=" + selectedItemStatus;
+                    }
                 });
-            </script>
 
+                // 페이지네이션 링크 클릭 시 드롭다운 메뉴의 값을 유지합니다.
+                $('.pagination-link').on('click', function(e) {
+                    e.preventDefault();
+                    var targetPage = $(this).data('page');  // 페이지 번호를 가져옵니다.
+                    location.href = "{{ url_for('view_list') }}?page=" + targetPage + "&item_status=" + item_status;
+                });
 
-            <div>
+                // item_status 값을 기반으로 선택된 옵션을 설정합니다.
+                $('#item_status option[value="' + item_status + '"]').prop("selected", true);
+            });
+        </script>
+
+        <div class="main-container">
+            <div class="info-container">
+                <p style="color: black; text-align: left; font-weight: bold;">
+                    <span style="color: orange;">{{ post_date }}</span> 까지 등록된 모든 상품입니다.<br><br>
+                    {% if total > 0 %}
+                        <span style="color: brown;">현재까지 등록된 상품 {{ total }}개</span>
+                </p>
+            </div>
+            
+            <div class="select-container" style="text-align: right;">
                 <!-- trade_type 매개변수를 포함한 URL로 업데이트합니다. -->
                 <select id="item_status" name="item_status" onchange="location=this.value">
-                    <option value="{{url_for('view_list', page=i, item_status='all')}}" {% if item_status=='all'
-                        %}selected{% endif %}>전체</option>
-                    <option value="{{url_for('view_list', page=i, item_status='available')}}" {% if
-                        item_status=='available' %}selected{% endif %}>구매 가능</option>
-                    <option value="{{url_for('view_list', page=i, item_status='거래완료')}}" {% if item_status=='거래완료'
-                        %}selected{% endif %}>거래 완료</option>
+                    <option value="{{url_for('view_list', page=i, item_status='all')}}" {% if item_status == 'all' %}selected{% endif %}>전체</option>
+                    <option value="{{url_for('view_list', page=i, item_status='available')}}" {% if item_status == 'available' %}selected{% endif %}>구매 가능</option>
+                    <option value="{{url_for('view_list', page=i, item_status='거래완료')}}" {% if item_status == '거래완료' %}selected{% endif %}>거래 완료</option>
                 </select>
             </div>
-
-
-            {% if total > 0 %}
-            <p style="color: black; margin-bottom: 10px; text-align: left;">
-                <span style="color: orange;">2023/10/17</span> 까지 등록된 구매 가능한 모든 상품입니다.<br><br>
-                <span style="color: brown; text-align: right; display: block;">현재까지 등록된 상품 {{ total }}개</span>
-            </p>
-            <table>
-                <tr>
-                    {% for key, value in row1 %}
-                    <td><strong>상품명 : {{key}}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {% for key, value in row1 %}
+        </div>
+        
+        
+        <table>
+            <tr>
+                {% for key, value in row1 %}
+                    <td><strong>{{key}}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for key, value in row1 %}
                     <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-                        <img src="static/img/{{value.img_path}}" , width=140, height=200>
-                    </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {% for key, value in row2 %}
-                    <td><strong>상품명 : {{key}}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {% for key, value in row2 %}
+                        <img src="static/img/{{value.img_path}}", width=140, height=200></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for key, value in row2 %}
+                    <td><strong>{{key}}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for key, value in row2 %}
                     <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-                        <img src="static/img/{{value.img_path}}" , width=140, height=200>
-                    </td>
+                        <img src="static/img/{{value.img_path}}", width=140, height=200></td>
+                {% endfor %}
+            </tr>
+        </table>
+        <!-- 페이지네이션을 위한 코드 시작 -->
+        <div class="page-wrap">
+            <div class="page-nation">
+                <ul>
+                <li>
+                    {% for i in range(page_count) %}
+                        <a href="{{ url_for('view_list', page=i, item_status=item_status) }}" class="pagination-link" data-page="{{ i }}">{{ i }}</a>
                     {% endfor %}
-                </tr>
-            </table>
-            <!-- 페이지네이션을 위한 코드 시작 -->
-            <div class="page-wrap">
-                <div class="page-nation">
-                    <ul>
-                        <li>
-                            {% for i in range(page_count) %}
-                            <a href="{{ url_for('view_list', page=i, item_status=item_status) }}"
-                                class="pagination-link" data-page="{{ i }}">{{ i }}</a>
-                            {% endfor %}
-                        </li>
-                    </ul>
-                </div>
+                </li>
+                </ul>
             </div>
-            {% else %}
-            <p><strong>
+        </div>
+        {% else %}
+        <p>
+            등록된 상품이 없습니다.
+        </p>
+        {% endif %}
+        
+    </article>
+    {% endblock section %}
+</section>
 
-                    등록된 상품이 없습니다.
-            </p></strong>
-
-            {% endif %}
-
-        </article>
-        {% endblock section %}
-    </section>
-
-    {% include 'footer.html' %}
+{% include 'footer.html' %}
 
 </body>

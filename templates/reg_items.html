@@ -7,12 +7,18 @@
     <title>상품 등록 페이지</title>
 
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
 
         .all-part {
             display: flex;
-            margin: 20px;
+            margin: 0;
             background-color: white;
         }
+
 
         .left-part {
             margin-right: 20px;
@@ -258,7 +264,7 @@
             <form method="post" enctype="multipart/form-data" action="/submit_item_post">
                 <input type="hidden" name="post_date" value="{{ post_date }}">
                 <input type="hidden" name="seller_id" value="{{ seller_id }}">
-                
+
                 <div class="div-container">
                     <div class="review-container">
                         <div class="info-group">
@@ -282,7 +288,7 @@
                             <div class="title">
                                 <label for="review" class="review">글 제목(상품명)</label>
                                 <br><br>
-                                <textarea id="review" name="review" rows="20"></textarea>
+                                <input type="text" a id="review" name="name" rows="20"></input>
                             </div>
                             <br><br>
 
@@ -292,14 +298,14 @@
                             <div class="trans-mode">
                                 <label for="direct" class="trans-checkbox">
                                     &nbsp;
-                                    <input type="checkbox" id="direct" name="transMode" value="direct">
+                                    <input type="checkbox" id="direct" name="transaction" value="direct">
                                     <img src="../static/img/dir.png" alt="Direct Image" class="option-image" width="5%">
                                     &nbsp;&nbsp;직거래
                                 </label>
 
                                 <label for="nondirect-box" class="trans-checkbox">
                                     &nbsp;
-                                    <input type="checkbox" id="nondirect-box" name="transMode" value="nondirect-box">
+                                    <input type="checkbox" id="nondirect-box" name="transaction" value="nondirect-box">
                                     <img src="../static/img/box.png" alt="Nondirect Image" class="option-image"
                                         width="5%">
                                     &nbsp;&nbsp;비대면 상자
@@ -307,7 +313,7 @@
 
                                 <label for="parcel" class="trans-checkbox">
                                     &nbsp;
-                                    <input type="checkbox" id="parcel" name="transMode" value="parcel">
+                                    <input type="checkbox" id="parcel" name="transaction" value="parcel">
                                     <img src="../static/img/pars.png" alt="Parcel Image" class="option-image"
                                         width="5%">
                                     &nbsp;&nbsp;택배
@@ -320,9 +326,9 @@
                             <div class="title">
                                 <label for="review" class="review">가격</label>
                                 <br><br>
-                                <textarea id="review" name="review" rows="20"></textarea>
+                                <input type="number" name="price" rows="20"></input>
                             </div>
-                            
+
 
                             <script>
                                 function getCurrentTime() {
@@ -356,12 +362,12 @@
                             </script>
                             <br><br>
                             <div class="right-part">
-                                
+
 
                                 <div class="details">
                                     <label for="description" class="description">상세 설명</label>
                                     <br><br>
-                                    <textarea id="description" name="description" rows="20"></textarea>
+                                    <textarea id="description" name="product_description" rows="20"></textarea>
                                 </div>
                                 <br>
                                 <button type="submit" class="submit-purchase-item"
@@ -370,7 +376,7 @@
                                 </button>
                             </div>
             </form>
-            
+
         </article>
         {% endblock section %}
     </section>
