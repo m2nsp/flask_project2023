@@ -104,7 +104,7 @@
     </div>
 
     <div class="on-purchase">
-        <h2>현재 판매중인 상품 <button>전체보기></button></h2>
+        <h2>현재 판매중인 상품 <button onclick="location.href='{{ url_for('my_page_ing', user_id=session['id']) }}';">전체보기></button></h2>
         <div class="on-purchase-list">
             <div class="on-purchase-item">
                 <img src="찜상품.png" alt="판매중한 상품">
@@ -145,7 +145,7 @@
         </div>
     </div>
     <div class="review">
-        <h2>감자를봐감자야 님과의 거래후기<button>전체보기></button></h2>
+        <h2>감자를봐감자야 님과의 거래후기<button onclick="location.href='{{ url_for('my_review', user_id=session['id']) }}';">전체보기></button></h2>
         <div class="reviews">
             별별별별별
             거래자 닉네임<br>
