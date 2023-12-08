@@ -234,13 +234,13 @@
         <p style="font-size:30px; font-weight: bold;">
             {% for transaction_value in transaction_list %}
                 <p>
-                    {% if transaction_value == 'dir' %}
+                    {% if transaction_value == 'direct' %}
                         직거래 <img src="../../static/img/dir.png" style="width:80px; height: 80px;">
                     {% endif %}
-                    {% if transaction_value == 'pars' %}
+                    {% if transaction_value == 'parcel' %}
                         택배거래 <img src="../../static/img/pars.png" style="width:80px; height: 80px;">
                     {% endif %}
-                    {% if transaction_value == 'box' %}
+                    {% if transaction_value == 'nondirect-box' %}
                         비대면상자 <img src="../../static/img/box.png" style="width:80px; height: 80px;">
                     {% endif %}
                 </p>
