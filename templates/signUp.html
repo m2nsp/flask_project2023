@@ -21,18 +21,38 @@
             flex-wrap: wrap;
         }
 
-        .type-pw,
-        .check-pw,
+        .type-pw h3,
+        .check-pw h3{
+            margin-left: 20%;
+        }
+
+        .ID h3,
+        .Email h3{
+            margin-right: 77%;
+        }
+
         .ID,
         .Email {
             width: 100%;
             box-sizing: border-box;
             padding: 10px 0;
+            text-align: center;
+        }
+
+        .pw {
+            display: flex;
+        }
+
+        .type-pw,
+        .check-pw {
+            width : 50%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+
         }
 
         .ID input[type="text"],
         .Email input[type="text"],
-        .pw input[type="password"],
         .check-pw input[type="password"] {
             border-radius: 5px;
             width: 80%;
@@ -41,9 +61,13 @@
             margin-bottom: 10px;
         }
 
-        .pw input[type="password"] {
-            width: calc(50% - 5px);
-            margin-right: 10px;
+        .pw input[type="password"]{
+            border-radius: 5px;
+            width: 60%;
+            height: 50px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            margin-left: 20%;
         }
 
         .signup-page button {
@@ -57,7 +81,7 @@
             display: block;
             width: 15%;
             box-sizing: border-box;
-            margin: 0;
+            margin: 0 auto;
         }
     </style>
 
