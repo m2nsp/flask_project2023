@@ -3,40 +3,20 @@
 <head>
     <title>상품상세 - 거래완료된 상품</title>
     <style>
-        .third-navbar {
-            background-color: #e1b99c;
-            height: 60px;
-            font-size: 20px;
-            display: flex;
-            align-items: center; /* 수직 가운데 정렬을 위해 추가 */
-        }
-
-        .third-navbar a {
-            font-weight: bold;
-            color:brown;
-        }
-
-        .third-navbar a:not(:nth-child(8)):not(:nth-child(9)) {
-            color: white;
-        }
-
-        .third-navbar a:nth-child(even) {
-            margin-left: 0; /* 짝수 인덱스(0부터 시작)의 요소의 왼쪽 마진 초기화 */
-        }
-
-        .third-navbar a:nth-child(odd) {
-            margin-right: 30px; /* 홀수 인덱스(0부터 시작)의 요소의 우측 마진 설정 */
-        }
 
         .container {
-            max-width: 800px;
+            max-width: 80%; /* 디자인에 맞게 최대 너비 조절 */
             margin: 0 auto;
-            padding: 20px;
+            padding: 2%;
         }
 
         .image-container {
             display: flex;
             justify-content: center;
+            margin: 1%; /* 필요에 따라 여백 조절 */
+            border: 1px solid magenta;
+            border-radius: 1%; /* 필요에 따라 둥글게 만들기 */
+            padding: 1%; /* 필요에 따라 내부 여백 조절 */
         }
 
         .image-upload img {
@@ -45,13 +25,14 @@
         }
 
         .product-description {
-            height: 300px;
-            width: 40%;
+            height: 20%; /* 필요에 따라 높이 조절 */
+            width: 80%; /* 필요에 따라 너비 조절 */
             resize: vertical;
             border: 1px solid #ccc;
-            border-radius: 20px;
-            margin: 0 auto; /* 가로 가운데 정렬을 위해 추가된 속성 */
+            border-radius: 2%; /* 필요에 따라 둥글게 만들기 */
+            margin: 0 auto;
         }
+
 
         .product-description h2 {
             text-align: center;
@@ -97,9 +78,9 @@
         }
 
         .text-section {
-            max-width: 800px; /* 최대 너비 설정 */
-            margin: 0 auto; /* 좌우 여백을 가운데 정렬하기 */
-            padding: 0 30%; /* 좌우 여백을 화면 너비의 5%로 설정 */
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 0 2%;
         }
 
         /* Add these styles to move user links to the right */
@@ -131,15 +112,15 @@
         .image-wrapper {
             display: flex;
             justify-content: center;
-            margin: 65px; /* 15px 여백 추가 */
-            padding: 65px; /* 박스 내부 여백 설정 */
+            margin: 5%; /* 필요에 따라 여백 조절 */
+            padding: 5%; /* 필요에 따라 내부 여백 조절 */
         }
 
         .image-wrapper img {
-            max-width: 100%; /* 이미지가 부모 요소에 맞게 크기 조절 */
-            max-height: 100%; /* 이미지가 부모 요소에 맞게 크기 조절 */
-            border-radius: 15px; /* 이미지 테두리를 둥글게 만들기 */
-            padding: 30px; /* 이미지와 테두리 사이에 10px의 여백 추가 */
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 1%; /* 필요에 따라 둥글게 만들기 */
+            padding: 2%; /* 필요에 따라 여백 추가 */
         }
 
         .custom-image {
@@ -153,7 +134,12 @@
         .comment-box {
             display: flex;
             margin: 20px;
+            width: 82%; /* 너비를 화면의 70%로 설정 */
+            height: 5em;
+            margin-left: auto; /* 좌측 여백을 자동으로 설정하여 가운데 정렬 */
+            margin-right: auto; /* 우측 여백을 자동으로 설정하여 가운데 정렬 */
         }
+
 
         .comment-textbox {
             flex: 1;
@@ -172,54 +158,55 @@
             margin-left: 10px;
         }
 
-        .buy-reply {
-            background-color:#d5c5f4;
-            border-radius: 15px; /* 둥근 테두리 반지름 설정 */
-            margin-left: 30px; /* 왼쪽 여백 설정 */
-            margin-right: 30px;
-            padding: 10px; /* 내부 여백 설정 (텍스트와 테두리 사이의 공간) */
+       .buy-reply {
+            background-color: #F7F5FD;
+            border-radius: 8px;
+            padding: 15px;
+            width: 80%;
+            margin: 20px auto;
         }
 
         .sel-reply {
-            border: 3px solid #d5c5f4;
-            border-radius: 15px;
-            margin-left: 30px;
-            margin-right: 30px;
-            padding: 10px;
+            border: 1px solid #A47BDA;
+            border-radius: 8px;
+            padding: 15px;
+            width: 80%;
+            margin: 20px auto;
         }
 
-        .purchase-button {
-            background-color: #F8D57E;
-            color: #2D2D2D;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold; /* 굵게 만듭니다. */
-            font-size: 18px;
-            margin-top: 40px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
+       .purchase-button {
+    background-color: #F8D57E;
+    color: #2D2D2D;
+    padding: 8px; /* 버튼의 패딩을 작게 조절 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px; /* 버튼의 글꼴 크기를 작게 조절 */
+    margin-top: 20px; /* 버튼의 상단 마진을 작게 조절 */
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
 
-        .dropdown-content a {
-            text-decoration: none;
-            display: block;
-            text-align: center; /* 텍스트 가운데 정렬 */
-            padding: 5px; /* 내부 여백 설정 */
-            border: 1px solid #ccc; /* 테두리 추가 */
-            border-radius: 5px; /* 테두리 둥글게 설정 */
-            margin-top: 5px; /* 항목 간 간격 설정 */
-        }
+.dropdown-content a {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
 
-        .dropdown-btn {
-            padding: 10px; /* '▼' 버튼의 가로 길이를 20px로 조절 */
-        }
+.dropdown-btn {
+    padding: 8px; /* 드롭다운 버튼의 패딩을 작게 조절 */
+}
 
-        .dropdown-wrapper {
-            display: flex;
-            align-items: center;
-        }
+.dropdown-wrapper {
+    display: flex;
+    align-items: center;
+}
+
     </style>
 </head>
 <body>
@@ -228,17 +215,7 @@
     <section>
         {% block section %}
  
-    <div class="third-navbar">
-        <a style="margin-left: 20px;">나의 위치 |</a>
-        <a href="#">홈 화면</a>
-        <a href="#">x</a>
-        <a href="#">전체 상품 조회</a>
-        <a href="#">x</a>
-        <a href="#">나의 리뷰</a>
-        <a href="#">x</a>
-        <a href="#">상품 상세</a>
-        <a href="#">x</a>
-    </div>
+
 
     <div class="image-wrapper">
         <img src="../../static/img/{{data.img_path}}", width=140, height=200>
@@ -288,11 +265,11 @@
     <br><br>
     <div class="product-description" style="text-align: justify;">
         <h2>상세 설명</h2>
-        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{data.product_description}}</p>
+        <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{ data.product_description }}</p>
     </div>
     <br><br>
     <div class="comment-section">
-        <h2 style="margin-left: 20px;">댓글</h2>
+        <h2 style="margin-left: 140px;">댓글</h2>
         <div class="comment-box">
             <textarea class="comment-textbox" placeholder="댓글을 입력하세요"></textarea>
             <button class="comment-submit-button">게시</button>
@@ -308,7 +285,7 @@
     <br>
     <div class="sel-reply">
         <div class="comment-description">
-            <h3>판매자 ({{data.seller_id}})</h3>
+            <h3>판매자 ({{ data.seller_id }})</h3>
             <p>완전 새제품이에용~</p>
         </div>
     </div>
@@ -319,7 +296,6 @@
             <p>상품에 하자 있나요?</p>
         </div>
     </div>
-    
     {% endblock section %}
 </section>
 

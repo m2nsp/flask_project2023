@@ -1,307 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>상품 결제 페이지</title>
-
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
 
-        .all-part {
+        nav {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;              /*ul을 가로로 나열*/
+        }
+
+
+        nav a {
+            text-decoration: none;
+            white-space: nowrap;        /* 텍스트가 한 줄로 나타나도록 합니다. */
+            color: #000000;
+        }
+
+        nav li{
+            margin: 0 100px;             /*각 요소들 사이의 간격*/
+        }
+
+        nav input {
+            padding: 10px 20px;          /* 위아래 10px, 좌우 20px의 패딩을 설정 */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 1200px;               /* 원하는 길이로 조절 */
+            height: 20px;
+        }
+
+        .search-button{
+            background-color: #F6E7E6;
+            color: #000000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .third-navbar {
+            background-color: #e1b99c;
+            height: 60px;
+            font-size: 20px;
+            display: flex;
+            align-items: center; /* 수직 가운데 정렬을 위해 추가 */
+        }
+
+        .third-navbar a {
+            font-weight: bold;
+            color:brown;
+            margin-left:5%;
+        }
+
+        .third-navbar a:not(:nth-child(6)):not(:nth-child(7)) {
+            color: white;
+        }
+
+        .third-navbar a:nth-child(even) {
+            margin-left: 0; /* 짝수 인덱스(0부터 시작)의 요소의 왼쪽 마진 초기화 */
+        }
+
+        .third-navbar a:nth-child(odd) {
+            margin-right: 10px; /* 홀수 인덱스(0부터 시작)의 요소의 우측 마진 설정 */
+        }
+
+        .all-part{
             display: flex;
             margin: 20px;
-            background-color: white;
+        }
+        
+        .left-part{
+            margin-right:20px;
         }
 
-        .left-part {
-            margin-right: 20px;
-        }
-
-        .about-item {
+        .about-item{
             display: flex;
             margin-bottom: 100px;
         }
-
-        .image-container {
+        
+        .image-container{
             background-color: gray;
             width: 470px;
             height: 400px;
         }
 
-        .item-info {
+        .item-info{
             margin-left: 50px;
         }
 
-
-        label {
-            font-size: 20px;
-            margin-right: 100px;
-        }
-
-        .submit-purchase-item {
-            border: none;
+        .r-1 button, .r-2 button, .r-3 button{
+            border:#000000 solid 1px;
             border-radius: 5px;
-            background-color: #F8D57E;
-            padding: 10px 20px;
+            background-color: white;
+            width: 200px;
+            height: 60px;
             font-size: 20px;
-            width: 470px;
-            height: 70px;
-            margin-left: 120px;
-            margin-top: 80px;
+            margin-right: 60px;
+            margin-bottom: 30px;
         }
-
-        .div-container {
-            margin-top: 10%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 50%;
-        }
-
-        .product,
-        .question {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .rating,
-        .details {
-            margin-top: 1.6vw;
-            font-size: 1.6vw;
-            font-weight: bold;
-        }
-
-        .product-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .product-info img {
-            width: 30%;
-            border-radius: 2vw;
-            margin-right: 2vw;
-        }
-
-        .info-q {
-            font-size: 16px;
-            color: #6D6A6A;
-        }
-
-        .info-a {
-            font-size: 20px;
-        }
-
-        .info-line {
-            margin: 2vw;
-        }
-
-        .review-container {
-            width: 50%;
-        }
-
-        #review {
-            width: 100%;
-            height: 10vw;
-            border: 1px solid #ccc;
-            border-radius: 2vw;
-            overflow-y: auto;
-            resize: none;
-        }
-
-        .form-group {
-            margin: 6vw 0;
-        }
-
-        .stars {
-            font-size: 2.4vw;
-            display: flex;
-        }
-
-        .stars input {
-            display: none;
-        }
-
-        .stars label {
-            cursor: pointer;
-            color: #ccc;
-        }
-
-        .stars label::before {
-            content: "\2605";
-        }
-
-        .stars label.filled::before {
-            color: #F8D57E;
-        }
-
-        .submit-button {
-            background-color: #F8D57E;
-            border: none;
-            border-radius: 2vw;
-            padding: 1vw 2vw;
-            cursor: pointer;
-            margin: 1vw auto;
-            display: block;
-            width: 20vw;
-            font-size: 1.6vw;
-        }
-
 
         label {
             font-size: 20px; /* 원하는 글꼴 크기로 조절 */
             margin-right: 100px;
         }
 
-        .purchase-item {
-            border: 1px solid grey; /* border 두께 조절 */
+        .purchase-item{
+            border: none;
             border-radius: 5px;
-            background-color: white;
+            background-color: #F8D57E;
             padding: 10px 20px;
             font-size: 20px;
-            width: 230px; /* 두 개씩 세 줄로 배열되도록 너비 조절 */
+            width: 470px;
             height: 70px;
-            margin-top: 20px; /* 상단 마진 조절 */
-            margin-right: 10px; /* 오른쪽 마진 추가 */
-            margin-bottom: 20px; /* 하단 마진 추가 */
-            display: inline-block; /* 인라인 블록으로 배치되도록 설정 */
+            margin-top: 80px;
         }
-
-        .trans-checkbox {
-            display: flex;
-            align-items: center;
-            margin-top: 14px;
-        }
-
-        .option-image {
-            width: 20px; /* 이미지 크기 조절 */
-            height: 20px; /* 이미지 크기 조절 */
-            margin-left: 5px; /* 이미지와 텍스트 간 여백 조절 */
-        }
-        .selected {
-        border-color: #F8D57E !important;
-        border-width: medium;
-    }
 
     </style>
-    <script>
-    function changeBorderColor(button) {
-        // 현재 선택된 버튼의 border 색상을 변경
-        button.classList.toggle("selected");
-
-        // 다른 버튼들의 border 색상 초기화
-        const buttons = document.querySelectorAll('.purchase-item');
-        buttons.forEach((btn) => {
-            if (btn !== button) {
-                btn.classList.remove("selected");
-            }
-        });
-    }
-</script>
 </head>
-
 <body>
-{% include 'header.html' %}
+    {% include 'header.html' %}
 
-<section>
-    {% block section %}
+    <section>
+        {% block section %}
 
-        <div class="div-container">
-            <div class="review-container">
-                <div class="info-group">
-                    <label for="product" class="product">거래품목</label><br><br>
-                    <div class="product-info">
-                        <img src="../../static/img/{{ data.img_path }}" alt="Product Image">
-                        <div class="info-details">
-                            <div class="info-line">
-                                <span class="info-q">상품명</span><br>
-                                <span class="info-a">{{ name }}</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-q">거래대상</span><br>
-                                <span class="info-a">{{data.seller_id}}</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-q">거래가격</span><br>
-                                <span class="info-a">{{data.price}}</span>
-                            </div>
+    <div class="third-navbar">
+        <a>나의 위치 | </a>
+        <a href="#">홈화면 X</a>
+        <a href="#">상품전체조회 X</a>
+        <a href="#">상품상세 X</a>
+        <a href="#">상품결제 X</a>
+    </div>
+
+    <div class="all-part">
+        <form class="mb-3" name="myform" id="myform" method="post" action="/reg_buy/{{name}}" enctype="multipart/form-data">
+            <div class="left-part">
+                <h2>거래 품목</h2>
+                <div class="about-item">
+                    <div class="image-container">
+                        <img src="../../static/img/{{data.img_path}}" alt="상품사진" style="width: 480px; height: 480px;">
                         </div>
+                    <div class="item-info">
+                        상품명
+                        <h3>{{name}}</h3><br>
+                        거래대상
+                        <h3>{{data.seller_id}}</h3><br>
+                        거래가격
+                        <h3>{{data.regular_price}}</h3><br>
                     </div>
-                    <div class="transaction-mode"></div>
-                    <h2>거래 방식</h2><br>
-                    {% for transaction_value in transaction_list %}
+                </div>
+                <div class="transaction-mode"></div>
+                <h2>거래 방식</h2>
+
+                {% for transaction_value in transaction_list %}
                     <div class="trans-mode">
-                        {% if transaction_value == 'direct' %}
+                        {% if transaction_value == 'dir' %}
                             <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
                             <label for="direct">직거래</label>
                         {% endif %}
-                        {% if transaction_value == 'parcel' %}
+                        {% if transaction_value == 'pars' %}
                             <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
                             <label for="parcel">택배</label>
                         {% endif %}
-                        {% if transaction_value == 'nondirect-box' %}
+                        {% if transaction_value == 'box' %}
                             <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
                             <label for="nondirect-box">비대면 상자</label>
                         {% endif %}
                     </div>
                 {% endfor %}
-
-                        <div class="right-part">
-                            <!-- 기타 내용 -->
-                        </div>
-                    </div>
-
-                    <div class="right-part">
-                        <br><br>
-                        <h2>결제 정보</h2>
-                        
-                        <div class="payment-methods">
-                            <div class="payment-method-boxes">
-                                <div class="payment-method-box">
-                                    <button type="button" class="purchase-item" onclick="changeBorderColor(this)"
-                                            style="cursor: pointer;">직거래
-                                    </button>
-                                    <button type="button" class="purchase-item" onclick="changeBorderColor(this)"
-                                            style="cursor: pointer;">카드
-                                    </button>
-                                    <button type="button" class="purchase-item" onclick="changeBorderColor(this)"
-                                            style="cursor: pointer;">가상계좌
-                                    </button>
-                                    <button type="button" class="purchase-item" onclick="changeBorderColor(this)"
-                                            style="cursor: pointer;">휴대폰
-                                    </button>
-                                    <button type="button" class="purchase-item" onclick="changeBorderColor(this)"
-                                            style="cursor: pointer;">네이버페이
-                                    </button>
-                                    <button type="button" class="purchase-item" onclick="changeBorderColor(this)"
-                                            style="cursor: pointer;">카카오페이
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <button type="submit" class="submit-purchase-item"
-                                onclick="location.href='/detail_purchased/{{ name }}/';"
-                                style="cursor: pointer;">결제 하기
-                        </button>
-                    </div>
-
-
+                
                 </div>
-
             </div>
+            <div class="right-part">
+                <h2>결제 정보</h2>
+                <br><br>
+                <div class="r-1">
+                    <input type="radio" id="direct-radio" class="payment-radio" data-group="r-1" name="transMedia" value="direct">
+                    <label for="direct-radio">직거래</label>
+                
+                    <input type="radio" id="card-radio" class="payment-radio" data-group="r-1" name="transMedia" value="card">
+                    <label for="card-radio">카드</label>
+                </div><br>
+                <div class="r-2">
+                    <input type="radio" id="virtual-account-radio" class="payment-radio" data-group="r-2" name="transMedia" value="virtual-account">
+                    <label for="virtual-account-radio">가상 계좌</label>
+                
+                    <input type="radio" id="phone-radio" class="payment-radio" data-group="r-2" name="transMedia" value="phone">
+                    <label for="phone-radio">휴대폰</label>
+                </div><br>
+                <div class="r-3">
+                    <input type="radio" id="naver-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="naver-pay">
+                    <label for="naver-pay-radio">네이버페이</label>
+                
+                    <input type="radio" id="kakao-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="kakao-pay">
+                    <label for="kakao-pay-radio">카카오페이</label>
+                </div><br>
 
-
-        </div>
-
-
-        </div>
-        </div>
-
+                <button type="submit" class="purchase-item" onclick="location.href='/detail_purchased/{{name}}/';" style="cursor: pointer;">결제 하기</button>
+            </div>    
+        </form>
+    </div>
     {% endblock section %}
 </section>
-
 {% include 'footer.html' %}
 </body>
-
 </html>
