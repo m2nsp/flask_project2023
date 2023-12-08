@@ -47,6 +47,7 @@
             font-size: 20px;
             width: 470px;
             height: 70px;
+            margin-left: 120px;
             margin-top: 80px;
         }
 
@@ -83,12 +84,12 @@
         }
 
         .info-q {
-            font-size: 0.8vw;
+            font-size: 60px;
             color: #6D6A6A;
         }
 
         .info-a {
-            font-size: 1.6vw;
+            font-size: 60px;
         }
 
         .info-line {
@@ -208,7 +209,7 @@
         <div class="div-container">
             <div class="review-container">
                 <div class="info-group">
-                    <label for="product" class="product">거래품목</label>
+                    <label for="product" class="product">거래품목</label><br><br>
                     <div class="product-info">
                         <img src="../../static/img/{{ data.img_path }}" alt="Product Image">
                         <div class="info-details">
@@ -228,18 +229,18 @@
                     </div>
                     <div class="transaction-mode"></div>
                     <h2>거래 방식</h2><br>
-                {% for transaction_value in transaction_list %}
-                    <div class="trans-checkbox">
-                        {% if transaction_value == 'dir' %}
-                            <input type="checkbox" id="direct" name="transMode" value="direct">
+                    {% for transaction_value in transaction_list %}
+                    <div class="trans-mode">
+                        {% if transaction_value == 'direct' %}
+                            <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
                             <label for="direct">직거래</label>
                         {% endif %}
-                        {% if transaction_value == 'pars' %}
-                            <input type="checkbox" id="parcel" name="transMode" value="parcel">
+                        {% if transaction_value == 'parcel' %}
+                            <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
                             <label for="parcel">택배</label>
                         {% endif %}
-                        {% if transaction_value == 'box' %}
-                            <input type="checkbox" id="nondirect-box" name="transMode" value="nondirect-box">
+                        {% if transaction_value == 'nondirect-box' %}
+                            <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
                             <label for="nondirect-box">비대면 상자</label>
                         {% endif %}
                     </div>
@@ -253,7 +254,7 @@
                     <div class="right-part">
                         <br><br>
                         <h2>결제 정보</h2>
-                        <br>
+                        
                         <div class="payment-methods">
                             <div class="payment-method-boxes">
                                 <div class="payment-method-box">
