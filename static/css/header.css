@@ -3,8 +3,7 @@ header {
     padding: 20px 20px;
     background-color: #F6E7E6;
     color: #000000;
-    display: flex;
-    justify-content: space-between; 
+    display: flex; 
     /* align-items: center; */
 }
 
@@ -30,7 +29,7 @@ display: flex;
 align-items: center;
 border: none;
 border-radius: 26px;
-width: 800px;
+width: 1000px;
 height: 30px;
 padding: 10px 20px;
 background-color: white;
