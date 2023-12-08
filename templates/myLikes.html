@@ -21,14 +21,17 @@
             text-align: left;
         }
 
-        ul{
+        .liking_item ul{
             display: flex;
             list-style-type: none;
         }
 
-        li{
+        .liking_item li{
             margin-left: 10%;
             font-size: 18px;
+            border: 1px solid #000;
+            padding: 10px;
+            border-radius: 10px; 
         }
         
     </style>
@@ -47,18 +50,31 @@
     </div>
 
     {% if liked_items %}
+    <div class="liking_item">
         <ul>
             {% for item in liked_items %}
                 <li>
                     <a href="/view_detail/{{ item.name }}">
-                        <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=140, height=200>
+                        <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=200, height=230>
                     </a>
                     <p> {{ item.name }}</p>
-                    <p> {{ item.price}}</p>
+                    <p> {{ item.details.price }}</p>
+                    {% for trans_mode in item.details.transaction %}
+                        {% if trans_mode == 'direct' %}
+                            <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                        {% elif trans_mode == 'parcel' %}
+                            <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                        {% elif trans_mode == 'nondirect-box' %}
+                            <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                        {% endif %}
+                    {% endfor %} 
+
+
                     <!-- Add more details as needed -->
                 </li>
             {% endfor %}
         </ul>
+    </div>
     {% else %}
         <p>No liked items yet.</p>
     {% endif %}
