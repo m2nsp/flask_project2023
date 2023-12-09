@@ -20,8 +20,7 @@
             </label>
 
             <div class="searchbar">
-                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요"
-                    onkeydown="if (event.keyCode == 13) searchFunction()">
+                <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요" onkeydown="if (event.keyCode == 13) searchFunction()">
                 <button class="nav-button" onclick="searchFunction()">
                     <img src="{{ url_for('static', filename='img/search.png') }}" width="20" height="20">
                 </button>
@@ -29,7 +28,7 @@
 
             <ul>
                 {% if session['id'] %}
-                    <li><a href="/logout"><b>{{ session['id'] }}님 반갑습니다!</b>logout</a></li>
+                    <li ><a href="/logout"><b>{{ session['id'] }}님 반갑습니다!</b>logout</a></li>
                 {% else %}
                     <li><a href="{{ url_for('login') }}">회원가입/로그인</a></li>
                 {% endif %}
@@ -39,7 +38,6 @@
     </header>
 
     <div class="sidebar">
-        
         <div class="menu-title">상품거래</div><br>
         <div class="menu-group">
             <a href="{{ url_for('reg_items') }}">상품 등록</a>
@@ -58,7 +56,6 @@
         </div>
     </div>
 
-    
     <script>
         function goToHomePage() {
             window.location.href = "home.html";
