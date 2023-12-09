@@ -6,74 +6,32 @@
     <link rel="stylesheet" href="styles.css">
     <title>나의 찜</title>
     <style>
-        .third-navbar {
-            background-color: #e1b99c;
-            height: 60px;
-            font-size: 20px;
-            display: flex;
-            align-items: center; /* 수직 가운데 정렬을 위해 추가 */
-        }
-
-        .third-navbar a {
-            font-weight: bold;
-            color:brown;
-            margin-left:5%;
-        }
-
-        .third-navbar a:not(:nth-child(6)):not(:nth-child(7)) {
-            color: white;
-        }
-
-        .third-navbar a:nth-child(even) {
-            margin-left: 0; /* 짝수 인덱스(0부터 시작)의 요소의 왼쪽 마진 초기화 */
-        }
-
-        .third-navbar a:nth-child(odd) {
-            margin-right: 10px; /* 홀수 인덱스(0부터 시작)의 요소의 우측 마진 설정 */
-        }
-
-        .contents{
-            margin-left:12%;
-            margin-top: 100px;
-        }
 
         .num-heart{
             text-align:right;
             margin-right: 15%;
         }
 
-        .heart-list{
+
+        .contents{
+            margin-left: 10%;
+            margin-top: 5%;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .liking_item ul{
             display: flex;
-            margin-left: 12%;
+            list-style-type: none;
         }
 
-        .heart-item{
-            margin-right: 50px;
-            border: 1px solid black;
-            border-radius: 10px;
-            width: 450px;
-            height: 700px;
-        }
-
-        .heart-item.image {
-            width: 400px;
-            height: 600px;
-            overflow: hidden; /* 이미지를 부모 요소의 크기로 잘라서 보여줌 */
-        }
-
-        .heart-item.image img {
-            width: 100%; /* 이미지가 부모 요소에 맞게 조절되도록 설정 */
-            height: auto; /* 가로 너비에 따라 세로 비율을 유지 */
-        }
-
-
-        .heart-item-text{
-            padding: 20px;
-        }
-
-        .heart-item-text img{
-            width: 100px;
-            height: 100px;
+        .liking_item li{
+            margin-left: 10%;
+            font-size: 18px;
+            border: 1px solid #000;
+            padding: 10px;
+            border-radius: 10px; 
         }
         
     </style>
@@ -91,19 +49,32 @@
         <h4 class="num-heart">찜한 상품 갯수 : {{ liked_items|length }}</h4>
     </div>
 
-    <h1>My Liked Items</h1>
     {% if liked_items %}
+    <div class="liking_item">
         <ul>
             {% for item in liked_items %}
                 <li>
                     <a href="/view_detail/{{ item.name }}">
-                        <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=140, height=200>
+                        <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=200, height=230>
                     </a>
-                    <p>{{ item.name }}</p>
+                    <p> {{ item.name }}</p>
+                    <p> {{ item.details.price }}</p>
+                    {% for trans_mode in item.details.transaction %}
+                        {% if trans_mode == 'direct' %}
+                            <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                        {% elif trans_mode == 'parcel' %}
+                            <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                        {% elif trans_mode == 'nondirect-box' %}
+                            <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                        {% endif %}
+                    {% endfor %} 
+
+
                     <!-- Add more details as needed -->
                 </li>
             {% endfor %}
         </ul>
+    </div>
     {% else %}
         <p>No liked items yet.</p>
     {% endif %}

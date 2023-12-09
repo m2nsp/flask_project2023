@@ -6,7 +6,13 @@
     <title>로그인</title>
 
     <style>
-        .div-container{
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .div-container {
             display: flex;
             height: 50%;
             padding-top: 10%;
@@ -15,28 +21,50 @@
             border-radius: 5px;
             text-align: center;
         }
-        
-        .login-container {
+
+        .login-container,
+        .link-login {
             width: 50%;
-            float:left;
+            padding: 0 2%; /* 조절 가능한 여백 */
+
         }
 
-        .link-login{
-            width: 50%;
-            float: right;
-            padding-top: 50px;
-        }
-
-        .link-login button{
-            font-size: large;
-            width:700px;
+        .link-login button {
+            font-size: 1.5vw;
+            width: 100%; /* 버튼을 가득 채우도록 조절 */
             background-color: white;
-            color:#000000;
-            border: 1px solid #000;          /* 테두리 스타일과 색상 설정 */
+            color: #000000;
+            border: 1px solid #000;
+            margin-bottom: 2%; /* 조절 가능한 여백 */
         }
 
-        .link-login a{
-            color: red;
+        .link-login a {
+            color: lightslategrey;
+            text-decoration: none;
+        }
+
+        .link-login ul {
+            list-style: none; /* 리스트 스타일 제거 */
+            padding: 0;
+            margin: 0;
+        }
+
+        .link-login button {
+            width: 70%;
+            font-size: 1.0vw;
+            background-color: #E2C6B4; /* 배경색 변경 */
+            color: brown;
+            border: none;
+            border-radius: 5px; /* border-radius 추가 */
+            padding: 0.8vw; /* 여백 조절 */
+            margin-bottom: 2px; /* 여백 조절 */
+            margin-top: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .link-login button:hover {
+            background-color: #E5C3A6; /* hover 시 배경색 변경 */
         }
 
         h2 {
@@ -44,38 +72,48 @@
         }
 
         .form-group {
-            margin: 10px 0;
+            margin-left: 22%;
+            margin-bottom: 2%; /* 조절 가능한 여백 */
+            width: 700px;
         }
 
         label {
             display: block;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 2%;
         }
 
-        input {                                         
-            width: 70%;
-            padding: 10px;
+        input,
+        .login-button {
+            width: 90%;
+            padding: 2%;
             border: 1px solid #ccc;
             border-radius: 5px;
+            margin-bottom: 2%; /* 조절 가능한 여백 */
         }
 
         .login-button {
             background-color: #F8D57E;
             color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
+            width : 30%;
+            transition: background-color 0.3s;
         }
 
         .login-button:hover {
             background-color: #fbcd58;
         }
 
-        .forgot-links{
+        .forgot-links {
             text-align: end;
-            padding-right: 14%;
+            padding-right: 2%; /* 조절 가능한 여백 */
+            text-decoration: none;
+            color: lightslategrey;
+        }
+
+        .forgot-links a {
+            text-decoration: none; /* 밑줄 제거 */
+            color: lightslategrey; /* 링크 텍스트 색상 지정 */
         }
 
     </style>
@@ -88,7 +126,7 @@
 
         <div class="div-container">
             <div class="login-container">
-                <h2>GamjaMarket</h2>
+                <h2 style="margin-left: 12%;">GamjaMarket</h2>
                     
                 <br>
                 {% with mesg = get_flashed_messages() %}
@@ -112,7 +150,7 @@
                         <a href="forgot_password.html">비밀번호 찾기</a>
                     </div>
                     <br>
-                    <button type="submit">로그인</button>
+                    <button type="submit" style="margin-left:10%">로그인</button>
                 </form>
             </div>   
     

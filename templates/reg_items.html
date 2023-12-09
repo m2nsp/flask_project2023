@@ -1,145 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; height: 100vh;">상품 등록</title>
+    <title>상품 등록 페이지</title>
+
     <style>
-        *{
-            margin: 0 auto;
-            padding: 0;
-        }
-
         body {
-            font-family: Arial, sans-serif;
-            background-color: white;
-            margin: 0 auto;
+            margin: 0;
             padding: 0;
-            height: 100vh;
+            font-family: 'Arial', sans-serif;
         }
 
-        article{
-            height: 100%;
-            width: 70%;
-            margin: 0 auto;
-            padding-bottom: 12px;
-            text-align: left;
+        .all-part {
+            display: flex;
+            margin: 0;
+            background-color: white;
         }
+
+
+        .left-part {
+            margin-right: 20px;
+        }
+
+        .about-item {
+            display: flex;
+            margin-bottom: 100px;
+        }
+
+        .image-container {
+            background-color: gray;
+            width: 470px;
+            height: 400px;
+        }
+
+        .item-info {
+            margin-left: 50px;
+        }
+
 
         label {
             font-size: 20px;
             margin-right: 100px;
         }
 
-        .submit-button {
-            display: block;
-            margin: 20px auto;
-            background-color: #F8D57E;
-            color: #2D2D2D;
-            padding: 10px 20px;
+        .submit-purchase-item {
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 2px;
+            background-color: #F8D57E;
+            margin-left: 170px;
+            padding: 10px 20px;
+            font-size: 20px;
+            width: 280px;
+            height: 50px;
+            margin-top: 80px;
         }
 
-        .product-description {
-            height: 300px;
+        .div-container {
+            margin-top: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50%;
+        }
+
+        .product,
+        .question {
+            font-size: 2vw;
+            font-weight: bold;
+        }
+
+        .details {
+            margin-top: 1.6vw;
+            font-size: 1.6vw;
+            font-weight: bold;
+            width: 80%;
+            height: auto;
+
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-info img {
+            width: 30%;
+            border-radius: 1vw;
+            margin-right: 2vw;
+        }
+
+        .info-q {
+            font-size: 0.8vw;
+            color: #6D6A6A;
+        }
+
+        .info-a {
+            font-size: 1.6vw;
+        }
+
+        .info-line {
+            margin: 2vw;
+        }
+
+        .review-container {
+            width: 50%;
+        }
+
+        #review {
             width: 100%;
-            resize: vertical;
+            height: 2vw;
             border: 1px solid #ccc;
-            border-radius: 3px;
+            border-radius: 0.5vw;
+            overflow-y: auto;
+            resize: none;
         }
 
-        input[type=checkbox] + label {
+        #description {
+            width: 100%;
+            height: 10vw;
+            border: 1px solid #ccc;
+            border-radius: 0.5vw;
+            overflow-y: auto;
+            resize: none;
+        }
+
+        #product {
+            width: 100%;
+            height: 10vw;
+            border: 1px solid #ccc;
+            border-radius: 0.5vw;
+            overflow-y: auto;
+            resize: none;
+
+        }
+
+        .form-group {
+            margin: 6vw 0;
+        }
+
+        .stars {
+            font-size: 2.4vw;
+            display: flex;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .stars label::before {
+            content: "\2605";
+        }
+
+        .stars label.filled::before {
+            color: #F8D57E;
+        }
+
+        .submit-button {
+            background-color: #F8D57E;
+            border: none;
+            border-radius: 1vw;
+            padding: 1vw 2vw;
+            cursor: pointer;
+            margin: 1vw auto;
+            display: block;
+            width: 20vw;
+            font-size: 1.6vw;
+        }
+
+
+        label {
+            font-size: 20px;
+            /* 원하는 글꼴 크기로 조절 */
+            margin-right: 100px;
+        }
+
+        .purchase-item {
+            border: 1px solid grey;
+            /* border 두께 조절 */
+            border-radius: 1px;
+            background-color: white;
+            padding: 10px 20px;
+            font-size: 20px;
+            width: 230px;
+            /* 두 개씩 세 줄로 배열되도록 너비 조절 */
+            height: 70px;
+            margin-top: 20px;
+            /* 상단 마진 조절 */
+            margin-right: 10px;
+            /* 오른쪽 마진 추가 */
+            margin-bottom: 20px;
+            /* 하단 마진 추가 */
             display: inline-block;
+            /* 인라인 블록으로 배치되도록 설정 */
         }
 
+        .trans-checkbox {
+            display: flex;
+            align-items: center;
+            margin-top: 14px;
+        }
+
+        .option-image {
+            width: 20px;
+            /* 이미지 크기 조절 */
+            height: 20px;
+            /* 이미지 크기 조절 */
+            margin-left: 5px;
+            /* 이미지와 텍스트 간 여백 조절 */
+        }
+
+        .selected {
+            border-color: #F8D57E !important;
+            border-width: medium;
+        }
+
+        .title {
+            margin-top: 1.6vw;
+            width: 80%;
+            font-size: 1.6vw;
+            font-weight: bold;
+
+        }
+
+
+        .details {
+            margin-top: 1.6vw;
+            font-size: 1.6vw;
+            font-weight: bold;
+            height: 10vw;
+        }
     </style>
+    <script>
+        function changeBorderColor(button) {
+            // 현재 선택된 버튼의 border 색상을 변경
+            button.classList.toggle("selected");
+
+            // 다른 버튼들의 border 색상 초기화
+            const buttons = document.querySelectorAll('.purchase-item');
+            buttons.forEach((btn) => {
+                if (btn !== button) {
+                    btn.classList.remove("selected");
+                }
+            });
+        }
+    </script>
 </head>
+
 <body>
     {% include 'header.html' %}
 
     <section>
         {% block section %}
 
-    
-    <article>
-        <form method="post" enctype="multipart/form-data" action="/submit_item_post">
-            <input type="hidden" name="post_date" value="{{ post_date }}">
-            <input type="hidden" name="seller_id" value="{{ seller_id }}">
-            <br><br>
-            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상품 이미지</h3>
-            <div>
-                <label for="img" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
-                <input type="file" name="file" style="font-family: Arial, sans-serif; font-size: 20px;" onchange="readURL(this);" >
-                <br><br>
-                <img id="preview" />
-            </div>
-            <br><br>
-            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">글 제목(상품명)</h3>
-            <div>
-                <label for="name" style="font-family: Arial, sans-serif; font-size: 20px;"></label><br>
-                <input type="text" name="name" id="name" required style="font-family: Arial, sans-serif; font-size: 20px; width: 650px; height: 30px;"><br><br>
-            </div>
-            <br><br><br>
-            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">거래 방식</h3>
-            <div>
-                    <input type="checkbox" id="cb1" name="transaction" value="dir">
-                    <label for="cb1">직거래</label>
-                    <input type="checkbox" id="cb2" name="transaction" value="pars">
-                    <label for="cb2">택배거래</label>
-                    <input type="checkbox" id="cb3" name="transaction" value="box">
-                    <label for="cb3">비대면상자</label>
-            </div>
-            <br><br><br>
-            <div>
-                <label for="price" style="font-family: Arial, sans-serif; font-size: 20px;">가격</label><br>
-                <input type="number" name="price" id="price" required style="font-family: Arial, sans-serif; font-size: 20px; width: 650px; height: 30px;"><br><br>
-            </div>
 
-            <script>              
-                function getCurrentTime() {
-                    return new Date().toISOString();
-                }
+        <article>
+            <form method="post" enctype="multipart/form-data" action="/submit_item_post">
+                <input type="hidden" name="post_date" value="{{ post_date }}">
+                <input type="hidden" name="seller_id" value="{{ seller_id }}">
 
-                function addServerTimeToForm() {
-                    var currentTime = getCurrentTime();
-                    var timeInput = document.createElement("input");
-                    timeInput.setAttribute("type", "hidden");
-                    timeInput.setAttribute("name", "server_time");
-                    timeInput.setAttribute("value", currentTime);
+                <div class="div-container">
+                    <div class="review-container">
+                        <div class="info-group">
+                            <label for="product" class="product">상품 등록</label>
+                            <br><br><br>
+                            <div class="img_reg">
+                                <label for="review" class="review" style="font-weight: bold">상품 이미지</label>
 
-                    var form = document.querySelector("form");
-                    form.appendChild(timeInput);
-                }
-                
-                const currentDateTime = new Date();
-                const year = currentDateTime.getFullYear();
-                const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
-                const date = String(currentDateTime.getDate()).padStart(2, '0');
-                const hour = String(currentDateTime.getHours()).padStart(2, '0');
-                const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
+                                <div>
+                                    <label for="img" style="font-family: Arial, sans-serif; font-size: 2%;"></label><br>
+                                    <input type="file" name="file"
+                                        style="font-family: Arial, sans-serif; font-size: 2%;"
+                                        onchange="readURL(this);">
+                                    <br><br>
+                                    <img id="preview" />
+                                </div>
+                            </div>
 
-                const formattedDateTime = `${year}-${month}-${date} ${hour}:${minutes}`;
-                document.getElementById("post_date").value = formattedDateTime;
-                
-                document.addEventListener('DOMContentLoaded', function () {
-                    toggleTradeType();
-                });
-            </script>
-            <br><br><br><br>
-            <h3 style="font-family: Arial, sans-serif; font-size: 20px;">상세 설명</h3>
-            <label for="product_description" style="font-family: Arial, sans-serif; font-size: 20px;"></label>
-            <textarea id="product_description" name="product_description" rows="15" cols="50" required style="font-family: Arial, sans-serif; font-size: 20px;" placeholder="(20-500자)"></textarea>
-            <br>
-            
-            <button class="submit-button" type="submit" style="font-family: Arial, sans-serif; font-size: 20px;">상품 등록</button>
-        </form>
-    </article>
-    {% endblock section %}
-</section>
 
-{% include 'footer.html' %}
+
+                            <div class="title">
+                                <label for="review" class="review">글 제목(상품명)</label>
+                                <br><br>
+                                <input type="text" a id="review" name="name" rows="20"></input>
+                            </div>
+                            <br><br>
+
+
+                            <div class="transaction-mode"></div>
+                            <h3>거래 방식</h3>
+                            <div class="trans-mode">
+                                <label for="direct" class="trans-checkbox">
+                                    &nbsp;
+                                    <input type="checkbox" id="direct" name="transaction" value="direct">
+                                    <img src="../static/img/dir.png" alt="Direct Image" class="option-image" width="5%">
+                                    &nbsp;&nbsp;직거래
+                                </label>
+
+                                <label for="nondirect-box" class="trans-checkbox">
+                                    &nbsp;
+                                    <input type="checkbox" id="nondirect-box" name="transaction" value="nondirect-box">
+                                    <img src="../static/img/box.png" alt="Nondirect Image" class="option-image"
+                                        width="5%">
+                                    &nbsp;&nbsp;비대면 상자
+                                </label>
+
+                                <label for="parcel" class="trans-checkbox">
+                                    &nbsp;
+                                    <input type="checkbox" id="parcel" name="transaction" value="parcel">
+                                    <img src="../static/img/pars.png" alt="Parcel Image" class="option-image"
+                                        width="5%">
+                                    &nbsp;&nbsp;택배
+                                </label>
+                            </div>
+
+
+
+                            <br>
+                            <div class="title">
+                                <label for="review" class="review">가격</label>
+                                <br><br>
+                                <input type="number" name="price" rows="20"></input>
+                            </div>
+
+
+                            <script>
+                                function getCurrentTime() {
+                                    return new Date().toISOString();
+                                }
+
+                                function addServerTimeToForm() {
+                                    var currentTime = getCurrentTime();
+                                    var timeInput = document.createElement("input");
+                                    timeInput.setAttribute("type", "hidden");
+                                    timeInput.setAttribute("name", "server_time");
+                                    timeInput.setAttribute("value", currentTime);
+
+                                    var form = document.querySelector("form");
+                                    form.appendChild(timeInput);
+                                }
+
+                                const currentDateTime = new Date();
+                                const year = currentDateTime.getFullYear();
+                                const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
+                                const date = String(currentDateTime.getDate()).padStart(2, '0');
+                                const hour = String(currentDateTime.getHours()).padStart(2, '0');
+                                const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
+
+                                const formattedDateTime = `${year}-${month}-${date} ${hour}:${minutes}`;
+                                document.getElementById("post_date").value = formattedDateTime;
+
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    toggleTradeType();
+                                });
+                            </script>
+                            <br><br>
+                            <div class="right-part">
+
+
+                                <div class="details">
+                                    <label for="description" class="description">상세 설명</label>
+                                    <br><br>
+                                    <textarea id="description" name="product_description" rows="20"></textarea>
+                                </div>
+                                <br>
+                                <button type="submit" class="submit-purchase-item"
+                                    onclick="location.href='/detail_purchased/{{ name }}/';" style="cursor: pointer;">상품
+                                    등록
+                                </button>
+                            </div>
+            </form>
+
+        </article>
+        {% endblock section %}
+    </section>
+
+    {% include 'footer.html' %}
 
 </body>
+
 </html>

@@ -162,23 +162,23 @@
                         거래대상
                         <h3>{{data.seller_id}}</h3><br>
                         거래가격
-                        <h3>{{data.regular_price}}</h3><br>
+                        <h3>{{data.price}}</h3><br>
                     </div>
                 </div>
-                <div class="transaction-mode"></div>
+                <div class="transaction-mode">
                 <h2>거래 방식</h2>
 
                 {% for transaction_value in transaction_list %}
                     <div class="trans-mode">
-                        {% if transaction_value == 'dir' %}
+                        {% if transaction_value == 'direct' %}
                             <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
                             <label for="direct">직거래</label>
                         {% endif %}
-                        {% if transaction_value == 'pars' %}
+                        {% if transaction_value == 'parcel' %}
                             <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
                             <label for="parcel">택배</label>
                         {% endif %}
-                        {% if transaction_value == 'box' %}
+                        {% if transaction_value == 'nondirect-box' %}
                             <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
                             <label for="nondirect-box">비대면 상자</label>
                         {% endif %}

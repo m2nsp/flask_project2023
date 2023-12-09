@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page Done</title>
+    <title>My Page Ing</title>
     <style>
         .text-section {
             flex: 1;
@@ -72,13 +72,13 @@
             margin-right: 10px;
         }
 
-        .done-list {
+        .Ing-list {
             display: flex;
             margin-left: 10px;
             margin-top: 20px;
         }
 
-        .done-item {
+        .Ing-item {
             border: 1px solid black;
             border-radius: 10px;
             width: 180px;
@@ -90,7 +90,7 @@
             text-align: center;
         }
 
-        .done-item-text {
+        .Ing-item-text {
             padding: 10px;
         }
 
@@ -126,129 +126,39 @@
 
     <section>
         {% block section %}
-    
-        <div class="navbar">
-            <div class="nav-item" data-trade="null" id="allViewBtn">전체보기</div>
-            <div class="nav-divider">|</div>
-            <div class="nav-item" data-trade="direct" id="directTradeBtn">직거래</div>
-            <div class="nav-divider">|</div>
-            <div class="nav-item" data-trade="parcel" id="parcelTradeBtn">택배거래</div>
-            <div class="nav-divider">|</div>
-            <div class="nav-item" data-trade="nondirect-box" id="nondirectBoxBtn">비대면상자</div>
-        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='all') }}">전체보기</a></li>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='direct') }}">직거래</a></li>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='parcel') }}">택배거래</a></li>
+                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='nondirect-box') }}">비대면상자</a></li>
+            </ul>
+        </nav>
 
-        <div class="done-list" id="doneListContainer">
-            {% for done_item in done_items %}
-                {% if (selected_trade is none) or (done_item['trans_mode'] == selected_trade) %}
-                    <div class="done-item">
-                        <img src="../../static/img/{{done_item.img_path}}" alt="거래 진행중 상품" width="150" height="200">
-                        <div class="done-item-text">
-                            {{ done_item['post_date'] }} 
-                            <h3>{{ done_item['name'] }}</h3> 
-                            {% if done_item['trans_mode'] == 'direct' %}
-                                <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
-                            {% elif done_item['trans_mode'] == 'parcel' %}
+        <div class="Ing-list" id="ingListContainer">
+            {% for item in done_items %}
+                    <div class="Ing-item">
+                        <img src="../../static/img/{{ item.img_path }} "width="150" height="200">
+                        <div class="Ing-item-text">
+                            <h3>{{ item.name }}</h3> 
+                            {{ item.trans_date }}<br>
+                            {{ item.price }}<br>
+                            {% if item.trans_mode == 'direct' %}
+                            <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                            {% elif item.trans_mode == 'parcel' %}
                                 <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
-                            {% elif done_item['trans_mode'] == 'nondirect-box' %}
+                            {% elif item.trans_mode == 'nondirect-box' %}
                                 <img src="../../static/img/box.png" style="width:30px; height: 30px;">
-                            {% endif %}
+                            {% endif %}  
                         </div>
                     </div>
-                {% endif %}
             {% endfor %}
         </div>
-    
 
-        <!-- <script>
-            // 메뉴 토글을 위한 JavaScript
-            const menuToggleBtn = document.getElementById('menuToggleBtn');
-            const navbarMenu = document.querySelector('.navbar__menu');
-    
-            menuToggleBtn.addEventListener('click', () => {
-                navbarMenu.classList.toggle('active');
-    
-                // 클릭 시 menuBar.html로 이동
-                if (navbarMenu.classList.contains('active')) {
-                    window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
-                }
-            });
-        </script> -->
-    
-        <script>
-            // 거래 항목을 업데이트하는 함수
-            function updateDisplayedItems(done_items) {
-                const doneListContainer = document.getElementById('doneListContainer');
-                doneListContainer.innerHTML = '';
-
-                console.log(done_items);
-                done_items.forEach(item => {
-                    const doneItemDiv = document.createElement('div');
-                    doneItemDiv.classList.add('Done-item');
-
-                    doneItemDiv.innerHTML = `
-                        <img src="../../static/img/${item.img_path}" alt="거래 완료 상품" width="150" height="200">
-                        <div class="Done-item-text">
-                            ${item.post_date} 
-                            <h3>${item.name}</h3> 
-                            ${item.trans_mode === 'direct' ? '<img src="../../static/img/dir.png" style="width:30px; height: 30px;">' :
-                            (item.trans_mode === 'parcel' ? '<img src="../../static/img/pars.png" style="width:30px; height: 30px;">' :
-                                '<img src="../../static/img/box.png" style="width:30px; height: 30px;">')}
-                        </div>
-                    `;
-
-                    doneListContainer.appendChild(doneItemDiv);
-                });
-            }
-        
-            document.addEventListener('DOMContentLoaded', function () {
-                // 초기 로딩 시 전체보기가 선택되도록 설정
-                handleTradeSelection(null);
-
-                function handleTradeSelection(trade) {
-                    fetch('/update_data2', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json;charset=UTF-8',
-                        },
-                        body: JSON.stringify({ selected_trade: trade }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        updateDisplayedItems(data.done_items);
-                    })
-                    .catch(error => {
-                        console.error('데이터 업데이트 오류:', error);
-                    });
-                }
-        
-                var allViewBtn = document.getElementById('allViewBtn');
-                var directTradeBtn = document.getElementById('directTradeBtn');
-                var parcelTradeBtn = document.getElementById('parcelTradeBtn');
-                var nondirectBoxBtn = document.getElementById('nondirectBoxBtn');
-        
-                
-                allViewBtn.addEventListener('click', function () {
-                    handleTradeSelection(null);
-                });
-        
-                directTradeBtn.addEventListener('click', function () {
-                    handleTradeSelection(directTradeBtn.getAttribute('data-trade'));
-                });
-        
-                parcelTradeBtn.addEventListener('click', function () {
-                    handleTradeSelection(parcelTradeBtn.getAttribute('data-trade'));
-                });
-        
-                nondirectBoxBtn.addEventListener('click', function () {
-                    handleTradeSelection(nondirectBoxBtn.getAttribute('data-trade'));
-                });
-            });
-        </script>
-
-        {% endblock section %}
+    {% endblock section %}
     </section>
-    
-    {% include 'footer.html' %}
+
+{% include 'footer.html' %}
 </body>
 
 </html>

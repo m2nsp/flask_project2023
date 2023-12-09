@@ -1,100 +1,133 @@
 <!--자바스크립스 적용 필요 / 비번 같은지 다른지, 이미 존재하는 아이디인지 등 작업 필요-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>회원가입</title>
-<style>
-    .signup-page{
-        font-size: large;
-        height: 60%;
-        padding-top: 5%;
-        padding-left: 25%;
-        padding-right: 20%;
-        padding-bottom: 4.5%;
-        background-color: #fff;
-        border-radius: 5px;
-    }
 
-    .signup-page .pw{
-        display: flex;
-    }
+    <style>
+        .signup-page {
+            font-size: large;
+            height: 60%;
+            padding: 5% 10%;
+            background-color: #fff;
+            border-radius: 5px;
+        }
 
-    .type-pw{
-        margin-right: 70px;
-    }
+        .signup-page .pw {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-    .ID input[type="text"], .Email input[type="text"], .pw input[type="password"] {
-        border-radius: 5px;
-        width: 1200px; 
-        height: 50px; 
-    }
+        .type-pw h3,
+        .check-pw h3{
+            margin-left: 20%;
+        }
 
-    .pw input[type="password"] {
-        border-radius: 5px;
-        width: 560px; 
-        height: 50px; 
-    }
+        .ID h3,
+        .Email h3{
+            margin-right: 77%;
+        }
 
+        .ID,
+        .Email {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 0;
+            text-align: center;
+        }
 
-    .signup-page button {
-        background-color: #F8D57E;
-        color: black;
-        font-size: large;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        display: block;
-        margin: 0 450px; /* 가로 중앙 정렬 설정 */
-        width: 280px;
-    }
+        .pw {
+            display: flex;
+        }
 
-</style>
+        .type-pw,
+        .check-pw {
+            width : 50%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+
+        }
+
+        .ID input[type="text"],
+        .Email input[type="text"],
+        .check-pw input[type="password"] {
+            border-radius: 5px;
+            width: 80%;
+            height: 50px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .pw input[type="password"]{
+            border-radius: 5px;
+            width: 60%;
+            height: 50px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            margin-left: 20%;
+        }
+
+        .signup-page button {
+            background-color: #F8D57E;
+            color: black;
+            font-size: large;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 15%;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+    </style>
+
 <body>
     {% include 'header.html' %}
+
 
     <section>
         {% block section %}
 
 
-    <div class="signup-page">
-        {% with mesg = get_flashed_messages() %}
-        {% if mesg !=[] %}
-        <script>alert("{{ mesg[0] }}")</script>
-        {% endif %}
-        {% endwith %}
-        <form action="/signup_post" method="post" enctype="application/x-www-form-urlencoded">
-            <div class="ID">
-                <h3>ID</h3>
-                <input type="text" placeholder="아이디를 입력하세요" name="id">
-            </div><br><br>
+        <div class="signup-page">
+            {% with mesg = get_flashed_messages() %}
+            {% if mesg !=[] %}
+            <script>alert("{{ mesg[0] }}")</script>
+            {% endif %}
+            {% endwith %}
+            <form action="/signup_post" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="ID">
+                    <h3>ID</h3>
+                    <input type="text" placeholder="아이디를 입력하세요" name="id">
+                </div><br><br>
 
-            <div class="pw">
-                <div class="type-pw">
-                    <h3>PW</h3>
-                    <input type="password" placeholder="비밀번호를 입력하세요" name="pw">
-                </div>
+                <div class="pw">
+                    <div class="type-pw">
+                        <h3>PW</h3>
+                        <input type="password" placeholder="비밀번호를 입력하세요" name="pw">
+                    </div>
 
-                <div class="check-pw">
-                    <h3>PW 확인</h3>
-                    <input type="password" placeholder="동일한 비밀번호를 입력하세요"  name="check-pw">
-                </div>
-            </div><br><br>
-            
-            <div class="Email">
-                <h3>Email</h3>
-                <input type="text" placeholder="이메일을 입력하세요" name="email">
-            </div><br><br><br><br>
+                    <div class="check-pw">
+                        <h3>PW 확인</h3>
+                        <input type="password" placeholder="동일한 비밀번호를 입력하세요" name="check-pw">
+                    </div>
+                </div><br><br>
 
-            <button type="submit">회원가입</button>
-        </form>
-    </div>
+                <div class="Email">
+                    <h3>Email</h3>
+                    <input type="text" placeholder="이메일을 입력하세요" name="email">
+                </div><br><br><br><br>
 
-    {% endblock section %}
-</section>
+                <button type="submit">회원가입</button>
+            </form>
+        </div>
 
-{% include 'footer.html' %}
+        {% endblock section %}
+    </section>
+
+    {% include 'footer.html' %}
 </body>

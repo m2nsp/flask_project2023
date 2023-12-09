@@ -105,6 +105,21 @@
             width: 700px;
         }
 
+        #item_status {
+            margin-top: 5%;
+        }
+
+        .main-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-container, .select-container {
+            width: 48%; /* 조정 가능한 너비 */
+        }
+
+
     </style>
 </head>
 
@@ -115,9 +130,6 @@
         {% block section %}
     
     <article>
-        <div id="article">
-            <br><h2>전체 상품 조회</h2><br><br>
-        </div>
         <script>
             $(document).ready(function () {
                 // item_status 값을 기반으로 선택된 옵션을 설정합니다.
@@ -145,25 +157,30 @@
             });
         </script>
 
-
-        <div>
-            <!-- trade_type 매개변수를 포함한 URL로 업데이트합니다. -->
-            <select id="item_status" name="item_status" onchange="location=this.value">
-                <option value="{{url_for('view_list', page=i, item_status='all')}}" {% if item_status == 'all' %}selected{% endif %}>전체</option>
-                <option value="{{url_for('view_list', page=i, item_status='available')}}" {% if item_status == 'available' %}selected{% endif %}>구매 가능</option>
-                <option value="{{url_for('view_list', page=i, item_status='거래완료')}}" {% if item_status == '거래완료' %}selected{% endif %}>거래 완료</option>
-            </select>
+        <div class="main-container">
+            <div class="info-container">
+                <p style="color: black; text-align: left; font-weight: bold;">
+                    <span style="color: orange;">{{ post_date }}</span> 까지 등록된 모든 상품입니다.<br><br>
+                    {% if total > 0 %}
+                        <span style="color: brown;">현재까지 등록된 상품 {{ total }}개</span>
+                </p>
+            </div>
+            
+            <div class="select-container" style="text-align: right;">
+                <!-- trade_type 매개변수를 포함한 URL로 업데이트합니다. -->
+                <select id="item_status" name="item_status" onchange="location=this.value">
+                    <option value="{{url_for('view_list', page=i, item_status='all')}}" {% if item_status == 'all' %}selected{% endif %}>전체</option>
+                    <option value="{{url_for('view_list', page=i, item_status='available')}}" {% if item_status == 'available' %}selected{% endif %}>구매 가능</option>
+                    <option value="{{url_for('view_list', page=i, item_status='거래완료')}}" {% if item_status == '거래완료' %}selected{% endif %}>거래 완료</option>
+                </select>
+            </div>
         </div>
-
-
-        {% if total > 0 %}
-        <p>
-            상품 리스트 -- 현재까지 {{total}}개 등록됨
-        </p>
+        
+        
         <table>
             <tr>
                 {% for key, value in row1 %}
-                    <td>상품이름: {{key}}</td>
+                    <td><strong>{{key}}</td>
                 {% endfor %}
             </tr>
             <tr>
@@ -174,7 +191,7 @@
             </tr>
             <tr>
                 {% for key, value in row2 %}
-                    <td>상품이름: {{key}}</td>
+                    <td><strong>{{key}}</td>
                 {% endfor %}
             </tr>
             <tr>

@@ -5,18 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/header.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
 </head>
 
 <body>
     <header>
-        <h2>GamjaMarket</h2>
-        <nav>
-            <ul>
-                <button class="nav-button" onclick="changePage()">
-                    <img src="{{ url_for('static', filename='img/menu.png') }}" width="20" height="20">
-                </button>
-            </ul>
+        <h2 id="gamjaMarketLink">GamjaMarket</h2>
+        <nav class="menu-container">
+            <input type="checkbox" id="menuicon">
+            <label for="menuicon" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
 
             <div class="searchbar">
                 <input class="search-input" type="text" placeholder="찾으시는 상품명을 입력하세요"
@@ -28,15 +29,46 @@
 
             <ul>
                 {% if session['id'] %}
-                <li><a href="/logout"><b>{{ session['id'] }}님 반갑습니다!</b>logout</a></li>
+                    <li><a href="/logout"><b>{{ session['id'] }}님 반갑습니다!</b>logout</a></li>
                 {% else %}
-                <li><a href="{{ url_for('login') }}">회원가입/로그인</a></li>
+                    <li><a href="{{ url_for('login') }}">회원가입/로그인</a></li>
                 {% endif %}
                 <li><a href="{{ url_for('myPage') }}">마이페이지</a></li>
             </ul>
         </nav>
     </header>
 
+    <div class="sidebar">
+        
+        <div class="menu-title">상품거래</div><br>
+        <div class="menu-group">
+            <a href="{{ url_for('reg_items') }}">상품 등록</a>
+            <a href="{{ url_for('view_list') }}">전체 상품 조회</a>
+            <a href="/flipView.html">플립뷰</a>
+        </div>
+        <br><br>
+        <div class="menu-title">마이페이지</div><br>
+        <div class="menu-group">
+            <a href="{{ url_for('my_page_ing', user_id=session['id']) }}">진행중인 거래</a>
+            <a href="{{ url_for('my_page_done', user_id=session['id']) }}">완료된 거래</a>
+            <a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a>
+            <a href="{{ url_for('my_likes')}}">나의 찜</a>
+            <a href="/mypage_profile.html">마이프로필</a>
+            <a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a>
+        </div>
+    </div>
+
+    
+    <script>
+        function goToHomePage() {
+            window.location.href = "home.html";
+        }
+
+        function toggleMenu() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('sidebar-active');
+        }
+    </script>
 </body>
 
 </html>

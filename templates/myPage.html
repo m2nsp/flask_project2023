@@ -12,7 +12,7 @@
         .text-section {
             flex: 1;
             /* 공간을 남은 공간에 맞게 분배 */
-            margin: 20px;
+            margin: 10px;
             /* 여백 추가 */
         }
 
@@ -81,26 +81,28 @@
         .info-box {
             border: 3px solid #FFA800;
             border-radius: 10px;
-            margin-right: 50px;
+            margin-right: 40px;
             margin-top: 40px;
             width: 150px;
             height: 60px;
-            padding: 10px;
+            padding: 20px;
             font-size: medium;
         }
 
         .part-prof {
             display: flex;
             margin-top: 1%;
+            justify-content: center;
+            /* 수평 가운데 정렬 */
         }
 
-        .left-part-prof {
+        .left-part-prof,
+        .right-part-prof {
             flex: 1;
-            padding-left: 10%;
-            border-right: 1px solid #000;
-            /* 수직 구분선을 추가합니다. */
-            padding-right: 20px;
-            /* 선택 사항: 수직 구분선 뒤에 공백 추가 */
+            padding-left: 20%;
+            padding-right: 20%;
+            text-align: center;
+
         }
 
         .right-part-prof {
@@ -108,6 +110,9 @@
             padding-left: 4%;
         }
 
+        .left-part-prof{
+            border-right: black solid;
+        }
         .part-prof a {
             text-decoration: none;
             /* 밑줄 제거 */
@@ -133,87 +138,79 @@
         {% block section %}
 
 
-    <script>
-        // 메뉴 토글을 위한 JavaScript
-        const menuToggleBtn = document.getElementById('menuToggleBtn');
-        const navbarMenu = document.querySelector('.navbar__menu');
+        <script>
+            // 메뉴 토글을 위한 JavaScript
+            const menuToggleBtn = document.getElementById('menuToggleBtn');
+            const navbarMenu = document.querySelector('.navbar__menu');
 
-        menuToggleBtn.addEventListener('click', () => {
-            navbarMenu.classList.toggle('active');
+            menuToggleBtn.addEventListener('click', () => {
+                navbarMenu.classList.toggle('active');
 
-            // 클릭 시 menuBar.html로 이동
-            if (navbarMenu.classList.contains('active')) {
-                window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
-            }
-        });
-    </script>
-
-    <nav class="nav_bar_present">
-        <!-- 네비게이션 바 내용 -->
-        <div class="nav_links">
-            <span style="color: white;">나의 위치 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; </span>마이페이지<a href="#"
-                class="nav_link"> x</a>
-        </div>
-    </nav>
+                // 클릭 시 menuBar.html로 이동
+                if (navbarMenu.classList.contains('active')) {
+                    window.location.href = 'menuBar.html'; // 원하는 페이지로 이동
+                }
+            });
+        </script>
 
 
 
-    <div class="my-info">
-        <img src="profileImg.png" alt="프로필이미지" width="180px" height="180px">
+        <div class="my-info">
+            <img src="../static/img/profileImg.png" alt="프로필이미지" width="180px" height="180px">
 
-        <div class="my-id">
-            {{ session['id'] }}<br>@{{ session['id'] }}
-        </div>
-        <div class="info-box">
-            <span style="float: left;">별점</span><br>
-            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">{{ average_rating }}</span>
-        </div>
 
-        <div class="info-box"><span style="float: left;">판매횟수</span><br>
-            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">24회</span>
-        </div>
-        <div class="info-box"><span style="float: left;">구매횟수</span><br>
-            <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">17회</span>
-        </div>
-    </div>
+            <div class="my-id">
+                {{ session['id'] }}<br>@{{ session['id'] }}
+            </div>
+            <div class="info-box">
+                <span style="float: left;">별점</span><br>
+                <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">{{ average_rating
+                    }}</span>
+            </div>
 
-    <div class="part-prof">
-        <div class="left-part-prof">
-            <h4><a href="{{ url_for('reg_items') }}">상품 등록</a></h4>
-            
-
-            <br>
-
-            <h4><a href="#">전체 거래내역(52)</a></h4>
-            <h4><a href="#">진행중인 거래(11)</a></h4>
-            <h4><a href="#">완료된 거래(41)</a></h4>
-
-            <br>
-
-            <h4><a href="#">경매 내역(10)</a></h4>
+            <div class="info-box"><span style="float: left;">판매횟수</span><br>
+                <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">24회</span>
+            </div>
+            <div class="info-box"><span style="float: left;">구매횟수</span><br>
+                <span style="float: right; color: #FFA800; font-size: 30px; font-weight: bold;">17회</span>
+            </div>
         </div>
 
-        <div class="right-part-prof">
-            <h4><a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰(5)</a></h4>
+        <div class="part-prof">
+            <div class="left-part-prof">
+                <h4><a href="{{ url_for('reg_items') }}">상품 등록</a></h4>
 
-            <br>
 
-            <h4><a href="{{ url_for('my_likes')}}">나의 찜(27)</a></h4>
+                <br>
 
-            <br>
+                <h4><a href="{{ url_for('my_page_ing', user_id=session['id']) }}">진행중인 거래</a></h4>
+                <h4><a href="{{ url_for('my_page_done', user_id=session['id']) }}">완료된 거래</a></h4>
 
-            <h4><a href="{{ url_for('view_list') }}">판매중인 상품(7)</a></h4>
+                <br>
 
-            <br>
+            </div>
 
-            <h4><a href="#">마이프로필</a></h4>
+            <div class="right-part-prof">
+                <h4><a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a></h4>
+
+                <br>
+
+                <h4><a href="{{ url_for('my_likes')}}">나의 찜</a></h4>
+
+                <br>
+
+                <h4><a href="{{ url_for('view_list') }}">상품 목록</a></h4>
+
+                <br>
+
+                <h4><a href="{{ url_for('myProfile') }}">마이프로필</a></h4>
+            </div>
         </div>
-    </div>
 
-    {% endblock section %}
-</section>
+        {% endblock section %}
+    </section>
 
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 
 </body>
 

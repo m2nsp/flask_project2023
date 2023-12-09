@@ -13,6 +13,11 @@ DB = DBhandler()
 def hello():
     return render_template("home.html")
 
+@application.route("/base", methods=['GET', 'POST'])
+def base():
+    return render_template("base.html")
+
+
 @application.route('/login')
 def login():
     return render_template("login.html")
@@ -78,6 +83,29 @@ def myPage():
 
     return render_template('myPage.html', average_rating=average_rating, session=session)
 
+@application.route('/myProfile')
+def myProfile():
+    user_id = session.get('id')
+    user = DB.get_user_by_id(user_id)  # DB에서 사용자 정보를 가져오는 함수
+    
+    if user:
+        # 해당 사용자의 리뷰 정보 가져오기
+        buyer_reviews = DB.get_buyer_reviews_by_user_id(user_id)
+        
+        # 리뷰 정보에서 평점만 추출하여 숫자로 변환하여 리스트로 저장
+        ratings = [float(review['rating']) for review in buyer_reviews if 'rating' in review]
+        
+        # 리뷰가 있는 경우에만 평균 계산
+        average_rating = sum(ratings) / len(ratings) if ratings else 0
+    else:
+        average_rating = 0
+
+    return render_template('myProfile.html', average_rating=average_rating, session=session)
+
+
+
+
+
 
 @application.route("/productList")
 def productList():
@@ -111,13 +139,24 @@ def reg_item_submit_post():
     item_data = DB.get_item_by_name(str(data['name']))
     return render_template("detail_general.html", name=data['name'], data=item_data, transaction_list=data['transaction'])
 
+# @application.route("/view_detail/<name>/")
+# def view_item_detail(name):
+#     data = DB.get_item_by_name(str(name))
+#     return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
+
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
     data = DB.get_item_by_name(str(name))
-    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
+    comments = DB.get_comments(name)
+    print(comments)  # 댓글 데이터 출력
+    if comments is None:
+        comments = []
+    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'], comments=comments)
+
 
 @application.route("/list")
 def view_list():
+    post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     page = request.args.get("page", 0, type=int)
     item_status = request.args.get("item_status", "all")
     per_page = 6
@@ -156,7 +195,17 @@ def view_list():
         page_count=int(math.ceil(item_counts / per_page)),
         total=item_counts,
         item_status=item_status,
+        post_date=post_date
     )
+
+
+
+@application.route("/flip_view")
+def flip_view():
+    items = DB.get_items()
+    return render_template("flipView.html", items=items)
+
+
 
 # 상품 결제 페이지로 넘어감 -> 해결!
 @application.route("/purchase_item/<name>/")
@@ -178,7 +227,7 @@ def reg_buy(name):
     DB.reg_buy(buyer_id, trans_mode, trans_media, name)
 
     # 구매 완료 페이지로 이동
-    return render_template("detail_purchased.html", name=name, data=data)
+    return render_template("detail_purchased.html", name=name, data=data, trans_mode = trans_mode)
 
 
 @application.route("/detail_purchased/<name>/")
@@ -225,7 +274,7 @@ def my_likes():
 
 @application.route("/submit_comment/<name>/", methods=['POST'])
 def submit_comment(name):
-    comment=request.form
+    comment = request.form
     DB.submit_comment(comment, name)
     return redirect(url_for("view_item_detail", name=name))
 
@@ -267,7 +316,7 @@ def review_detail(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
-    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review)
+    return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review, price=item_data['price'])
 
 @application.route("/reviewRegister/<name>")
 def review_register(name):
@@ -283,7 +332,7 @@ def review_register(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
-    return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], user_id=user_id)
+    return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], user_id=user_id, price=item_data['price'])
 
 @application.route("/myReview/<user_id>")
 def my_review(user_id):
@@ -314,86 +363,76 @@ def my_review(user_id):
         user_id=user_id 
     )
 
-# 진행중거래 ver2 
-# @application.route("/view_trans_mode/<name>")
-# def view_trans_mode(name):
-#     if 'id' not in session:
-#         flash("로그인이 필요한 서비스입니다.")
-#         return redirect(url_for('login'))
-    
-#     page = request.args.get("page", 0, type=int)
-#     trans_mode = request.args.get("trans_mode", "all")
-#     per_page = 6
-#     per_row = 3
-#     row_count = int(per_page / per_row)
-#     start_idx = per_page * page
-#     end_idx = per_page * (page + 1)
-    
-#     if trans_mode == "all":
-#         data = DB.get_trans_info(name)
-#     else:
-#         data = DB.get_trans_info_by_transmode(name, trans_mode)
+@application.route("/myPageIng/<user_id>")
+def my_page_ing(user_id):
+    if 'id' not in session:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
 
-#     if not data:  # Check if data is an empty dictionary
-#         data = {}
-#     else:
-#         data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
+    ing_items = DB.get_ing_items_by_user_id(user_id)
+    print("Ing Items:", ing_items)
 
-#     item_counts = len(data)
-    
-#     if item_counts <= per_page:
-#         data = dict(list(data.items())[:item_counts])
-#     else:
-#         data = dict(list(data.items())[start_idx:end_idx])
+    sort_mode = request.args.get("sort", "all")
+    if sort_mode == "direct":
+        ing_items = [item for item in ing_items if item.get('trans_mode') == "direct"]
+    elif sort_mode == "parcel":
+        ing_items = [item for item in ing_items if item.get('trans_mode') == "parcel"]
+    elif sort_mode == "nondirect-box":
+        ing_items = [item for item in ing_items if item.get('trans_mode') == "nondirect-box"]
 
-#     tot_count = len(data)
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
 
-#     for i in range(row_count):
-#         if (i == row_count - 1) and (tot_count % per_row != 0):
-#             locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:])
-#         else:
-#             locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:(i + 1) * per_row])
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
 
-#     return render_template("my_ing_items.html", datas=data.items(), row1=locals()['data_0'].items(),
-#                            row2=locals()['data_1'].items(), limit=per_page, page=page,
-#                            page_count=int(math.ceil(item_counts / per_page)), total=item_counts,
-#                            trans_mode=trans_mode, name=name)
+    data = ing_items[start_idx:end_idx]
+    tot_count = len(ing_items)
 
+    return render_template(
+        "myPageIng.html",
+        ing_items=data,
+        page=page,
+        page_count=int((tot_count / per_page) + 1),
+        user_id=user_id,
+        sort_mode=sort_mode 
+    )
 
-@application.route('/myPageIng')
-def myPageIng():
+@application.route("/myPageDone/<user_id>")
+def my_page_done(user_id):
+    if 'id' not in session:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
 
-    return render_template('myPageIng.html')
+    done_items = DB.get_done_items_by_user_id(user_id)
+    print("Done Items:", done_items)
 
-@application.route('/update_data', methods=['POST'])
-def update_data():
-    data = request.get_json()
+    sort_mode = request.args.get("sort", "all")
+    if sort_mode == "direct":
+        done_items = [item for item in done_items if item.get('trans_mode') == "direct"]
+    elif sort_mode == "parcel":
+        done_items = [item for item in done_items if item.get('trans_mode') == "parcel"]
+    elif sort_mode == "nondirect-box":
+        done_items = [item for item in done_items if item.get('trans_mode') == "nondirect-box"]
 
-    user_id = session.get('id')
-    selected_trade = data.get('selected_trade')
-    
-    # DBhandler 클래스의 인스턴스 생성
-    db_handler = DBhandler()
-    ing_items = db_handler.get_ing_items(user_id, selected_trade)
+    page = request.args.get("page", 0, type=int)
+    per_page = 3
 
-    return jsonify({'ing_items': ing_items})
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
 
-@application.route('/myPageDone')
-def myPageDone():
-    return render_template('myPageDone.html')
+    data = done_items[start_idx:end_idx]
+    tot_count = len(done_items)
 
-@application.route('/update_data2', methods=['POST'])
-def update_data2():
-    data = request.get_json()
+    return render_template(
+        "myPageDone.html",
+        done_items=data,
+        page=page,
+        page_count=int((tot_count / per_page) + 1),
+        user_id=user_id,
+        sort_mode=sort_mode 
+    )
 
-    user_id = session.get('id')
-    selected_trade = data.get('selected_trade')
-
-    # DBhandler 클래스의 인스턴스 생성
-    db_handler = DBhandler()
-    done_items = db_handler.get_done_items(user_id, selected_trade)
-
-    return jsonify({'done_items': done_items})
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
