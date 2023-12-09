@@ -14,6 +14,12 @@ body {
     height: 100vh;
 }
 
+@media screen and (min-width: 1200px) {
+    body {
+        overflow-x: hidden; /* Hide horizontal scrollbar for screens wider than 1200px */
+    }
+}
+
 #gamjaMarketLink {
     position: absolute;
     left: 10%;
