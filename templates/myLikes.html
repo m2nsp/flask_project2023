@@ -7,31 +7,62 @@
     <title>나의 찜</title>
     <style>
 
-        .num-heart{
-            text-align:right;
-            margin-right: 15%;
+        .upside-container {
+            display: flex;
+            margin: 0 10%;
+            margin-top: 50px;
+            justify-content: space-between; 
         }
 
-
-        .contents{
-            margin-left: 10%;
-            margin-top: 5%;
+        .page-title {
             font-size: 18px;
             font-weight: bold;
-            text-align: left;
         }
 
-        .liking_item ul{
+        .num-heart{
+            font-size: 16px;
+
+        }
+
+        .liking-list {
             display: flex;
-            list-style-type: none;
+            margin: 0 10%;
+            margin-top: 20px;
         }
 
-        .liking_item li{
-            margin-left: 10%;
-            font-size: 18px;
-            border: 1px solid #000;
+        .contents {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            margin-top: 10px;
+        }
+
+        .liking-item {
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 180px;
+            height: 350px;
+            margin: 20px;
+            text-align: center;
+            /* overflow: hidden; */
+        }
+
+        .liking-item img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .liking-item-text {
             padding: 10px;
-            border-radius: 10px; 
+        }
+
+        .liking-item-text .item-name {
+        font-size: 18px;
+        }
+
+        .liking-item-text > :not(.item-name) {
+            font-size: 16px;
         }
         
     </style>
@@ -42,23 +73,22 @@
     <section>
         {% block section %}
 
-    
-    <div class="contents">
-        <h2>회원님이 찜한 상품</h2>
-        <br>
-        <h4 class="num-heart">찜한 상품 갯수 : {{ liked_items|length }}</h4>
-    </div>
+        <div class="upside-container">
+            <span class="page-title">회원님이 찜한 상품</span>
+            <span class="num-heart">찜한 상품 갯수 : {{ liked_items|length }}</span>
+        </div>
 
     {% if liked_items %}
-    <div class="liking_item">
-        <ul>
-            {% for item in liked_items %}
-                <li>
-                    <a href="/view_detail/{{ item.name }}">
-                        <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=200, height=230>
-                    </a>
-                    <p> {{ item.name }}</p>
-                    <p> {{ item.details.price }}</p>
+    <div class="liking-list">
+        {% for item in liked_items %}
+            <div class="liking-item">
+                <a href="/view_detail/{{ item.name }}">
+                    <img src="static/img/{{ item.details.img_path }}" alt="{{ item.name }}", width=200, height=230>
+                </a>
+                <div class="liking-item-text">
+                    <span class="item-name">{{ item.name }}</span><br>
+                    {{ item.trans_date }}<br>
+                    <span> {{ item.details.price }}원</span><br>
                     {% for trans_mode in item.details.transaction %}
                         {% if trans_mode == 'direct' %}
                             <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
@@ -68,12 +98,11 @@
                             <img src="../../static/img/box.png" style="width:30px; height: 30px;">
                         {% endif %}
                     {% endfor %} 
-
-
-                    <!-- Add more details as needed -->
-                </li>
-            {% endfor %}
-        </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
     </div>
     {% else %}
         <p>No liked items yet.</p>

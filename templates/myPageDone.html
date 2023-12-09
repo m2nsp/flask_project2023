@@ -7,6 +7,23 @@
     <title>My Page Ing</title>
     <style>
 
+        .upside-container {
+            display: flex;
+            margin: 0 10%;
+            margin-top: 50px;
+            justify-content: space-between; 
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .num-done{
+            font-size: 16px;
+
+        }
+
         .review-nav {
             margin-top: 50px;
             margin-bottom: 50px;
@@ -101,6 +118,11 @@
 
     <section>
         {% block section %}
+        <div class="upside-container">
+            <span class="page-title">완료된 거래</span>
+            <!-- <span class="num-done"> {{ liked_items|length }}</span> -->
+        </div>
+
         <nav class="review-nav">
             <ul>
                 <li class="{% if sort_mode == 'all' %}selected{% endif %}"><a href="{{ url_for('my_page_done', user_id=user_id, sort='all') }}">전체보기</a></li>
