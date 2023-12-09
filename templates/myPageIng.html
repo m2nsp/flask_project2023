@@ -6,52 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page Ing</title>
     <style>
-        .text-section {
-            flex: 1;
-            /* 공간을 남은 공간에 맞게 분배 */
-            margin: 20px;
-            /* 여백 추가 */
+        .review-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* 메뉴 토글 버튼을 위한 CSS */
-        #menuToggleBtn {
-            font-size: 24px;
-            /* 필요에 따라 크기를 조정합니다 */
-            cursor: pointer;
+        .review-nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
         }
 
-        /* 'active' 메뉴 상태를 위한 CSS */
-        .navbar__menu.active {
-            display: block;
-            position: absolute;
-            top: 50px;
-            /* 필요에 따라 상단 위치를 조정합니다 */
-            right: 0;
-            background-color: white;
-            z-index: 1;
+        .review-nav li {
+            margin-right: 20px;
         }
 
-        .nav_bar_present {
-            background-color: #E5C3A6;
-            padding: 10px 30px;
-            text-align: left;
-            font-size: medium;
-        }
-
-        .nav_links {
-            color: #943F2F;
-            font-weight: bold;
-        }
-
-        .nav_link {
+        .review-nav a {
             text-decoration: none;
-            color: #943F2F;
+            font-weight: bold;
             transition: color 0.3s;
+            position: relative;
         }
 
-        .nav_link:hover {
-            color: white;
-            font-weight: bold;
+        .review-nav a:hover {
+            color: #FF7500;
+        }
+
+        .review-nav::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%; /* 100% - (2 * 10%) */
+            height: 1px;
+            transition: width 0.3s, background-color 0.3s;
+        }
+
+        /* Adjust line width and color on hover */
+        .review-nav li:hover::after {
+            width: 20%; /* 1/4 of the nav width */
+            background-color: yellow;
+        }
+
+        .Ing-list {
+            display: flex;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 20px;
+            overflow-x: auto;
         }
 
         .contents {
@@ -62,11 +65,6 @@
             margin-top: 10px;
         }
 
-        .centered-text {
-            text-align: center;
-            color: #943F2F;
-        }
-
         .num-Ing {
             text-align: right;
             margin-right: 10px;
@@ -74,8 +72,7 @@
 
         .Ing-list {
             display: flex;
-            margin-left: 10px;
-            margin-top: 20px;
+            margin: 0 10%;
         }
 
         .Ing-item {
@@ -93,30 +90,6 @@
         .Ing-item-text {
             padding: 10px;
         }
-
-        .nav {
-            display: flex;
-            align-items: center;
-            font-size: x-large;
-            text-align: center;
-            margin-left: 180px;
-        }
-
-        .nav-item {
-            cursor: pointer;
-            padding: 10px 20px;
-            position: relative;
-        }
-
-        .nav-item:hover {
-            background-color: #f4d8d8;
-        }
-
-        .nav-divider {
-            width: 0.1px;
-            height: 30px;
-            background-color: rgb(48, 47, 47);
-        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -126,7 +99,7 @@
 
     <section>
         {% block section %}
-        <nav>
+        <nav class="review-nav">
             <ul>
                 <li><a href="{{ url_for('my_page_ing', user_id=user_id, sort='all') }}">전체보기</a></li>
                 <li><a href="{{ url_for('my_page_ing', user_id=user_id, sort='direct') }}">직거래</a></li>
@@ -135,7 +108,7 @@
             </ul>
         </nav>
 
-        <div class="Ing-list" id="ingListContainer">
+        <div class="Ing-list">
             {% for item in ing_items %}
                     <div class="Ing-item">
                         <img src="../../static/img/{{ item.img_path }} "width="150" height="200">
