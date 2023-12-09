@@ -6,24 +6,28 @@
     <link rel="stylesheet" href="#">
     <title>상품별 리뷰상세내역</title>
     <style>
-        .whole-container {
-            margin: 40px;
-        }
-
         .container {
             width: 100%;
         }
 
         .title {
-            margin-left: 130px;
+            margin-left: 10%;
             margin-bottom: 10px;
             font-size: 18px;
             font-weight: bold;
             text-align: left;
         }
 
+        .product-title {
+            margin-left: 10%;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 50px;
+            text-align: left;
+        }
+
         .div-container {
-            margin-left: 130px;
+            margin: 0 10%;
             align-items: flex-start;
             height: 260px;
         }
@@ -109,13 +113,6 @@
             margin-bottom: 5px;
         }
 
-        input {
-            width: 70%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
         .stars {
             font-size: 24px;
             display: flex;
@@ -138,7 +135,7 @@
             color: #F8D57E;
         }
 
-        button {
+        .review-button {
             background-color: #F8D57E;
             border: none;
             border-radius: 8px;
@@ -155,7 +152,7 @@
             border-radius: 8px;
             padding: 10px;
             width: 80%;
-            margin: 20px auto;
+            margin: 20px 10%;
         }
 
         .review-info-buyer {
@@ -163,7 +160,7 @@
             border-radius: 8px;
             padding: 20px;
             width: 80%;
-            margin: 20px auto;
+            margin: 20px 10%;
         }
     </style>
 </head>
@@ -173,7 +170,7 @@
     <section>
         {% block section %}
 
-    <div class="title">거래품목</div>
+    <div class="product-title">거래품목</div>
             <div class="div-container">
                 <div class="leftside">
                     <div class="product-info">
@@ -252,7 +249,7 @@
                 {% endif %}
             </div>
             
-            <button class="view-button" onclick="location.href='/reviewRegister/{{ name }}'">리뷰 등록하기</button>
+            <button class="review-button" onclick="location.href='/reviewRegister/{{ name }}'">리뷰 등록하기</button>
             
             {% endblock section %}
             </section>
