@@ -6,117 +6,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page Ing</title>
     <style>
-        .text-section {
+
+        .review-nav {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .review-nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0; 
+            justify-content: space-around;
+        }
+
+        .review-nav li{
             flex: 1;
-            /* 공간을 남은 공간에 맞게 분배 */
-            margin: 20px;
-            /* 여백 추가 */
         }
 
-        /* 메뉴 토글 버튼을 위한 CSS */
-        #menuToggleBtn {
-            font-size: 24px;
-            /* 필요에 따라 크기를 조정합니다 */
-            cursor: pointer;
-        }
-
-        /* 'active' 메뉴 상태를 위한 CSS */
-        .navbar__menu.active {
-            display: block;
-            position: absolute;
-            top: 50px;
-            /* 필요에 따라 상단 위치를 조정합니다 */
-            right: 0;
-            background-color: white;
-            z-index: 1;
-        }
-
-        .nav_bar_present {
-            background-color: #E5C3A6;
-            padding: 10px 30px;
-            text-align: left;
-            font-size: medium;
-        }
-
-        .nav_links {
-            color: #943F2F;
-            font-weight: bold;
-        }
-
-        .nav_link {
+        .review-nav a {
             text-decoration: none;
-            color: #943F2F;
-            transition: color 0.3s;
+            font-weight: bold;
+            position: relative;
+            border-bottom: 2px solid #919191;
+            color: #919191;
+            display: block;
+            padding: 0 3vw;
+            padding-bottom: 20px;
+            white-space: nowrap; 
         }
 
-        .nav_link:hover {
-            color: white;
-            font-weight: bold;
+        .review-nav a:hover {
+            color: #FF7500;
+            border-bottom: 2px solid #FF7500;
+        }
+
+        .review-nav li.selected a {
+            color: #FF7500;
+            border-bottom: 2px solid #FF7500;
+        }
+
+        .Ing-list {
+            display: flex;
+            margin: 0 10%;
+            margin-top: 20px;
         }
 
         .contents {
             display: flex;
             flex-direction: column;
             align-items: baseline;
-            margin-left: 30px;
             margin-top: 10px;
-        }
-
-        .centered-text {
-            text-align: center;
-            color: #943F2F;
-        }
-
-        .num-Ing {
-            text-align: right;
-            margin-right: 10px;
-        }
-
-        .Ing-list {
-            display: flex;
-            margin-left: 10px;
-            margin-top: 20px;
         }
 
         .Ing-item {
             border: 1px solid black;
             border-radius: 10px;
             width: 180px;
-            /* 원하는 너비로 조정 */
-            height: 400px;
-            /* 원하는 높이로 조정 */
-            margin-right: 20px;
-            /* 원하는 여백으로 조정 */
+            height: 350px;
+            margin: 20px;
             text-align: center;
+            /* overflow: hidden; */
+        }
+
+        .Ing-item img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
         }
 
         .Ing-item-text {
             padding: 10px;
         }
 
-        .nav {
-            display: flex;
-            align-items: center;
-            font-size: x-large;
-            text-align: center;
-            margin-left: 180px;
+        .Ing-item-text .item-name {
+        font-size: 18px;
         }
 
-        .nav-item {
-            cursor: pointer;
-            padding: 10px 20px;
-            position: relative;
+        .Ing-item-text > :not(.item-name) {
+            font-size: 16px;
         }
 
-        .nav-item:hover {
-            background-color: #f4d8d8;
-        }
-
-        .nav-divider {
-            width: 0.1px;
-            height: 30px;
-            background-color: rgb(48, 47, 47);
-        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -126,23 +101,22 @@
 
     <section>
         {% block section %}
-        <nav>
+        <nav class="review-nav">
             <ul>
-                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='all') }}">전체보기</a></li>
-                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='direct') }}">직거래</a></li>
-                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='parcel') }}">택배거래</a></li>
-                <li><a href="{{ url_for('my_page_done', user_id=user_id, sort='nondirect-box') }}">비대면상자</a></li>
-            </ul>
-        </nav>
+                <li class="{% if sort_mode == 'all' %}selected{% endif %}"><a href="{{ url_for('my_page_done', user_id=user_id, sort='all') }}">전체보기</a></li>
+                <li class="{% if sort_mode == 'direct' %}selected{% endif %}"><a href="{{ url_for('my_page_done', user_id=user_id, sort='direct') }}">직거래</a></li>
+                <li class="{% if sort_mode == 'parcel' %}selected{% endif %}"><a href="{{ url_for('my_page_done', user_id=user_id, sort='parcel') }}">택배거래</a></li>
+                <li class="{% if sort_mode == 'nondirect-box' %}selected{% endif %}"><a href="{{ url_for('my_page_done', user_id=user_id, sort='nondirect-box') }}">비대면상자</a></li>
+            </nav>
 
-        <div class="Ing-list" id="ingListContainer">
+        <div class="Ing-list">
             {% for item in done_items %}
                     <div class="Ing-item">
                         <img src="../../static/img/{{ item.img_path }} "width="150" height="200">
                         <div class="Ing-item-text">
-                            <h3>{{ item.name }}</h3> 
+                            <span class="item-name">{{ item.name }}</span><br><br>
                             {{ item.trans_date }}<br>
-                            {{ item.price }}<br>
+                            <span>{{ item.price }}원</span><br>
                             {% if item.trans_mode == 'direct' %}
                             <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
                             {% elif item.trans_mode == 'parcel' %}

@@ -373,8 +373,6 @@ def my_page_ing(user_id):
         return redirect(url_for('login'))
 
     ing_items = DB.get_ing_items_by_user_id(user_id)
-    print("Ing Items:", ing_items)
-
     sort_mode = request.args.get("sort", "all")
     if sort_mode == "direct":
         ing_items = [item for item in ing_items if item.get('trans_mode') == "direct"]
