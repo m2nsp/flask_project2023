@@ -1,11 +1,18 @@
 
 footer{
+  width: 100%; 
   height: 20px;
   position : relative;
   transform : translateY(-100%);
+  background-color: white;
+}
+
+hr{
+  width: 100%;
+  margin-top: 40px;
 }
 
 .text-section {
-    max-width: 100%;
-    margin: 5%;
+    max-width: 60%;
+    margin: 0 5%;
 }

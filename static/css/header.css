@@ -14,20 +14,27 @@ body {
     height: 100vh;
 }
 
+#gamjaMarketLink {
+    position: absolute;
+    left: 10%;
+    z-index: 1;
+}
+
 .menu-container {
     display: flex;
     margin-top: 20px;
+    align-items: center;
 }
 
 .searchbar {
-    flex: 0 0 auto;
-    margin-right: auto;
+    position: absolute;
     display: flex;
     border: none;
     border-radius: 26px;
-    width: 400px; 
+    width: 40%;
     padding: 10px 20px;
     background-color: white;
+    left: calc(10% + 50px);
 }
 
 .search-input {
@@ -37,7 +44,7 @@ body {
 
 .nav-button {
     border: none;
-    background-color: transparent; 
+    background-color: transparent;
     cursor: pointer;
 }
 
@@ -55,82 +62,85 @@ nav {
 }
 
 nav ul {
-    flex: 1;
     list-style: none;
     display: flex;
-    right: 100px;
+    position: absolute;
+    right: 10%;
+}
+
+nav ul li {
+    margin-left: 20px;
 }
 
 nav a {
     text-decoration: none;
     white-space: nowrap;
     color: #000000;
-    margin: 0 10px;
 }
 
 #menuicon {
     display: none;
 }
 
-#gamjaMarketLink {
-    margin-left: 80px;
-}
-
 input[id="menuicon"] + label {
     display: block;
-    width: 20px; /* 전체 아이콘 가로 크기 */
-    height: 20px; /* 전체 아이콘 세로 크기 */
+    width: 20px;
+    height: 20px;
     position: absolute;
     cursor: pointer;
     z-index: 2;
-    /* top: 15px; */
-    left: 100px;
+    left: 10%;
 }
 
 input[id="menuicon"] + label span {
     display: block;
-    position: absolute;
-    width: 25px; /* 막대기 너비를 전체 아이콘 크기에 맞춤 */
+    width: 25px;
     height: 2px;
     border-radius: 30px;
     background: rgb(0, 0, 0);
     transition: all .35s;
+    position: absolute;
+    z-index: 2;
+    left: 10%;
 }
 
-input[id="menuicon"] + label span:nth-child(1){
+input[id="menuicon"] + label span:nth-child(1) {
     top: 0;
-    margin-top: -0.2px; /* 막대기 간 간격을 조절 */
+    margin-top: -0.2px;
 }
 
-input[id="menuicon"] + label span:nth-child(2){
+input[id="menuicon"] + label span:nth-child(2) {
     top: 50%;
     transform: translateY(-50%);
 }
 
-input[id="menuicon"] + label span:nth-child(3){
+input[id="menuicon"] + label span:nth-child(3) {
     bottom: 0;
-    margin-top: -0.2px; /* 막대기 간 간격을 조절 */
+    margin-top: -0.2px;
 }
 
-/* 체크된 상태일 때의 스타일도 변경 */
-input[id="menuicon"]:checked + label span:nth-child(1){
+input[id="menuicon"]:checked + label span:nth-child(1) {
     top: 50%;
     transform: translateY(-50%) rotate(45deg);
 }
 
-input[id="menuicon"]:checked + label span:nth-child(2){
+input[id="menuicon"]:checked + label span:nth-child(2) {
     opacity: 0;
 }
 
-input[id="menuicon"]:checked + label span:nth-child(3){
+input[id="menuicon"]:checked + label span:nth-child(3) {
     bottom: 50%;
     transform: translateY(50%) rotate(-45deg);
+}
+
+input[id="menuicon"]:checked + label + .searchbar {
+    left: calc(10% + 50px);
 }
 
 .sidebar {
     width: 250px;
     height: 100%;
-    background: #F6E7E6; /* 배경색을 원하는 색상으로 설정 */
+    background: #F6E7E6;
     position: absolute;
     top: 0;
     left: -300px;
@@ -138,7 +148,6 @@ input[id="menuicon"]:checked + label span:nth-child(3){
     transition: all .35s;
     display: flex;
     flex-direction: column;
-    
 }
 
 .sidebar-active {
@@ -150,11 +159,10 @@ input[id="menuicon"]:checked + label + div {
 }
 
 .menu-title {
-
     font-weight: bold;
     font-size: 20px;
     margin-top: 150px;
-    margin-left : 20px;
+    margin-left: 20px;
     text-align: center;
 }
 
@@ -169,14 +177,15 @@ input[id="menuicon"]:checked + label + div {
     font-size: 16px;
     display: block;
     margin-bottom: 2px;
-    transition: color 0.3s; /* hover 시 색 변화를 위한 트랜지션 */
+    transition: color 0.3s;
     text-align: center;
 }
 
 .menu-group a:hover {
-    color: brown; /* 갈색으로 변경 (예시 색상) */
+    color: brown;
     font-weight: bold;
 }
+
 .menu-group + .menu-title {
-    margin-top: 20px; /* 조절된 값 */
+    margin-top: 20px;
 }
