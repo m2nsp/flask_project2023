@@ -55,6 +55,17 @@
             <a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a>
         </div>
     </div>
+
+    <script>
+        function goToHomePage() {
+            window.location.href = "home.html";
+        }
+
+        function toggleMenu() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('sidebar-active');
+        }
+    </script>
 </body>
 
 </html>

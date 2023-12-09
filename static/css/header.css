@@ -14,7 +14,7 @@ body {
     height: 100vh;
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1500px) {
     body {
         overflow-x: hidden; /* Hide horizontal scrollbar for screens wider than 1200px */
     }
@@ -106,8 +106,6 @@ input[id="menuicon"] + label span {
     background: rgb(0, 0, 0);
     transition: all .35s;
     position: absolute;
-    z-index: 2;
-    left: 10%;
 }
 
 input[id="menuicon"] + label span:nth-child(1) {
