@@ -205,7 +205,7 @@ def view_list():
 @application.route("/flip_view")
 def flip_view():
     items = DB.get_items()
-    return render_template("flip_view.html", items=items)
+    return render_template("flipView.html", items=items)
 
 
 

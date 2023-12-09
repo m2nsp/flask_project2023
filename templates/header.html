@@ -44,7 +44,7 @@
         <div class="menu-group">
             <a href="{{ url_for('reg_items') }}">상품 등록</a>
             <a href="{{ url_for('view_list') }}">전체 상품 조회</a>
-            <a href="/flipView.html">플립뷰</a>
+            <a href="{{ url_for('flip_view') }}">플립뷰</a>
         </div>
         <br><br>
         <div class="menu-title">마이페이지</div><br>
@@ -53,7 +53,7 @@
             <a href="{{ url_for('my_page_done', user_id=session['id']) }}">완료된 거래</a>
             <a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a>
             <a href="{{ url_for('my_likes')}}">나의 찜</a>
-            <a href="/mypage_profile.html">마이프로필</a>
+            <a href="{{ url_for('myProfile')}}">마이프로필</a>
             <a href="{{ url_for('my_review', user_id=session['id']) }}">나의 리뷰</a>
         </div>
     </div>
