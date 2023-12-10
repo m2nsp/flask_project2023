@@ -139,10 +139,7 @@
                                 <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
                             </a>
                         {% else %}
-                            <a href="{{ url_for('detail_purchased', name=item.name) }}">
-                                <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
-                            </a>
-                            <a href="/detail_purchased/{{ item.name }}">
+                            <a href="/view_detail/{{ item.name }}">
                                 <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
                             </a>
                         {% endif %}
