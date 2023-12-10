@@ -146,16 +146,6 @@ def reg_item_submit_post():
 #     data = DB.get_item_by_name(str(name))
 #     return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
 
-@application.route("/view_detail/<name>/")
-def view_item_detail(name):
-    data = DB.get_item_by_name(str(name))
-    comments = DB.get_comments(name)
-    print(comments)  # 댓글 데이터 출력
-    if comments is None:
-        comments = []
-    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'], comments=comments)
-
-
 @application.route("/list")
 def view_list():
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -215,8 +205,6 @@ def purchase_item(name):
     data=DB.get_item_by_name(str(name))
     return render_template("purchasePage.html", name=name, data=data, transaction_list=data['transaction'])
 
-
-# '결제하기' 버튼 누르면 결제 정보가 DB로 넘어가고 '거래진행중' 버튼 보이는 detail_purchased 페이지로 넘어감 -- 이게 안됨ㅠ
 @application.route('/reg_buy/<string:name>', methods=['POST'])
 def reg_buy(name):
     buyer_id = session.get('id') 
@@ -231,11 +219,23 @@ def reg_buy(name):
     # 구매 완료 페이지로 이동
     return render_template("detail_purchased.html", name=name, data=data, trans_mode = trans_mode)
 
+@application.route("/view_detail/<name>/")
+def view_item_detail(name):
+    data = DB.get_item_by_name(str(name))
+    comments = DB.get_comments(name)
+    print(comments)  # 댓글 데이터 출력
+    if comments is None:
+        comments = []
+    return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'], comments=comments)
 
 @application.route("/detail_purchased/<name>/")
 def detail_purchased(name):
     data=DB.get_item_by_name(str(name))
-    return render_template("detail_purchased.html", name=name, data=data)
+    comments = DB.get_comments_purchased(name)
+    print(comments)
+    if comments is None:
+        comments=[]
+    return render_template("detail_purchased.html", name=name, data=data, comments=comments)
 
 
 
@@ -279,6 +279,15 @@ def submit_comment(name):
     comment = request.form
     DB.submit_comment(comment, name)
     return redirect(url_for("view_item_detail", name=name))
+
+@application.route("/submit_comment_purchased/<name>/", methods=['POST'])
+def submit_comment_purchased(name):
+    id = request.form.get('id')
+    content = request.form.get('content')
+    comment = {'id': id, 'content': content}
+    DB.submit_comment_purchased(comment, name)
+    return redirect(url_for("detail_purchased", name=name))
+
 
 
 @application.route("/submit_review", methods=['POST'])
@@ -437,4 +446,4 @@ def my_page_done(user_id):
 
 
 if __name__ == "__main__":
-    application.run(host='0.0.0.0', debug=True)
+    application.run(debug=True)
