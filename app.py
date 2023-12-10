@@ -169,40 +169,28 @@ def view_list():
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     page = request.args.get("page", 0, type=int)
     item_status = request.args.get("item_status", "all")
-    per_page = 6
-    per_row = 3
-    row_count = int(per_page / per_row)
+    items = DB.get_items_to_list()  # Call the method to get the list of items
+    
+    if item_status == "available":
+        items = [item for item in items if item['item_status'] == "available"]
+    elif item_status == "거래완료":
+        items = [item for item in items if item['item_status'] == "거래완료"]
+        
+    per_page = 5
+    
     start_idx = per_page * page
     end_idx = per_page * (page + 1)
 
-    if item_status == "all":
-        data = DB.get_items()  # read the table
-    else:
-        data = DB.get_items_bycategory(item_status)
-
-    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
+    data = items[start_idx:end_idx]
+    tot_count = len(items)
     item_counts = len(data)
-
-    if item_counts <= per_page:
-        data = dict(list(data.items())[:item_counts])
-    else:
-        data = dict(list(data.items())[start_idx:end_idx])
-
-    tot_count = len(data)
-    for i in range(row_count):
-        if (i == row_count - 1) and (tot_count % per_row != 0):
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:])
-        else:
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i * per_row:(i + 1) * per_row])
-
+    
     return render_template(
         "all_items.html",
-        datas=data.items(),
-        row1=locals()['data_0'].items(),
-        row2=locals()['data_1'].items(),
-        limit=per_page,
+        datas=data,
         page=page,
-        page_count=int(math.ceil(item_counts / per_page)),
+        page_count=int(math.ceil(tot_count / per_page)),
+        all_total = tot_count,
         total=item_counts,
         item_status=item_status,
         post_date=post_date
