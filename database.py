@@ -67,6 +67,23 @@ class DBhandler:
     def get_items(self):
         items = self.db.child("item").get().val()
         return items
+
+    def get_items_to_list(self):
+        all_items = self.db.child("item").get().val()
+        items = []
+        
+        for item_name, item_info in all_items.items():
+            new_items_info = {
+                'name': item_name,
+                'post_date': item_info.get('post_date'),
+                'trans_mode': item_info.get('transaction'),
+                'img_path': item_info.get('img_path'),
+                'price': item_info.get('price'),
+                'item_status': item_info.get('item_status')
+            }
+            items.append(new_items_info)
+
+        return items
     
     def get_available_items(self):
         items = self.db.child("item").get().val()
