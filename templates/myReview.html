@@ -186,7 +186,7 @@
                                 <a href="{{ url_for('view_item_detail', name=review.name) }}">
                                     <img src="../../static/img/{{review.img_path}}" alt="Product Image">
                                 </a>
-                                <button class="view-button" onclick="location.href='{{ url_for('view_item_detail', name=review.name) }}'">상품 상세보기</button>
+                                <button class="view-button" onclick="location.href='{{ url_for('review_detail', name=review.name) }}'">리뷰 상세보기</button>
                             </div>
                             <div class="info-details">
                                 <div class="info-line">
