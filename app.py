@@ -16,7 +16,7 @@ def hello():
     user_id = session.get('id') 
     liked_items = DB.get_liked_items(user_id)
     data = {'items': items, 'img_paths': img_paths, 'liked_items': liked_items}
-    return render_template("home.html", data=data)
+    return render_template("home.html", data=data, liked_items=liked_items)
 
 @application.route("/base", methods=['GET', 'POST'])
 def base():
