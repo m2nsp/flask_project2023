@@ -13,7 +13,9 @@ DB = DBhandler()
 def hello():
     items = DB.get_available_items()
     img_paths = [item_data.get("img_path") for item_data in items.values() if item_data.get("img_path")]
-    return render_template("home.html", data={'items': items, 'img_paths': img_paths})
+    user_id = session['id']
+    liked_items = DB.get_liked_items(user_id)
+    return render_template("home.html", data={'items': items, 'img_paths': img_paths}, liked_items=liked_items)
 
 @application.route("/base", methods=['GET', 'POST'])
 def base():

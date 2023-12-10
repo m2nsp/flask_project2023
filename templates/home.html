@@ -126,7 +126,7 @@
                     </a>
                     <div class="Ing-item-text">
                         <span class="item-name">{{ item_key }}</span><br><br>
-                        {{ item_data.trans_date }}<br>
+                        {{ item_data.post_date }}<br>
                         <span>{{ item_data.price }}원</span><br>
                         {% if item_data.trans_mode == 'direct' %}
                             <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
@@ -140,35 +140,36 @@
             {% endfor %}
         </div>
 
-        
+        {% if liked_items %}
         <div class="upside-container">
-            <span class="page-title">따끈따끈하게 올라온 신상품</span>
+            <span class="page-title">회원님이 찜한 상품</span>
         </div>
 
         <div class="Ing-list">
-            {% for item_key, item_data in data['items'].items() %}
+            {% for item in liked_items %}
                 <div class="Ing-item">
-                    <a href="/view_detail/{{ item_key }}">
-                        <img src="../../static/img/{{ item_data.img_path }}" width="150" height="200">
+                    <a href="/view_detail/{{ item.name }}">
+                        <img src="../../static/img/{{ item.details.img_path }}" width="150" height="200">
                     </a>
                     <div class="Ing-item-text">
-                        <span class="item-name">{{ item_key }}</span><br><br>
-                        {{ item_data.trans_date }}<br>
-                        <span>{{ item_data.price }}원</span><br>
-                        {% if item_data.trans_mode == 'direct' %}
-                            <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
-                        {% elif item_data.trans_mode == 'parcel' %}
-                            <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
-                        {% elif item_data.trans_mode == 'nondirect-box' %}
-                            <img src="../../static/img/box.png" style="width:30px; height: 30px;">
-                        {% endif %}
+                        <span class="item-name">{{ item.name }}</span><br><br>
+                        {{ item.details.post_date }}<br>
+                        <span>{{ item.details.price }}원</span><br>
+                        {% for trans_mode in item.details.transaction %}
+                            {% if trans_mode == 'direct' %}
+                                <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                            {% elif trans_mode == 'parcel' %}
+                                <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                            {% elif trans_mode == 'nondirect-box' %}
+                                <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                            {% endif %}
+                        {% endfor %} 
                     </div>
                 </div>
             {% endfor %}
         </div>
-        
-  
-        {% endblock section %}
+    {% endif %}
+    
 
         <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -201,6 +202,8 @@
         }
 
         </script>
+          
+        {% endblock section %}
     </section>
 
     {% include 'footer.html' %}
