@@ -30,6 +30,17 @@
         .left-side p {
           font-size: 16px;
         }
+
+        .go-to-flipview.button {
+            background-color: #F8D57E;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 20vw;
+            height: 8vh;
+            font-size: 20px;
+        }
     
     
       </style>
@@ -42,7 +53,8 @@
         <div class="flip-view-container">
             <div class="left-side">
               <h2>넘기고,<br> 찜하세요!</h2>
-              <p>쇼핑은 하고싶은데, 사고싶은 물건이 눈에 띄지 않았나요?<br> 플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을 찜하세요!<br> 감자마켓이 더욱 간편해진 물건 탐색을 도와드릴게요.</p>
+              <p>쇼핑은 하고싶은데, 사고싶은 물건이 눈에 띄지 않았나요?<br> 플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을 찜하세요! 감자마켓이 더욱 간편해진 물건 탐색을 도와드릴게요.</p><br><br>
+              <button class="go-to-flipview button" onclick="goToFlipView()">플립뷰 사용하기</button>
             </div>
             <div class="right-side">
 
@@ -76,6 +88,10 @@
 
             setInterval(updateImage, 1000);
         });
+
+        function goToFlipView() {
+            window.location.href = "/flipView"; 
+        }
 
         </script>
     </section>
