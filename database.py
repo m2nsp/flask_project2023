@@ -68,6 +68,11 @@ class DBhandler:
         items = self.db.child("item").get().val()
         return items
     
+    def get_available_items(self):
+        items = self.db.child("item").get().val()
+        available_items = {key: value for key, value in items.items() if value.get('item_status') == 'available'}
+        return available_items
+    
     def get_item_by_name(self, name):
         items = self.db.child("item").get()
         target_value=""

@@ -11,7 +11,7 @@ DB = DBhandler()
 
 @application.route("/", methods=['GET', 'POST'])
 def hello():
-    items = DB.get_items()
+    items = DB.get_available_items()
     img_paths = [item_data.get("img_path") for item_data in items.values() if item_data.get("img_path")]
     return render_template("home.html", data={'items': items, 'img_paths': img_paths})
 

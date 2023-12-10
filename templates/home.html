@@ -9,7 +9,7 @@
         .flip-view-container {
           background-color: #F7F5FD;
           display: flex;
-          padding: 100px 150px;
+          padding: 5% 10%;
           height: 400px;
         }
     
@@ -41,7 +41,60 @@
             height: 8vh;
             font-size: 20px;
         }
+
+        .upside-container {
+            display: flex;
+            margin: 0 10%;
+            margin-top: 50px;
+            justify-content: space-between; 
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
     
+        .Ing-list {
+            display: flex;
+            margin: 0 10%;
+            margin-top: 10px;
+        }
+
+        .contents {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            margin-top: 10px;
+        }
+
+        .Ing-item {
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 180px;
+            height: 350px;
+            margin: 20px;
+            text-align: center;
+            /* overflow: hidden; */
+        }
+
+        .Ing-item img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .Ing-item-text {
+            padding: 10px;
+        }
+
+        .Ing-item-text .item-name {
+        font-size: 18px;
+        }
+
+        .Ing-item-text > :not(.item-name) {
+            font-size: 16px;
+        }
     
       </style>
 </head>
@@ -56,10 +109,64 @@
               <p>쇼핑은 하고싶은데, 사고싶은 물건이 눈에 띄지 않았나요?<br> 플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을 찜하세요! 감자마켓이 더욱 간편해진 물건 탐색을 도와드릴게요.</p><br><br>
               <button class="go-to-flipview button" onclick="goToFlipView()">플립뷰 사용하기</button>
             </div>
-            <div class="right-side">
+            <div class="right-side"></div>
+        </div>
+          
 
-            </div>
-          </div>
+        <div class="upside-container">
+            <span class="page-title">따끈따끈하게 올라온 신상품</span>
+        </div>
+        
+
+        <div class="Ing-list">
+            {% for item_key, item_data in data['items'].items() %}
+                <div class="Ing-item">
+                    <a href="/view_detail/{{ item_key }}">
+                        <img src="../../static/img/{{ item_data.img_path }}" width="150" height="200">
+                    </a>
+                    <div class="Ing-item-text">
+                        <span class="item-name">{{ item_key }}</span><br><br>
+                        {{ item_data.trans_date }}<br>
+                        <span>{{ item_data.price }}원</span><br>
+                        {% if item_data.trans_mode == 'direct' %}
+                            <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                        {% elif item_data.trans_mode == 'parcel' %}
+                            <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                        {% elif item_data.trans_mode == 'nondirect-box' %}
+                            <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        
+        <div class="upside-container">
+            <span class="page-title">따끈따끈하게 올라온 신상품</span>
+        </div>
+
+        <div class="Ing-list">
+            {% for item_key, item_data in data['items'].items() %}
+                <div class="Ing-item">
+                    <a href="/view_detail/{{ item_key }}">
+                        <img src="../../static/img/{{ item_data.img_path }}" width="150" height="200">
+                    </a>
+                    <div class="Ing-item-text">
+                        <span class="item-name">{{ item_key }}</span><br><br>
+                        {{ item_data.trans_date }}<br>
+                        <span>{{ item_data.price }}원</span><br>
+                        {% if item_data.trans_mode == 'direct' %}
+                            <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                        {% elif item_data.trans_mode == 'parcel' %}
+                            <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                        {% elif item_data.trans_mode == 'nondirect-box' %}
+                            <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
   
         {% endblock section %}
 
