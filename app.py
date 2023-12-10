@@ -13,9 +13,10 @@ DB = DBhandler()
 def hello():
     items = DB.get_available_items()
     img_paths = [item_data.get("img_path") for item_data in items.values() if item_data.get("img_path")]
-    user_id = session['id']
+    user_id = session.get('id') 
     liked_items = DB.get_liked_items(user_id)
-    return render_template("home.html", data={'items': items, 'img_paths': img_paths}, liked_items=liked_items)
+    data = {'items': items, 'img_paths': img_paths, 'liked_items': liked_items}
+    return render_template("home.html", data=data)
 
 @application.route("/base", methods=['GET', 'POST'])
 def base():
@@ -33,7 +34,7 @@ def login_user():
     pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
     if DB.find_user(id_,pw_hash):
         session['id']=id_
-        return render_template('home.html')                #이부분 나중에 view_list로 수정필요
+        return redirect(url_for('hello'))                #이부분 나중에 view_list로 수정필요
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
@@ -50,7 +51,7 @@ def find_user(self, id_, pw_):
 @application.route("/logout")
 def logout_user():
     session.clear()
-    return render_template('home.html')                    #이부분 나중에 view_list로 수정필요
+    return redirect(url_for('hello'))                    #이부분 나중에 view_list로 수정필요
 
 @application.route("/signup")
 def signUp():
