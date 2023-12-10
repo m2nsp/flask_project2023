@@ -31,10 +31,6 @@
           font-size: 16px;
         }
     
-        .right-side .item-status {
-          overflow: hidden;
-          height: 300px; 
-        }
     
       </style>
 </head>
@@ -54,6 +50,34 @@
           </div>
   
         {% endblock section %}
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rightSide = document.querySelector(".right-side");
+
+            const itemImages = [
+                {% for item_key, item_data in data['items'].items() %}
+                    {% if item_data.img_path %}
+                        "static/img/{{ item_data.img_path }}",
+                    {% endif %}
+                {% endfor %}
+            ];
+
+            console.log(itemImages);
+            let currentIndex = 0;
+
+            function updateImage() {
+                rightSide.style.backgroundImage = `url('${itemImages[currentIndex]}')`;
+                console.log("Current Index:", currentIndex);
+                currentIndex = (currentIndex + 1) % itemImages.length;
+            }
+
+            updateImage();
+
+            setInterval(updateImage, 1000);
+        });
+
+        </script>
     </section>
 
     {% include 'footer.html' %}
