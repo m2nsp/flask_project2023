@@ -78,10 +78,17 @@ def myPage():
         
         # 리뷰가 있는 경우에만 평균 계산
         average_rating = sum(ratings) / len(ratings) if ratings else 0
+        sold_count, bought_count = DB.count_sold_and_bought_items(user_id)
     else:
         average_rating = 0
+        sold_count = 0
+        bought_count = 0
 
-    return render_template('myPage.html', average_rating=average_rating, session=session)
+    return render_template('myPage.html', 
+                           average_rating=average_rating, 
+                           session=session,
+                           sold_count=sold_count,
+                           bought_count=bought_count)
 
 @application.route('/myProfile')
 def myProfile():
@@ -97,12 +104,18 @@ def myProfile():
         
         # 리뷰가 있는 경우에만 평균 계산
         average_rating = sum(ratings) / len(ratings) if ratings else 0
+        sold_count, bought_count = DB.count_sold_and_bought_items(user_id)
     else:
         average_rating = 0
+        sold_count = 0
+        bought_count = 0
 
     ing_items = DB.get_ing_items_by_user_id(user_id)
 
-    return render_template('myProfile.html', average_rating=average_rating, session=session, ing_items=ing_items, buyer_reviews=buyer_reviews)
+    return render_template('myProfile.html', average_rating=average_rating, session=session, ing_items=ing_items, 
+                            sold_count=sold_count,
+                            bought_count=bought_count,
+                            buyer_reviews=buyer_reviews)
 
 
 

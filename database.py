@@ -346,7 +346,22 @@ class DBhandler:
         return True
 
 
+    def count_sold_and_bought_items(self, user_id):
+        all_transactions = self.db.child("trans_info").get().val()
+        all_items = self.db.child("item").get().val()
 
-    def get_comments_purchased(self, item):
-        comments = self.db.child("comment_info_purchased").child(item).get().val()
-        return [value for value in comments.values()] if comments else []
+        sold_count = 0
+        bought_count = 0
+
+        for item_name, item_info in all_items.items():
+            seller_id = item_info.get('seller_id')
+            trans_info = all_transactions.get(item_name, {})
+            buyer_id = trans_info.get('buyer_id')
+
+            if seller_id == user_id and item_info['item_status'] == '거래완료':
+                sold_count += 1
+            elif buyer_id == user_id and item_info['item_status'] == '거래완료':
+                bought_count += 1
+
+        return sold_count, bought_count
+

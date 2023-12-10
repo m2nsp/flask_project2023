@@ -1,9 +1,9 @@
 {
-  "apiKey": "AIzaSyB_01Mcr2Wm3AY_CNkK0kCvMoTx-3hnA5I",
-  "authDomain": "yookgamja.firebaseapp.com",
-  "databaseURL": "https://yookgamja-default-rtdb.firebaseio.com",
-  "projectId": "yookgamja",
-  "storageBucket": "yookgamja.appspot.com",
-  "messagingSenderId": "534257422435",
-  "appId": "1:534257422435:web:bef57d0d3feb39beb36856"
+  "apiKey": "AIzaSyBjHbqaujplRZ_mM0BTe1Jfa5eP85Y04bM",
+  "authDomain": "gamjamarket-2fdd1.firebaseapp.com",
+  "databaseURL": "https://gamjamarket-2fdd1-default-rtdb.firebaseio.com",
+  "projectId": "gamjamarket-2fdd1",
+  "storageBucket": "gamjamarket-2fdd1.appspot.com",
+  "messagingSenderId": "1049273643192",
+  "appId": "1:1049273643192:web:52491caef97c15bdc7844d"
 }
