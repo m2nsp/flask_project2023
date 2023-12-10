@@ -134,9 +134,15 @@
         <div class="Ing-list">
             {% for item in ing_items %}
                     <div class="Ing-item">
-                        <a href="/view_detail/{{ item.name }}">
-                            <img src="../../static/img/{{ item.img_path }} "width="150" height="200">
-                        </a>
+                        {% if item.trans_mode == 'nondirect-box' %}
+                            <a href="{{ url_for('view_trade_box_detail', name=item.name) }}">
+                                <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
+                            </a>
+                        {% else %}
+                            <a href="/view_detail/{{ item.name }}">
+                                <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
+                            </a>
+                        {% endif %}
                         <div class="Ing-item-text">
                             <span class="item-name">{{ item.name }}</span><br><br>
                             {{ item.trans_date }}<br>

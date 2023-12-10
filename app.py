@@ -463,5 +463,14 @@ def my_page_done(user_id):
     )
 
 
+@application.route("/myTradeBox/<name>/")
+def view_trade_box_detail(name):
+    if 'id' not in session:
+        flash("로그인이 필요한 서비스입니다.")
+        return redirect(url_for('login'))
+    data = DB.get_item_by_name(name)
+    return render_template("my_trade_box.html", name=name, data=data)
+
+
 if __name__ == "__main__":
-    application.run(debug=True)
+    application.run(host='0.0.0.0', debug=True)

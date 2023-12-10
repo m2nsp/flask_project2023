@@ -113,6 +113,7 @@ class DBhandler:
         }
         #Update item_status into "거래진행중"
         self.db.child("item").child(item_name).update({"item_status": "거래진행중"})
+        self.db.child("item").child(item_name).child("trans_date").set(formatted_date)
 
         # 각 상품에 대한 거래 정보를 저장할 때, 상품명을 키로 사용
         self.db.child("trans_info").child(item_name).set(buy_info)
