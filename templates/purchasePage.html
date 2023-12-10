@@ -6,35 +6,23 @@
     <title>상품 결제 페이지</title>
     <style>
 
-        .all-part{
+        .about-item{
             display: flex;
-            align-items: flex-start;
-            margin: 3%;
-            flex-direction: row;
+            margin-bottom: 3%;
         }
-        
-        .left-part{
-            margin-left:10%;
-            flex: 1;
+
+
+        .purchase-part1{
+            margin-top: 3%;
+            margin-left:5%;
         }
 
         .right-part{
-            flex: 0 0 auto;
-        }
-
-        .about-item{
-            display: flex;
-            margin-bottom: 100px;
-        }
-        
-        .image-container{
-            background-color: gray;
-            width: 470px;
-            height: 400px;
+            margin-left: 20%;
         }
 
         .item-info{
-            margin-left: 50px;
+            margin-left: 5%;
         }
 
         .all-part label {
@@ -43,15 +31,28 @@
             margin-bottom: 30px;
         }
 
+        .trans_button{
+            margin-bottom: 18px;
+        }
+
+        .purchase-part2{
+            display: flex;
+            margin-left: 5%;
+            margin-bottom: 5%;
+        }
+
+        .purchase-submit-button{
+            margin-left: 45%;
+        }
+
         .purchase-item{
             border: none;
             border-radius: 5px;
             background-color: #F8D57E;
             padding: 10px 20px;
-            font-size: 20px;
+            font-size: 24px;
             width: 470px;
             height: 70px;
-            margin-top: 80px;
         }
 
     </style>
@@ -63,9 +64,8 @@
         {% block section %}
 
 
-    <div class="all-part">
         <form class="mb-3" name="myform" id="myform" method="post" action="/reg_buy/{{name}}" enctype="multipart/form-data">
-            <div class="left-part">
+            <div class="purchase-part1">
                 <h2>거래 품목</h2>
                 <div class="about-item">
                     <div class="image-container">
@@ -79,60 +79,71 @@
                         거래가격
                         <h3>{{data.price}}</h3><br>
                     </div>
-                </div>
-                <div class="transaction-mode">
-                <h2>거래 방식</h2>
 
-                {% for transaction_value in transaction_list %}
-                    <div class="trans-mode">
-                        {% if transaction_value == 'direct' %}
-                            <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
-                            <label for="direct">직거래</label>
-                        {% endif %}
-                        {% if transaction_value == 'parcel' %}
-                            <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
-                            <label for="parcel">택배</label>
-                        {% endif %}
-                        {% if transaction_value == 'nondirect-box' %}
-                            <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
-                            <label for="nondirect-box">비대면 상자</label>
-                        {% endif %}
+
+                    <div class="right-part">
+                        <h2>결제 정보</h2>
+                        <br><br>
+                        <div class="r-1">
+                            <input type="radio" id="direct-radio" class="payment-radio" data-group="r-1" name="transMedia" value="direct">
+                            <label for="direct-radio">직거래</label>
+                        
+                            <input type="radio" id="card-radio" class="payment-radio" data-group="r-1" name="transMedia" value="card">
+                            <label for="card-radio">카드</label>
+                        </div><br>
+                        <div class="r-2">
+                            <input type="radio" id="virtual-account-radio" class="payment-radio" data-group="r-2" name="transMedia" value="virtual-account">
+                            <label for="virtual-account-radio">가상 계좌</label>
+                        
+                            <input type="radio" id="phone-radio" class="payment-radio" data-group="r-2" name="transMedia" value="phone">
+                            <label for="phone-radio">휴대폰</label>
+                        </div><br>
+                        <div class="r-3">
+                            <input type="radio" id="naver-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="naver-pay">
+                            <label for="naver-pay-radio">네이버페이</label>
+                        
+                            <input type="radio" id="kakao-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="kakao-pay">
+                            <label for="kakao-pay-radio">카카오페이</label>
+                        </div>
                     </div>
-                {% endfor %}
-                
+
+
                 </div>
             </div>
 
+            <div class="purchase-part2">
+                <div class="transaction-mode">
+                    <h2>거래 방식</h2>
 
-            <div class="right-part">
-                <h2>결제 정보</h2>
-                <br><br>
-                <div class="r-1">
-                    <input type="radio" id="direct-radio" class="payment-radio" data-group="r-1" name="transMedia" value="direct">
-                    <label for="direct-radio">직거래</label>
-                
-                    <input type="radio" id="card-radio" class="payment-radio" data-group="r-1" name="transMedia" value="card">
-                    <label for="card-radio">카드</label>
-                </div><br>
-                <div class="r-2">
-                    <input type="radio" id="virtual-account-radio" class="payment-radio" data-group="r-2" name="transMedia" value="virtual-account">
-                    <label for="virtual-account-radio">가상 계좌</label>
-                
-                    <input type="radio" id="phone-radio" class="payment-radio" data-group="r-2" name="transMedia" value="phone">
-                    <label for="phone-radio">휴대폰</label>
-                </div><br>
-                <div class="r-3">
-                    <input type="radio" id="naver-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="naver-pay">
-                    <label for="naver-pay-radio">네이버페이</label>
-                
-                    <input type="radio" id="kakao-pay-radio" class="payment-radio" data-group="r-3" name="transMedia" value="kakao-pay">
-                    <label for="kakao-pay-radio">카카오페이</label>
-                </div><br>
-
-                <button type="submit" class="purchase-item" onclick="location.href='/detail_purchased/{{name}}/';" style="cursor: pointer;">결제 하기</button>
-            </div>    
+                    {% for transaction_value in transaction_list %}
+                    <div class="trans-mode">
+                        {% if transaction_value == 'direct' %}
+                            <div class="trans_button">
+                                <input type="checkbox" id="direct" class="trans-checkbox" name="transMode" value="direct">
+                                <label for="direct">직거래</label>
+                            </div>
+                        {% endif %}
+                        {% if transaction_value == 'parcel' %}
+                            <div class="trans_button">
+                                <input type="checkbox" id="parcel" class="trans-checkbox" name="transMode" value="parcel">
+                                <label for="parcel">택배</label>
+                            </div>
+                        {% endif %}
+                        {% if transaction_value == 'nondirect-box' %}
+                            <div class="trans_button">
+                                <input type="checkbox" id="nondirect-box" class="trans-checkbox" name="transMode" value="nondirect-box">
+                                <label for="nondirect-box">비대면 상자</label>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                </div>
+                <div class="purchase-submit-button">
+                    <button type="submit" class="purchase-item" onclick="location.href='/detail_purchased/{{name}}/';" style="cursor: pointer;">결제 하기</button>
+                </div>
+            </div>
+   
         </form>
-    </div>
     {% endblock section %}
 </section>
 {% include 'footer.html' %}
