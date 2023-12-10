@@ -95,6 +95,15 @@
         .Ing-item-text > :not(.item-name) {
             font-size: 16px;
         }
+
+        .view-button {
+            background-color: white;
+            font-size: 14px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: black;
+            padding: 2px;
+        }
     
       </style>
 </head>
@@ -115,6 +124,7 @@
 
         <div class="upside-container">
             <span class="page-title">따끈따끈하게 올라온 신상품</span>
+            <a href="{{ url_for('view_list') }}" class="view-button">전체보기 ></a>
         </div>
         
 
@@ -143,6 +153,7 @@
         {% if liked_items %}
         <div class="upside-container">
             <span class="page-title">회원님이 찜한 상품</span>
+            <a href="{{ url_for('my_likes') }}" class="view-button">전체보기 ></a>
         </div>
 
         <div class="Ing-list">
