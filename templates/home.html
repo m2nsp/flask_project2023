@@ -5,13 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>   
+        .flip-view-container {
+          background-color: #F7F5FD;
+          display: flex;
+          padding: 100px 150px;
+          height: 400px;
+        }
+    
+        .left-side {
+          width: 40%;
+          padding-right: 100px;
+        }
+    
+        .right-side {
+          width: 50%;
+        }
+    
+        .left-side h2 {
+          margin-bottom: 40px;
+          font-size: 40px;
+        }
+    
+        .left-side p {
+          font-size: 16px;
+        }
+    
+        .right-side .item-status {
+          overflow: hidden;
+          height: 300px; 
+        }
+    
+      </style>
 </head>
 
 <body>
     {% include 'header.html' %}
     <section>
         {% block section %}
-        <p>기본 화면입니다.</p>
+        <div class="flip-view-container">
+            <div class="left-side">
+              <h2>넘기고,<br> 찜하세요!</h2>
+              <p>쇼핑은 하고싶은데, 사고싶은 물건이 눈에 띄지 않았나요?<br> 플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을 찜하세요!<br> 감자마켓이 더욱 간편해진 물건 탐색을 도와드릴게요.</p>
+            </div>
+            <div class="right-side">
+
+            </div>
+          </div>
   
         {% endblock section %}
     </section>
