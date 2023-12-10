@@ -329,7 +329,6 @@ class DBhandler:
         if type(comment) == str:
             comment = [comment]
         comment_info = {
-            # "user_id": user_id,
             "comment": comment
         }
         self.db.child("comment_info").child(item).push(comment_info)
@@ -337,4 +336,17 @@ class DBhandler:
 
     def get_comments(self, item):
         comments = self.db.child("comment_info").child(item).get().val()
+        return [value for value in comments.values()] if comments else []
+    
+    def submit_comment_purchased(self, comment, item):
+        comment_info_purchased = {
+            "comment": comment
+        }
+        self.db.child("comment_info_purchased").child(item).push(comment_info_purchased)
+        return True
+
+
+
+    def get_comments_purchased(self, item):
+        comments = self.db.child("comment_info_purchased").child(item).get().val()
         return [value for value in comments.values()] if comments else []
