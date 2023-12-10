@@ -249,7 +249,7 @@ def view_item_detail(name):
 @application.route("/detail_purchased/<name>/")
 def detail_purchased(name):
     data=DB.get_item_by_name(str(name))
-    comments = DB.get_comments_purchased(name)
+    comments = DB.get_comments(name)
     print(comments)
     if comments is None:
         comments=[]
