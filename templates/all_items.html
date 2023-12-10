@@ -130,6 +130,91 @@
         .info-container, .select-container {
             width: 48%; /* 조정 가능한 너비 */
         }
+        
+        .Ing-list {
+            display: flex;
+            margin: 0 10%;
+            margin-top: 20px;
+        }
+
+        .contents {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            margin-top: 10px;
+        }
+
+        .Ing-item {
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 180px;
+            height: 350px;
+            margin: 20px;
+            text-align: center;
+            /* overflow: hidden; */
+        }
+
+        .Ing-item img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .Ing-item-text {
+            padding: 10px;
+        }
+
+        .Ing-item-text .item-name {
+        font-size: 18px;
+        }
+
+        .Ing-item-text > :not(.item-name) {
+            font-size: 16px;
+        }
+        
+        .review-nav {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .review-nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0; 
+            justify-content: space-around;
+        }
+
+        .review-nav li{
+            flex: 1;
+        }
+
+        .review-nav a {
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            border-bottom: 2px solid #919191;
+            color: #919191;
+            display: block;
+            padding: 0 3vw;
+            padding-bottom: 20px;
+            white-space: nowrap; 
+        }
+
+        .review-nav a:hover {
+            color: #FF7500;
+            border-bottom: 2px solid #FF7500;
+        }
+
+        .review-nav li.selected a {
+            color: #FF7500;
+            border-bottom: 2px solid #FF7500;
+        }
 
 
     </style>
@@ -173,58 +258,50 @@
             <div class="info-container">
                 <p style="color: black; text-align: left; font-weight: bold;">
                     <span style="color: orange;">{{ post_date }}</span> 까지 등록된 모든 상품입니다.<br><br>
-                    {% if total > 0 %}
-                        <span style="color: brown;">현재까지 등록된 상품 {{ total }}개</span>
+                    {% if all_total > 0 %}
+                        <span style="color: brown;">현재까지 등록된 상품 {{ all_total }}개</span>
+                    {% endif %}
                 </p>
             </div>
             
-            <div class="select-container" style="text-align: right;">
-                <!-- trade_type 매개변수를 포함한 URL로 업데이트합니다. -->
-                <select id="item_status" name="item_status" onchange="location=this.value">
-                    <option value="{{url_for('view_list', page=i, item_status='all')}}" {% if item_status == 'all' %}selected{% endif %}>전체</option>
-                    <option value="{{url_for('view_list', page=i, item_status='available')}}" {% if item_status == 'available' %}selected{% endif %}>구매 가능</option>
-                    <option value="{{url_for('view_list', page=i, item_status='거래완료')}}" {% if item_status == '거래완료' %}selected{% endif %}>거래 완료</option>
-                </select>
-            </div>
+            <nav class="review-nav">
+                <ul>
+                    <li class="{% if item_status == 'all' %}selected{% endif %}"><a href="{{url_for('view_list', page=i, item_status='all')}}">전체</a></li>
+                    <li class="{% if item_status == 'available' %}selected{% endif %}"><a href="{{url_for('view_list', page=i, item_status='available')}}">구매 가능</a></li>
+                    <li class="{% if item_status == '거래완료' %}selected{% endif %}"><a href="{{url_for('view_list', page=i, item_status='거래완료')}}">거래 완료</a></li>
+                </ul>
+            </nav>
+
         </div>
         
         
-        <table>
-            <tr>
-                {% for key, value in row1 %}
-                    <td class="price"><strong>{{key}}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in row1 %}
-                    <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-                        <img src="static/img/{{value.img_path}}", width=140, height=200></td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in row1 %}
-                    <td>{{value.price}}원</td>
-                {% endfor %}
-            </tr>
-            
-            <tr>
-                {% for key, value in row2 %}
-                    <td class="price"><strong>{{key}}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in row2 %}
-                    <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-                        <img src="static/img/{{value.img_path}}", width=140, height=200></td>
-                {% endfor %}
-            </tr>
-            <tr>
-                {% for key, value in row2 %}
-                    <td>{{value.price}}원</td>
-                {% endfor %}
-            </tr>
-        </table>
-        <!-- 페이지네이션을 위한 코드 시작 -->
+        <div class="Ing-list">
+            {% for item in datas %}
+                    <div class="Ing-item">
+                        <a href="{{ url_for('view_item_detail', name=item.name) }}">
+                            <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
+                        </a>
+                        <div class="Ing-item-text">
+                            <span class="item-name">{{ item.name }}</span><br><br>
+                                {{ item.post_date }}<br>
+                                <span>{{ item.price }}원</span><br>
+                                {% for transaction_value in item.trans_mode %}
+                                    {% if transaction_value == 'direct' %}
+                                    <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
+                                    {% endif %}
+                                    {% if transaction_value == 'parcel' %}
+                                        <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                                    {% endif %}
+                                    {% if transaction_value == 'nondirect-box' %}
+                                        <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                                    {% endif %}
+                                {% endfor %}
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+        
+        {% if total>0 %}
         <div class="page-wrap">
             <div class="page-nation">
                 <ul>
