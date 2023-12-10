@@ -12,7 +12,7 @@
             padding: 0;
         } */
 
-        .div-container {
+        .login-div-container {
             display: flex;
             height: 50%;
             padding-top: 10%;
@@ -27,15 +27,6 @@
             width: 50%;
             padding: 0 2%; /* 조절 가능한 여백 */
 
-        }
-
-        .link-login button {
-            font-size: 1.5vw;
-            width: 100%; /* 버튼을 가득 채우도록 조절 */
-            background-color: white;
-            color: #000000;
-            border: 1px solid #000;
-            margin-bottom: 2%; /* 조절 가능한 여백 */
         }
 
         .link-login a {
@@ -77,13 +68,13 @@
             width: 700px;
         }
 
-        label {
+        .form-group label {
             display: block;
             font-weight: bold;
             margin-bottom: 2%;
         }
 
-        input,
+        .form-group input,
         .login-button {
             width: 90%;
             padding: 2%;
@@ -124,7 +115,7 @@
     <section>
         {% block section %}
 
-        <div class="div-container">
+        <div class="login-div-container">
             <div class="login-container">
                 <h2 style="margin-left: 12%;">GamjaMarket</h2>
                     
