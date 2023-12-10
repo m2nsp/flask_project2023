@@ -271,16 +271,14 @@
                             <label for="product" class="product">상품 등록</label>
                             <br><br><br>
                             <div class="img_reg">
-                                <label for="review" class="review" style="font-weight: bold">상품 이미지</label>
+                                <label for="review" class="review" style="font-weight: bold">상품 이미지</label><br><br>
 
-                                <div>
-                                    <label for="img" style="font-family: Arial, sans-serif; font-size: 2%;"></label><br>
-                                    <input type="file" name="file"
-                                        style="font-family: Arial, sans-serif; font-size: 2%;"
-                                        onchange="readURL(this);">
+                                <div style="font-family: Arial, sans-serif; font-size: 2%;">
+                                    <label for="img" style="display: inline-block; padding: 4px 8px; cursor: pointer; background-color: #F8D57E; color: #2D2D2D; border-radius: 4px; margin-left: 1%; font-size: 15px;">사진 첨부</label>
+                                    <input type="file" name="file" id="img" style="display: none;" onchange="readURL(this);">
                                     <br><br>
                                     <img id="preview" />
-                                </div>
+                                </div>                                                               
                             </div>
 
 
