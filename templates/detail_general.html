@@ -249,7 +249,8 @@
         <br><br>
         <!-- 폼 타입으로 댓글 받기 -->
         <form action="/submit_comment/{{name}}/" method="post" enctype="multipart/form-data">
-            <p style="margin-left: 10%;">작성자:<input type="text" name="id" id="id" value="{{session['id']}}" readonly style="margin-left:10px; font-size: medium;"></p> 
+            <input type="hidden" name="id" id="id" value="{{session['id']}}">
+            <p style="margin-left: 10%;">작성자 :<span style="margin-left:10px; font-size: medium;">{{session['id']}}</span></p> 
             <textarea name="content" id="content" rows="5" cols="90%" style="margin-left: 12%"></textarea>
             <input type="submit" value="게시" class="comment-submit-button" style="width: 100px; height: 60px; font-size: medium;">
         </form>
