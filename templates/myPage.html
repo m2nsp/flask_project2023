@@ -60,8 +60,9 @@
 
         .my-info {
             display: flex;
-            margin-top: 50px;
+            margin: 50px 10%;
             font-size: 20px;
+            position: relative;
         }
 
         .my-info img {
@@ -75,7 +76,6 @@
             font-size: large;
             font-weight: bold;
             white-space: nowrap;
-            /* 글자 줄바꿈 방지 */
         }
 
         .info-box {
@@ -91,9 +91,8 @@
 
         .part-prof {
             display: flex;
-            margin-top: 1%;
+            margin: 1% 10%;
             justify-content: center;
-            /* 수평 가운데 정렬 */
         }
 
         .left-part-prof,
@@ -111,14 +110,14 @@
         }
 
         .left-part-prof{
-            border-right: black solid;
+            border-right: rgb(80, 80, 80) solid 1px;
+            padding-left: calc((100% - 960px) / 2); /* 가운데 정렬을 위한 계산식 */
+            padding-right: calc((100% - 960px) / 2);
         }
+        
         .part-prof a {
             text-decoration: none;
-            /* 밑줄 제거 */
             color: black;
-            /* 글씨 색상을 검정색으로 설정 */
-
         }
 
         .part-prof a:hover {
@@ -178,12 +177,17 @@
 
         <div class="part-prof">
             <div class="left-part-prof">
-                <h4><a href="{{ url_for('reg_items') }}">상품 등록</a></h4>
 
+                <h4><a href="{{ url_for('view_list') }}">상품 목록</a></h4>
+                <br>
+                <h4><a href="{{ url_for('reg_items') }}">상품 등록</a></h4>
 
                 <br>
 
                 <h4><a href="{{ url_for('my_page_ing', user_id=session['id']) }}">진행중인 거래</a></h4>
+
+                <br>
+
                 <h4><a href="{{ url_for('my_page_done', user_id=session['id']) }}">완료된 거래</a></h4>
 
                 <br>
@@ -196,10 +200,6 @@
                 <br>
 
                 <h4><a href="{{ url_for('my_likes')}}">나의 찜</a></h4>
-
-                <br>
-
-                <h4><a href="{{ url_for('view_list') }}">상품 목록</a></h4>
 
                 <br>
 
