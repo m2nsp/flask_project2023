@@ -87,7 +87,7 @@
                 </a>
                 <div class="liking-item-text">
                     <span class="item-name">{{ item.name }}</span><br>
-                    {{ item.post_date }}<br>
+                    {{ item.details.post_date }}<br>
                     <span> {{ item.details.price }}원</span><br>
                     {% for trans_mode in item.details.transaction %}
                         {% if trans_mode == 'direct' %}
