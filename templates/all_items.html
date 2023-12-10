@@ -100,9 +100,21 @@
              font-weight:bold;
         }
         
-        table{
+        table {
             margin: auto;
             width: 700px;
+            border-collapse: collapse; /* 테이블 셀 경계를 합치기 위해 추가 */
+            font-size: 18px;
+        }
+        
+        tr {
+            border: 2px solid white;
+        }
+        
+        td.price {
+            border: 7px solid white;
+            font-size: 18px;
+            font-weight: bold; /* 굵게 표시 */
         }
 
         #item_status {
@@ -180,7 +192,7 @@
         <table>
             <tr>
                 {% for key, value in row1 %}
-                    <td><strong>{{key}}</td>
+                    <td class="price"><strong>{{key}}</td>
                 {% endfor %}
             </tr>
             <tr>
@@ -190,14 +202,25 @@
                 {% endfor %}
             </tr>
             <tr>
+                {% for key, value in row1 %}
+                    <td>{{value.price}}원</td>
+                {% endfor %}
+            </tr>
+            
+            <tr>
                 {% for key, value in row2 %}
-                    <td><strong>{{key}}</td>
+                    <td class="price"><strong>{{key}}</td>
                 {% endfor %}
             </tr>
             <tr>
                 {% for key, value in row2 %}
                     <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
                         <img src="static/img/{{value.img_path}}", width=140, height=200></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for key, value in row2 %}
+                    <td>{{value.price}}원</td>
                 {% endfor %}
             </tr>
         </table>

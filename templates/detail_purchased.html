@@ -269,6 +269,7 @@
         <p style="font-size: 14px; border-radius: 20px; max-width: 400px; margin: 0 auto; resize: vertical;">{{ data.product_description }}<br><br></p>
     </div>
     <br><br>
+        <!--
     <form action="/submit_comment_purchased/{{name}}/" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" id="id" value="{{session['id']}}">
         <p style="margin-left: 10%;">작성자 :<span style="margin-left:10px; font-size: medium;">{{session['id']}}</span></p> 
@@ -276,6 +277,7 @@
         <input type="submit" value="게시" class="comment-submit-button" style="width: 100px; height: 60px; font-size: medium;">
     </form>
     <br><br>
+    
     {% for comment in comments %}
     <div class="comment"
         style="border: 3px solid #d5c5f4; border-radius: 20px; margin: 0 0 10px 50px; padding: 10px; width: 80%;">
@@ -284,6 +286,7 @@
     </div>
     {% endfor %}
     <br>
+    -->
     {% endblock section %}
 </section>
 

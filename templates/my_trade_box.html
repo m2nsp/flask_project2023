@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비대면 상자 조회</title>
     <style>
+        
         .all-part{
             display: flex;
+            width: 70%;
+            margin: 0 auto;
         }
 
         .left-part{
@@ -41,6 +44,8 @@
         .flex-container{
             display: flex;
             margin-right: 100px;
+            width: 70%;
+            margin: 0 auto;
         }
 
         .item-container{
@@ -54,6 +59,47 @@
             margin: 10px;
             margin-bottom: 30px;
             background-color: #F7F5FC;
+        }
+        
+        .item-detail{
+            padding: 20px;
+            line-height: 35px;
+            width: 500px;
+            height: 80px;
+            margin: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .text-section {
+            max-width: 100%;
+            margin-left: 200px;
+            padding: 0 5%;
+        }
+        
+        .image-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 5%;
+            padding: 5%;
+        }
+
+        .image-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 1%;
+            padding: 2%;
+        }
+        
+        .purchase-button {
+            border: none;
+            border-radius: 2px;
+            background-color: #F8D57E;
+            padding: 10px 20px;
+            font-size: 20px;
+            width: 280px;
+            height: 50px;
+            margin-top: 2%;
+            margin-left: 0;
         }
 
         label {
@@ -69,17 +115,57 @@
 
     <section>
         {% block section %}
+        <div class="flex-container">
+            <p style="font-size: 24px; font-weight: bold;">거래 품목</p>
+        </div>
+        
+        <div class="flex-container">
+            <div class="flex-item"> 
+                <img src="../../static/img/{{data.img_path}}"
+                style="width:300px; height: 300px; border: 3px solid gray; border-radius: 15px;" alt="상품 이미지">
+            </div>
+            <div class="item-container">
+                <p style="font-size: 12px;">상품명</p>
+                <p style="font-size: 18px; font-weight: bold;">{{name}}</p>
+                <p style="font-size: 12px;">거래대상자</p>
+                <p style="font-size: 18px; font-weight: bold;">{{data.seller_id}}</p>
+                <p style="font-size: 12px;">거래가격</p>
+                <p style="font-size: 18px; font-weight: bold;">{{data.price}}</p>
+                <button id="purchaseButton" class="purchase-button" 
+                onclick="checkPurchaseValidity('{{data.trans_data}}', '{{name}}');">수령하고 구매 완료하기</button>
+            </div>
+        </div>
+        
+        <script>
+            function checkPurchaseValidity(transData, itemName) {
+                // transData는 밀리초 단위의 UNIX 타임스탬프로 가정합니다.
+                var currentDate = new Date().getTime();
+                var transactionDate = new Date(transData).getTime();
+                var daysDifference = (currentDate - transactionDate) / (1000 * 60 * 60 * 24);
 
-        <h2>비대면 상자 거래 정보</h2>
+                // 만약 현재 시간이 3일 이상 지났다면 구매를 허용하지 않음
+                if (daysDifference >= 3) {
+                    alert('거래 후 3일이 지났습니다. 더 이상 구매할 수 없습니다.');
+                } else {
+                    // 지난 시간이 3일 미만이면 정상적으로 링크 이동
+                    location.href = '/detail_purchased/' + itemName + '/';
+                }
+            }
+        </script>
+        
+        <br><br>
+        <div class="flex-container">
+            <p style="font-size: 24px; font-weight: bold;">비대면 상자 거래 정보</p>
+        </div>
         <div class="flex-container">
             <div class="flex-item">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1581.0051924043707!2d126.93615398967286!3d37.57837315236578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr!4v1699351183441!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <p style="color: hotpink;">※ 보관 기간 내에 찾아가거나 기간을 연장하지 않을 시, 물품이 폐기되며 이에 대한 배상은 불가합니다.</p>
             </div>
             <div class="item-container">
-                <div class="item-item">  거래소위치<br><span style="font-size: 20px;">  서대문구 ㅇㅇ동 ㅇㅇ거래소</span></div>
-                <div class="item-item">  사물함 번호<br><span style="font-size: 20px;">  바 07-03</span></div>
-                <div class="item-item">  보관기간<br><span style="font-size: 20px;">  2023.10.09 ~ 2023.10.12</span></div>
+                <div class="item-item">  거래소위치<br><span style="font-size: 18px;">  서대문구 ㅇㅇ동 ㅇㅇ거래소</span></div>
+                <div class="item-item">  사물함 번호<br><span style="font-size: 18px;">  바 07-03</span></div>
+                <div class="item-item">  보관기간<br><span style="font-size: 18px;">  {{ data.trans_date }}로 부터 3일 </span></div>
             </div>
         </div>
     </article>
