@@ -373,6 +373,10 @@ class DBhandler:
         all_transactions = self.db.child("trans_info").get().val()
         all_items = self.db.child("item").get().val()
 
+        
+        if all_transactions is None:
+            all_transactions = {}
+
         sold_count = 0
         bought_count = 0
 
