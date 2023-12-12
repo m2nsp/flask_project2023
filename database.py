@@ -146,39 +146,38 @@ class DBhandler:
         return True
 
     def get_heart_byname(self, uid, name):
-        hearts = self.db.child("heart").child(uid).get()
+        hearts = self.db.child("heart").child(uid).get()    # 사용자의 UID 및 항목 이름(name)을 기반으로 데이터베이스에서 관련 'heart' 정보를 가져옴
         target_value = ""
-        if hearts.val() == None:
+        if hearts.val() == None:    # 'heart' 정보가 없으면 빈 문자열을 반환함
             return target_value
-        for res in hearts.each():
+        for res in hearts.each():   # 모든 'heart' 정보를 반복하면서 주어진 이름(name)에 해당하는 값을 찾음
             key_value = res.key()
             if key_value == name:
                 target_value = res.val()
-        return target_value
-    
+        return target_value     # 찾은 값을 반환
+
     def update_heart(self, user_id, isHeart, item):
-        heart_info = {
-            "interested" : isHeart
+        heart_info = {      # 사용자 ID, 관심 여부(isHeart), 항목(item)을 기반으로 'heart' 정보를 업데이트
+            "interested": isHeart
         }
         self.db.child("heart").child(user_id).child(item).set(heart_info)
-        return True
-    
-    def get_liked_items(self, user_id):
-        liked_items = []
+        return True     # 업데이트 성공을 나타내기 위해 True를 반환
 
-        hearts = self.db.child("heart").child(user_id).get()
-        if hearts.val() is not None:
+    def get_liked_items(self, user_id):
+        liked_items = []        # 사용자 ID를 기반으로 좋아하는 항목들의 세부 정보를 가져오는 함수
+        hearts = self.db.child("heart").child(user_id).get()    # 사용자의 'heart' 정보를 가져옴
+        if hearts.val() is not None:        # 'heart' 정보가 있을 경우 해당 정보를 반복하면서 좋아하는 항목을 찾음
             for res in hearts.each():
                 key_value = res.key()
-                if res.val().get("interested") == "Y":
+                if res.val().get("interested") == "Y":      # 'interested' 값이 'Y'인 경우 해당 항목을 세부 정보와 함께 저장
                     liked_item_details = self.get_item_by_name(key_value)
                     liked_item = {
                         'name': key_value,
                         'details': liked_item_details
                     }
                     liked_items.append(liked_item)
+        return liked_items      # 좋아하는 항목들의 리스트를 반환
 
-        return liked_items
 
 
     def get_ing_items_by_user_id(self, user_id):
@@ -349,24 +348,24 @@ class DBhandler:
         return done_items
     
     def submit_comment(self, comment, item):
-        if type(comment) == str:
+        if type(comment) == str:        # 입력된 comment가 문자열인 경우에도 리스트로 변환하여 처리함
             comment = [comment]
-        comment_info = {
+        comment_info = {    # comment 정보를 딕셔너리로 준비
             "comment": comment
         }
-        self.db.child("comment_info").child(item).push(comment_info)
-        return True
+        self.db.child("comment_info").child(item).push(comment_info)    # 데이터베이스의 "comment_info" 노드 하위에 지정된 항목(item)에 comment 정보를 추가함        
+        return True     # 성공적인 comment 제출을 나타내기 위해 True를 반환
 
     def get_comments(self, item):
-        comments = self.db.child("comment_info").child(item).get().val()
-        return [value for value in comments.values()] if comments else []
-    
+        comments = self.db.child("comment_info").child(item).get().val()    # 데이터베이스에서 지정된 항목(item) 하위의 "comment_info" 노드에서 comment를 검색함
+        return [value for value in comments.values()] if comments else []   # comment가 존재하면 해당 값을 리스트로 반환하고, 그렇지 않으면 빈 리스트를 반환함
+
     def submit_comment_purchased(self, comment, item):
-        comment_info_purchased = {
+        comment_info_purchased = {      # 구매된 comment 정보를 딕셔너리로 준비
             "comment": comment
-        }
-        self.db.child("comment_info_purchased").child(item).push(comment_info_purchased)
-        return True
+        }        
+        self.db.child("comment_info_purchased").child(item).push(comment_info_purchased)    # 데이터베이스의 "comment_info_purchased" 노드 하위에 지정된 항목(item)에 구매된 comment 정보를 추가함        
+        return True     # 성공적인 구매된 comment 제출을 나타내기 위해 True를 반환함
 
 
     def count_sold_and_bought_items(self, user_id):
@@ -391,4 +390,3 @@ class DBhandler:
                 bought_count += 1
 
         return sold_count, bought_count
-
