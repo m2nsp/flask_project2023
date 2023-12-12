@@ -2,26 +2,37 @@
 <html lang="en">
 
 <head>
+    <!-- 페이지 제목 설정 -->
     <title>상품상세</title>
+
+    <!-- Font Awesome 아이콘 스타일시트 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- jQuery 라이브러리 추가 -->
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+    <!-- 페이지 스타일 설정 -->
     <style>
+        /* 전체 컨테이너 스타일 설정 */
         .container {
             max-width: 100%;
             margin: 0 auto;
             padding: 2%;
         }
 
+        /* 이미지 컨테이너 스타일 설정 */
         .image-container {
             display: flex;
             justify-content: center;
         }
 
+        /* 이미지 업로드 스타일 설정 */
         .image-upload img {
             max-width: 100%;
             max-height: 100%;
         }
 
+        /* 상품 설명 영역 스타일 설정 */
         .product-description {
             height: 20%;
             width: 40%;
@@ -35,58 +46,65 @@
             text-align: center;
         }
 
+        /* 라벨 스타일 설정 */
         label {
             margin-right: 2%;
         }
 
+        /* 정보 스타일 설정 */
         .info {
             text-align: center;
         }
 
+        /* 제목 스타일 설정 */
         .title {
             font-weight: bold;
             font-size: 2vw;
         }
 
+        /* 왼쪽 컨텐츠 스타일 설정 */
         .left-content {
             width: 50%;
             text-align: justify;
         }
 
-        .title {
-            font-weight: bold;
-        }
-
+        /* 정보 스타일 설정 */
         .info {
             text-align: left;
             margin-left: 10%;
         }
 
+        /* 마켓 제목 스타일 설정 */
         .market-title {
             font-size: 2vw;
             font-weight: bold;
         }
 
+        /* 저작권 정보 스타일 설정 */
         .copyright {
             font-size: 1vw;
         }
 
+        /* 텍스트 섹션 스타일 설정 */
         .text-section {
             max-width: 100%;
             margin-left: 200px;
             padding: 0 5%;
         }
 
+        /* 네비게이션 사용자 링크 스타일 설정 */
         nav .user-links {
             display: flex;
             align-items: center;
             list-style: none;
         }
 
+        /* 네비게이션 사용자 링크 항목 스타일 설정 */
         nav .user-links li {
             margin-left: 2%;
         }
 
+        /* 이미지 컨테이너 스타일 설정 */
         .image-container {
             display: flex;
             justify-content: center;
@@ -96,6 +114,7 @@
             padding: 1%;
         }
 
+        /* 이미지 래퍼 스타일 설정 */
         .image-wrapper {
             display: flex;
             justify-content: center;
@@ -103,6 +122,7 @@
             padding: 5%;
         }
 
+        /* 이미지 래퍼 이미지 스타일 설정 */
         .image-wrapper img {
             max-width: 100%;
             max-height: 100%;
@@ -110,6 +130,7 @@
             padding: 2%;
         }
 
+        /* 사용자 정의 이미지 스타일 설정 */
         .custom-image {
             width: 1vw;
             height: 1vw;
@@ -118,18 +139,17 @@
             right: 85%;
         }
 
+        /* 댓글 상자 스타일 설정 */
         .comment-box {
             display: flex;
             margin: 20px;
             width: 82%;
-            /* 너비를 화면의 70%로 설정 */
             height: 5em;
             margin-left: auto;
-            /* 좌측 여백을 자동으로 설정하여 가운데 정렬 */
             margin-right: auto;
-            /* 우측 여백을 자동으로 설정하여 가운데 정렬 */
         }
 
+        /* 댓글 텍스트박스 스타일 설정 */
         .comment-textbox {
             flex: 1;
             padding: 10px;
@@ -137,6 +157,7 @@
             border-radius: 5px;
         }
 
+        /* 댓글 제출 버튼 스타일 설정 */
         .comment-submit-button {
             background-color: #F8D57E;
             color: #2D2D2D;
@@ -147,6 +168,7 @@
             margin-left: 10px;
         }
 
+        /* 구매 댓글 스타일 설정 */
         .buy-reply {
             background-color: #F7F5FD;
             border-radius: 8px;
@@ -155,6 +177,7 @@
             margin: 20px auto;
         }
 
+        /* 선택 댓글 스타일 설정 */
         .sel-reply {
             border: 1px solid #A47BDA;
             border-radius: 8px;
@@ -163,6 +186,7 @@
             margin: 20px auto;
         }
 
+        /* 구매 버튼 스타일 설정 */
         .purchase-button {
             background-color: #F8D57E;
             color: #2D2D2D;
@@ -176,39 +200,45 @@
             margin-left: 0;
         }
 
+        /* 하트 아이콘 스타일 설정 */
         #heart {
             font-size: 2vw;
         }
     </style>
 </head>
 
-
 <body>
+    <!-- 헤더 HTML 파일 추가 -->
     {% include 'header.html' %}
 
     <section>
+        <!-- 섹션 내용 블록 -->
         {% block section %}
 
+        <!-- 이미지 래퍼 -->
         <div class="image-wrapper">
             <img src="../../static/img/{{data.img_path}}"
                 style="width:300px; height: 300px; border: 3px solid gray; border-radius: 15px;" alt="상품 이미지">
+            <!-- 하트 아이콘 -->
             <i class="fa fa-heart" id="heart" style="margin-top: 310px; margin-left: 20px;"></i>
         </div>
+        <!-- 텍스트 섹션 -->
         <div class="text-section">
             <h4>상품명</h4>
             <p style="font-size: 24px; font-weight: bold;">{{name}}</p>
             <br>
+            <!-- 플렉스 디스플레이를 사용한 레이아웃 -->
             <div style="display: flex;">
                 <div style="flex: 1;">
                     <h4>가격</h4>
                     <p style="font-size: 24px; font-weight: bold;">{{data.price}}</p>
                 </div>
                 <div style="flex: 1;">
+                    <!-- 구매 버튼 -->
                     <button id="purchaseButton" class="purchase-button"
                         onclick="location.href='/purchase_item/{{name}}/';">구매하기</button>
                 </div>
             </div>
-
 
             <br>
             <h4 class="title">가능한 거래 방식</h4>
@@ -228,6 +258,7 @@
             {% endfor %}
             </p>
             <br>
+            <!-- 플렉스 디스플레이를 사용한 레이아웃 -->
             <div style="display: flex;">
                 <div style="flex: 1;">
                     <h4 class="title">판매자</h4>
@@ -240,14 +271,14 @@
             </div>
         </div>
 
-
+        <!-- 상세 설명 영역 -->
         <br><br>
         <div class="product-description" style="text-align: justify;">
             <h2 class="title">상세 설명</h2>
             <p style="font-size: 13px; border-radius: 0%; max-width: 20vw; margin: 0 auto; resize: vertical;">{{ data.product_description }}<br><br><br></p>
         </div>
         <br><br>
-        <!-- 폼 타입으로 댓글 받기 -->
+        <!-- 댓글 폼 -->
         <form action="/submit_comment/{{name}}/" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" id="id" value="{{session['id']}}">
             <p style="margin-left: 10%;">작성자 :<span style="margin-left:10px; font-size: medium;">{{session['id']}}</span></p> 
@@ -255,8 +286,8 @@
             <input type="submit" value="게시" class="comment-submit-button" style="width: 100px; height: 60px; font-size: medium;">
         </form>
         
-        
         <br><br>
+        <!-- 댓글 표시 -->
         {% for comment in comments %}
         <div class="comment"
             style="border: 3px solid #d5c5f4; border-radius: 20px; margin: 0 0 10px 50px; padding: 10px; width: 80%;">
@@ -267,8 +298,9 @@
 
         <br>
 
+        <!-- 자바스크립트 스크립트 -->
         <script>
-
+            // 하트 표시 함수
             function showHeart() {
                 $.ajax({
                     type: 'GET',
@@ -287,6 +319,7 @@
                 });
             }
 
+            // 하트 클릭 시 함수
             function like() {
                 $.ajax({
                     type: 'POST',
@@ -301,6 +334,7 @@
                 });
             }
 
+            // 하트 취소 시 함수
             function unlike() {
                 $.ajax({
                     type: 'POST',
@@ -315,13 +349,16 @@
                 });
             }
 
+            // 문서 로딩 시 하트 표시
             $(document).ready(function () {
                 showHeart();
             });
         </script>
+        <!-- 섹션 끝 -->
         {% endblock section %}
     </section>
 
+    <!-- 푸터 HTML 파일 추가 -->
     {% include 'footer.html' %}
 
 </body>
