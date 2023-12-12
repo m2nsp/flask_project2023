@@ -225,24 +225,27 @@ def reg_buy(name):
     # 구매 완료 페이지로 이동
     return render_template("detail_purchased.html", name=name, data=data, trans_mode = trans_mode)
 
+# 아이템 상세 정보를 보여주는 엔드포인트. URL에 포함된 상품 이름(name)을 통해 해당 상품의 정보를 가져와 화면에 보여줌.
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
-    data = DB.get_item_by_name(str(name))
-    comments = DB.get_comments(name)
-    print(comments)  # 댓글 데이터 출력
-    if comments is None:
+    data = DB.get_item_by_name(str(name))   # 상품 이름을 이용하여 데이터베이스(DB)에서 상품 정보를 가져옴    
+    comments = DB.get_comments(name)  # 해당 상품에 대한 댓글을 데이터베이스에서 가져옴    
+    print(comments)     # 댓글 데이터를 출력 (개발 및 디버깅 용도)    
+    if comments is None:    # 댓글이 없는 경우 빈 리스트로 초기화
         comments = []
+    # detail_general.html 템플릿에 상품 이름, 상품 정보, 거래 내역, 댓글 데이터를 전달하여 렌더링
     return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'], comments=comments)
 
+# 구매한 상품의 상세 정보를 보여주는 엔드포인트. URL에 포함된 상품 이름(name)을 통해 해당 상품의 정보를 가져와 화면에 보여줌.
 @application.route("/detail_purchased/<name>/")
 def detail_purchased(name):
-    data=DB.get_item_by_name(str(name))
-    comments = DB.get_comments(name)
-    print(comments)
-    if comments is None:
-        comments=[]
+    data = DB.get_item_by_name(str(name))       # 상품 이름을 이용하여 데이터베이스(DB)에서 상품 정보를 가져옴    
+    comments = DB.get_comments(name)        # 해당 상품에 대한 댓글을 데이터베이스에서 가져옴    
+    print(comments)     # 댓글 데이터를 출력 (개발 및 디버깅 용도)    
+    if comments is None:        # 댓글이 없는 경우 빈 리스트로 초기화
+        comments = []
+    # detail_purchased.html 템플릿에 상품 이름, 상품 정보, 댓글 데이터를 전달하여 렌더링
     return render_template("detail_purchased.html", name=name, data=data, comments=comments)
-
 
 
 @application.route("/complete_transaction/<name>/", methods=['POST'])
@@ -253,20 +256,23 @@ def complete_transaction(name):
 
 
 
+# 특정 상품에 대한 좋아요 상태를 확인하는 엔드포인트. URL에 포함된 상품 이름(name)과 세션에 저장된 사용자 ID를 사용하여 해당 사용자의 좋아요 상태를 가져옴.
 @application.route("/show_heart/<name>/", methods=['GET'])
 def show_heart(name):
-    my_heart = DB.get_heart_byname(session['id'], name)
-    return jsonify({'my_heart': my_heart})
+    my_heart = DB.get_heart_byname(session['id'], name)     # 사용자의 ID와 상품 이름을 이용하여 데이터베이스(DB)에서 좋아요 상태를 가져옴    
+    return jsonify({'my_heart': my_heart})      # 좋아요 상태를 JSON 형식으로 반환
 
+# 특정 상품에 대한 좋아요를 추가하는 엔드포인트. URL에 포함된 상품 이름(name)과 세션에 저장된 사용자 ID를 사용하여 해당 사용자의 좋아요 상태를 'Y'로 업데이트함.
 @application.route("/like/<name>/", methods=['POST'])
 def like(name):
-    my_heart = DB.update_heart(session['id'], 'Y', name)
-    return jsonify({'msg': '좋아요 완료!'})
+    my_heart = DB.update_heart(session['id'], 'Y', name)    # 사용자의 ID와 상품 이름을 이용하여 데이터베이스(DB)에서 좋아요 상태를 'Y'로 업데이트    
+    return jsonify({'msg': '좋아요 완료!'})     # 업데이트 성공 메시지를 JSON 형식으로 반환
 
+# 특정 상품에 대한 좋아요를 취소하는 엔드포인트. URL에 포함된 상품 이름(name)과 세션에 저장된 사용자 ID를 사용하여 해당 사용자의 좋아요 상태를 'N'으로 업데이트함.
 @application.route("/unlike/<name>/", methods=['POST'])
 def unlike(name):
-    my_heart = DB.update_heart(session['id'], 'N', name)
-    return jsonify({'msg': '좋아요 취소 완료!'})
+    my_heart = DB.update_heart(session['id'], 'N', name)     # 사용자의 ID와 상품 이름을 이용하여 데이터베이스(DB)에서 좋아요 상태를 'N'으로 업데이트    
+    return jsonify({'msg': '좋아요 취소 완료!'})     # 업데이트 성공 메시지를 JSON 형식으로 반환
 
 
 @application.route("/myLikes")
@@ -280,19 +286,24 @@ def my_likes():
     
     return render_template("myLikes.html", liked_items=liked_items)
 
+
+# 특정 상품에 대한 댓글을 제출하는 엔드포인트. URL에 포함된 상품 이름(name)과 POST 메소드로 전송된 댓글 데이터를 사용하여 해당 상품에 댓글을 추가함.
 @application.route("/submit_comment/<name>/", methods=['POST'])
 def submit_comment(name):
-    comment = request.form
-    DB.submit_comment(comment, name)
-    return redirect(url_for("view_item_detail", name=name))
+    comment = request.form  # POST 메소드로 전송된 댓글 데이터를 request.form을 통해 가져옴    
+    DB.submit_comment(comment, name)    # 가져온 댓글 데이터와 상품 이름을 이용하여 데이터베이스(DB)에 댓글을 추가함    
+    return redirect(url_for("view_item_detail", name=name))     # 댓글 추가 후 상품 상세 페이지로 리다이렉트
+    
 
+# 구매한 상품에 대한 댓글을 제출하는 엔드포인트. URL에 포함된 상품 이름(name)과 POST 메소드로 전송된 댓글 데이터를 사용하여 해당 상품에 댓글을 추가함.
 @application.route("/submit_comment_purchased/<name>/", methods=['POST'])
 def submit_comment_purchased(name):
-    id = request.form.get('id')
+    id = request.form.get('id')     # POST 메소드로 전송된 댓글 데이터에서 사용자 ID와 댓글 내용을 가져옴
     content = request.form.get('content')
-    comment = {'id': id, 'content': content}
-    DB.submit_comment_purchased(comment, name)
-    return redirect(url_for("detail_purchased", name=name))
+    comment = {'id': id, 'content': content}    # 가져온 사용자 ID와 댓글 내용을 딕셔너리로 구성    
+    DB.submit_comment_purchased(comment, name)      # 구매한 상품에 대한 댓글 데이터를 데이터베이스(DB)에 추가함    
+    return redirect(url_for("detail_purchased", name=name))     # 댓글 추가 후 구매한 상품 상세 페이지로 리다이렉트
+
 
 
 
