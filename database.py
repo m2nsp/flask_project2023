@@ -422,4 +422,3 @@ class DBhandler:
 
         # 최종적으로 판매 및 구매 횟수 반환
         return sold_count, bought_count
-t
