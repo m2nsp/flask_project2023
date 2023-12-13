@@ -135,7 +135,8 @@
                 onclick="checkPurchaseValidity('{{data.trans_data}}', '{{name}}');">수령하고 구매 완료하기</button>
             </div>
         </div>
-        
+
+        <!--상품 결제 시간으로부터 3일이 지나면 거래 완료 페이지로 넘어가지 못하게 함-->
         <script>
             function checkPurchaseValidity(transData, itemName) {
                 // transData는 밀리초 단위의 UNIX 타임스탬프로 가정합니다.
