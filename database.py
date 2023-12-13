@@ -46,6 +46,7 @@ class DBhandler:
                 return True
         return False
 
+    # 상품 결제할 때 db에 등록
     def insert_item(self, name, data, img_path, seller_id, post_date, transaction):
         item_info ={
             "item_name" : name,
@@ -63,11 +64,13 @@ class DBhandler:
     def get_user_by_id(self, user_id):
         user = self.db.child("user").child(user_id).get().val()
         return user
-    
+
+    # item 네임으로 db 받아오기
     def get_items(self):
         items = self.db.child("item").get().val()
         return items
 
+    # 아이템 리스템에 필요한 정보 저장 후 넘겨주기 => 상품전체조회페이지에서 사용
     def get_items_to_list(self):
         all_items = self.db.child("item").get().val()
         items = []
@@ -130,6 +133,7 @@ class DBhandler:
         }
         #Update item_status into "거래진행중"
         self.db.child("item").child(item_name).update({"item_status": "거래진행중"})
+        # 결제일 추가
         self.db.child("item").child(item_name).child("trans_date").set(formatted_date)
 
         # 각 상품에 대한 거래 정보를 저장할 때, 상품명을 키로 사용
