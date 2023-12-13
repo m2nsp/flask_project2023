@@ -185,17 +185,23 @@ class DBhandler:
 
 
     def get_ing_items_by_user_id(self, user_id):
+        # 모든 거래 및 상품 정보를 가져옴
         all_transactions = self.db.child("trans_info").get().val()
         all_items = self.db.child("item").get().val()
 
+        # 거래 진행 중인 상품 정보를 저장할 리스트 초기화
         ing_items = []
 
+        # 모든 상품에 대해 반복
         for item_name, item_info in all_items.items():
+            # 상품의 거래 정보를 가져옴
             trans_info = all_transactions.get(item_name, {})
             buyer_id = trans_info.get('buyer_id')
 
+            # 판매자이거나 구매자이며 거래 상태가 '거래진행중'인 경우
             if item_info['seller_id'] == user_id or (buyer_id and buyer_id == user_id and item_info['item_status'] == '거래진행중'):
                 if item_info['item_status'] == '거래진행중':
+                    # 거래 진행 중인 상품 정보를 딕셔너리로 생성하여 리스트에 추가
                     ing_items_info = {
                         'name': item_name,
                         'trans_date': trans_info.get('trans_date'),
@@ -205,36 +211,45 @@ class DBhandler:
                     }
                     ing_items.append(ing_items_info)
 
+        # 최종적으로 거래 진행 중인 상품 정보 리스트를 반환
         return ing_items
 
 
 
-
     def insert_seller_review(self, user_id, item_name, rating, review_content):
+        # 판매자 리뷰 정보 생성
         review_info = {
             "rating": rating,
             "review_content": review_content
         }
+
+        # 판매자 리뷰를 데이터베이스에 추가
         self.db.child("seller_reviews").child(item_name).child(user_id).set(review_info)
         return True
 
     def insert_buyer_review(self, user_id, item_name, rating, review_content):
+        # 구매자 리뷰 정보 생성
         review_info = {
             "rating": rating,
             "review_content": review_content
         }
+
+        # 구매자 리뷰를 데이터베이스에 추가
         self.db.child("buyer_reviews").child(item_name).child(user_id).set(review_info)
         return True
     
     def get_seller_reviews(self, name):
+        # 판매자 리뷰를 이름을 통해 가져옴
         seller_reviews = self.db.child("seller_reviews").child(name).get().val()
         return seller_reviews
 
     def get_buyer_reviews(self, name):
+        # 구매자 리뷰를 이름을 통해 가져옴
         buyer_reviews = self.db.child("buyer_reviews").child(name).get().val()
         return buyer_reviews
 
     def get_seller_reviews_by_user_id(self, user_id):
+        # 판매자로서의 사용자 ID에 대한 리뷰 정보를 가져옴
         seller_reviews = self.db.child("seller_reviews").get().val()
 
         if seller_reviews is not None:
@@ -251,6 +266,7 @@ class DBhandler:
                         trader_id = item_info.get('seller_id')
                         role = 'buyer'
                     
+                    # 사용자 리뷰 정보를 생성하여 리스트에 추가
                     review_info = {
                         'name': item_name,
                         'price': item_info.get('price'),
@@ -268,6 +284,7 @@ class DBhandler:
         return user_reviews
 
     def get_buyer_reviews_by_user_id(self, user_id):
+        # 구매자로서의 사용자 ID에 대한 리뷰 정보를 가져옴
         buyer_reviews = self.db.child("buyer_reviews").get().val()
 
         if buyer_reviews is not None:
@@ -284,6 +301,7 @@ class DBhandler:
                         trader_id = item_info.get('seller_id')
                         role = 'buyer'
 
+                    # 사용자 리뷰 정보를 생성하여 리스트에 추가
                     review_info = {
                         'name': item_name,
                         'price': item_info.get('price'),
@@ -302,6 +320,7 @@ class DBhandler:
         return user_reviews
     
     def get_ing_items_by_user_id(self, user_id):
+        # 거래 진행 중인 상품 정보를 가져옴
         all_transactions = self.db.child("trans_info").get().val()
         all_items = self.db.child("item").get().val()
 
@@ -311,8 +330,10 @@ class DBhandler:
             trans_info = all_transactions.get(item_name, {})
             buyer_id = trans_info.get('buyer_id')
 
+            # 판매자이거나 구매자이며 거래 상태가 '거래진행중'인 경우
             if item_info['seller_id'] == user_id or (buyer_id and buyer_id == user_id and item_info['item_status'] == '거래진행중'):
                 if item_info['item_status'] == '거래진행중':
+                    # 거래 진행 중인 상품 정보를 리스트에 추가
                     ing_items_info = {
                         'name': item_name,
                         'trans_date': trans_info.get('trans_date'),
@@ -324,8 +345,8 @@ class DBhandler:
 
         return ing_items
     
-
     def get_done_items_by_user_id(self, user_id):
+        # 거래 완료된 상품 정보를 가져옴
         all_transactions = self.db.child("trans_info").get().val()
         all_items = self.db.child("item").get().val()
 
@@ -335,11 +356,10 @@ class DBhandler:
             trans_info = all_transactions.get(item_name, {})
             buyer_id = trans_info.get('buyer_id')
 
-            # print(f"Item: {item_name}, Seller ID: {item_info['seller_id']}, Buyer ID: {buyer_id}, Item Status: {item_info['item_status']}")
-
+            # 판매자이거나 구매자이며 거래 상태가 '거래완료'인 경우
             if item_info['seller_id'] == user_id or (buyer_id and buyer_id == user_id and item_info['item_status'] == '거래완료'):
                 if item_info['item_status'] == '거래완료':
-                    # print(f"Done Item: {item_name}")
+                    # 거래 완료된 상품 정보를 리스트에 추가
                     done_items_info = {
                         'name': item_name,
                         'trans_date': trans_info.get('trans_date'),
@@ -350,6 +370,7 @@ class DBhandler:
                     done_items.append(done_items_info)
 
         return done_items
+
     
     def submit_comment(self, comment, item):
         if type(comment) == str:        # 입력된 comment가 문자열인 경우에도 리스트로 변환하여 처리함
@@ -373,24 +394,32 @@ class DBhandler:
 
 
     def count_sold_and_bought_items(self, user_id):
+        # 데이터베이스에서 모든 거래와 상품 정보를 가져옴.
         all_transactions = self.db.child("trans_info").get().val()
         all_items = self.db.child("item").get().val()
 
-        
+        # 거래 정보가 없으면 빈 딕셔너리로 초기화함.
         if all_transactions is None:
             all_transactions = {}
 
+        # 판매 및 구매 횟수 초기화
         sold_count = 0
         bought_count = 0
 
+        # 모든 상품에 대해 반복
         for item_name, item_info in all_items.items():
+            # 상품의 판매자 ID 및 해당 상품의 거래 정보 가져옴
             seller_id = item_info.get('seller_id')
             trans_info = all_transactions.get(item_name, {})
             buyer_id = trans_info.get('buyer_id')
 
+            # 판매자가 주어진 사용자이고 거래 상태가 '거래완료'인 경우 sold_count 증가
             if seller_id == user_id and item_info['item_status'] == '거래완료':
                 sold_count += 1
+            # 구매자가 주어진 사용자이고 거래 상태가 '거래완료'인 경우 bought_count 증가
             elif buyer_id == user_id and item_info['item_status'] == '거래완료':
                 bought_count += 1
 
+        # 최종적으로 판매 및 구매 횟수 반환
         return sold_count, bought_count
+t
