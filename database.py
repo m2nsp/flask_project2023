@@ -9,20 +9,20 @@ class DBhandler:
         firebase = pyrebase.initialize_app(config)
         self.db = firebase.database()
         
-    def insert_user(self, data, pw):
-        user_info = {
-            "id": data['id'],
-            "pw": pw,
-            "email": data['email']
+    def insert_user(self, data, pw):                                        #사용자를 추가하는 함수
+        user_info = {                                                       #user_info에 저장할 내용
+            "id": data['id'],                                                   #사용자 id
+            "pw": pw,                                                           #사용자 pw
+            "email": data['email']                                              #사용자 이메일
         }
-        if self.user_duplicate_check(str(data['id'])):
+        if self.user_duplicate_check(str(data['id'])):                      # 추가하려는 아이디가 이미 존재하는 아이디일 경우 
             self.db.child("user").child(data['id']).set(user_info)
             print(data)
             return True
-        else:
+        else:                                                       
             return False
         
-    def user_duplicate_check(self, id_string):
+    def user_duplicate_check(self, id_string):                              #이미 존재하는 아이디인지 확인(아이디 중복체크)
         users = self.db.child("user").get()
 
         print("users###", users.val())
@@ -36,7 +36,7 @@ class DBhandler:
                     return False
             return True
         
-    def find_user(self, id_, pw_):
+    def find_user(self, id_, pw_):                                          #DB에서 등록되어있는 사용자인지 찾기
         users = self.db.child("user").get()
         target_value = []
         for res in users.each():
@@ -61,7 +61,7 @@ class DBhandler:
         self.db.child("item").child(name).set(item_info)
         return True
     
-    def get_user_by_id(self, user_id):
+    def get_user_by_id(self, user_id):                                          #아이디를 통해서 사용자 찾기
         user = self.db.child("user").child(user_id).get().val()
         return user
 
@@ -88,12 +88,12 @@ class DBhandler:
 
         return items
     
-    def get_available_items(self):
+    def get_available_items(self):                                              #상품상태가 'available' 인 상품들 딕셔너리 형태로 받아오기
         items = self.db.child("item").get().val()
         available_items = {key: value for key, value in items.items() if value.get('item_status') == 'available'}
         return available_items
     
-    def get_item_by_name(self, name):
+    def get_item_by_name(self, name):                                           #아이템 정보를 상품이름을 통해서 받아오기
         items = self.db.child("item").get()
         target_value=""
         print("###########",name)
@@ -126,7 +126,7 @@ class DBhandler:
         formatted_date = current_date.isoformat()
 
         buy_info = {
-            "buyer_id": buyer_id,
+            "buyer_id": buyer_id,       #구매자 아이디
             "trans_mode" : trans_mode,  # 결제 정보 (직거래, 경매, 비대면 상자)
             "trans_media" : trans_media,  # 결제 수단 (카카오페이, 직거래, 카드, etc)
             "trans_date": formatted_date  # 추가: 구매하기를 누른 날짜
@@ -140,7 +140,7 @@ class DBhandler:
         self.db.child("trans_info").child(item_name).set(buy_info)
         return True
 
-    def get_trans_info(self, name):
+    def get_trans_info(self, name):                                             #상품이름을 통해서 거래방식 가져오기
         trans_info = self.db.child("trans_info").child(name).get().val()
         return trans_info
     

@@ -13,8 +13,8 @@ DB = DBhandler()
 def hello():
     items = DB.get_available_items()
     img_paths = [item_data.get("img_path") for item_data in items.values() if item_data.get("img_path")]
-    user_id = session.get('id') 
-    liked_items = DB.get_liked_items(user_id)
+    user_id = session.get('id')                                                     #로그인한 id 불러오기
+    liked_items = DB.get_liked_items(user_id)                                       #찜한 상품 불러오기
     data = {'items': items, 'img_paths': img_paths, 'liked_items': liked_items}
     return render_template("home.html", data=data, liked_items=liked_items)
 
@@ -28,18 +28,18 @@ def login():
     return render_template("login.html")
 
 @application.route("/login_confirm", methods=['POST'])
-def login_user():
+def login_user():                                                               #로그인 로직
     id_=request.form['id']
     pw=request.form['pw']
-    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()                    
     if DB.find_user(id_,pw_hash):
         session['id']=id_
-        return redirect(url_for('hello'))                #이부분 나중에 view_list로 수정필요
+        return redirect(url_for('hello'))                
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
-def find_user(self, id_, pw_):
-    users = self.db.child("user").get()
+def find_user(self, id_, pw_):                                                  #사용자가 존재하는지 찾는 함수
+    users = self.db.child("user").get()                                         #'user' 항목 아래에 사용자의 정보를 저장한다
     target_value=[]
     for res in users.each():
         value = res.val()
@@ -50,23 +50,23 @@ def find_user(self, id_, pw_):
 
 @application.route("/logout")
 def logout_user():
-    session.clear()
-    return redirect(url_for('hello'))                    #이부분 나중에 view_list로 수정필요
+    session.clear()                                 #로그아웃 로직
+    return redirect(url_for('hello'))                    
 
 @application.route("/signup")
-def signUp():
+def signUp():                                       #회원가입
     return render_template("signUp.html")
 
 @application.route("/signup_post", methods=['POST'])
-def register_user():
+def register_user():                                #회원가입 로직
     data=request.form
     pw=data.get('pw')
     print("Password:", pw)
-    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
-    if DB.insert_user(data, pw_hash):
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()        #패스워드를 해시값으로 처리후 저장
+    if DB.insert_user(data, pw_hash):                               #기존에 없는 user일 경우 새로 등록하고 로그인 페이지로 이동
         return render_template("login.html")
     else:
-        flash("user id already exist!")
+        flash("user id already exist!")                             #기존에 있는 user일 경우 플래시 메세지 반환
         return render_template("signUp.html")
 
 @application.route('/myPage')
@@ -176,7 +176,7 @@ def view_list():
     item_status = request.args.get("item_status", "all")
     items = DB.get_items_to_list()  # Call the method to get the list of items
     
-    if item_status == "available":
+    if item_status == "available":                                                          #상품의 상태 저장 'available = 등록만 진행된 상태'
         items = [item for item in items if item['item_status'] == "available"]
     elif item_status == "거래완료":
         items = [item for item in items if item['item_status'] == "거래완료"]
@@ -205,25 +205,25 @@ def view_list():
 
 @application.route("/flip_view")
 def flip_view():
-    items = DB.get_items()
+    items = DB.get_items()                                                      #플립뷰에 나타낼 상품들 불러오기
     return render_template("flipView.html", items=items)
 
 
 
 # 상품 결제 페이지로 넘어감 -> 해결!
 @application.route("/purchase_item/<name>/")
-def purchase_item(name):
-    data=DB.get_item_by_name(str(name))
+def purchase_item(name):                                                        #상품 결제 버튼눌렀을때 결제페이지로 넘어가는 함수
+    data=DB.get_item_by_name(str(name))                                         #이름을 통해서 상품정보 가져오는 함수 - 결제 페이지에 해당상품관련 정보 뿌려주기위해 필요함
     return render_template("purchasePage.html", name=name, data=data, transaction_list=data['transaction'])
 
 @application.route('/reg_buy/<string:name>', methods=['POST'])
-def reg_buy(name):
+def reg_buy(name):                                                              #상품 구매시 정보 받아오는 함수
     buyer_id = session.get('id') 
-        
-    trans_mode = request.form['transMode']
-    trans_media = request.form['transMedia']
 
-    data = DB.get_item_by_name(name)  
+    trans_mode = request.form['transMode']                                      #사용자가 선택한 거래방식
+    trans_media = request.form['transMedia']                                    #사용자가 선택한 결제방식
+
+    data = DB.get_item_by_name(name)                                            #이름을 통해서 상품 받아오기
 
     DB.reg_buy(buyer_id, trans_mode, trans_media, name)
 
@@ -280,14 +280,14 @@ def unlike(name):
     return jsonify({'msg': '좋아요 취소 완료!'})     # 업데이트 성공 메시지를 JSON 형식으로 반환
 
 
-@application.route("/myLikes")
-def my_likes():
-    if 'id' not in session:
+@application.route("/myLikes")                              #나의 찜 페이지
+def my_likes():                             
+    if 'id' not in session:                                 #로그인 되어있지 않을 때 로그인 페이지로 돌아감
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
     user_id = session['id']
-    liked_items = DB.get_liked_items(user_id)
+    liked_items = DB.get_liked_items(user_id)               #로그인한 사용자의 찜한 상품들을 DB에서 가져옴
     
     return render_template("myLikes.html", liked_items=liked_items)
 
