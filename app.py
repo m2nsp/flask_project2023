@@ -131,12 +131,15 @@ def myProfile():
 def productList():
     return render_template("productList.html")
 
+# 상품등록 페이지 호출
 @application.route('/reg_items')
 def reg_items():
+    # 결제 등록일과 사용자 아이디를 받아 상품 등록페이지에 전달
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     seller_id = session.get('id') 
     return render_template('reg_items.html', seller_id=seller_id, post_date=post_date)
 
+# 상품등록페이지에서 등록시 자동으로 db 등록하기
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -164,8 +167,10 @@ def reg_item_submit_post():
 #     data = DB.get_item_by_name(str(name))
 #     return render_template("detail_general.html", name=name, data=data, transaction_list=data['transaction'])
 
+# 상품 전체 조회 => 거래상태로 sorting
 @application.route("/list")
 def view_list():
+    # 상품 이미지, 등록일, 가격, 거래방식 표시
     post_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     page = request.args.get("page", 0, type=int)
     item_status = request.args.get("item_status", "all")
@@ -461,12 +466,13 @@ def my_page_done(user_id):
         sort_mode=sort_mode 
     )
 
-
+# 비대면 상자 정보
 @application.route("/myTradeBox/<name>/")
 def view_trade_box_detail(name):
     if 'id' not in session:
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
+    # db 받아와 전달
     data = DB.get_item_by_name(name)
     return render_template("my_trade_box.html", name=name, data=data)
 
