@@ -1,6 +1,9 @@
 # GamzaMarket
 23-2 오픈SW플랫폼 강의에서 진행한 <감자마켓> 팀프로젝트입니다.
 
+기술블로그 링크:
+https://sleepy-potential-2eb.notion.site/d2d8fb9d87794b2eb99f600230bd16ff
+
 ## 팀원 및 담당페이지
 ### 김경희
 - 프론트, 백엔드
