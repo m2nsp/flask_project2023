@@ -309,39 +309,46 @@ def submit_comment_purchased(name):
     DB.submit_comment_purchased(comment, name)      # 구매한 상품에 대한 댓글 데이터를 데이터베이스(DB)에 추가함    
     return redirect(url_for("detail_purchased", name=name))     # 댓글 추가 후 구매한 상품 상세 페이지로 리다이렉트
 
-
-
-
+# 사용자가 리뷰를 제출하는 라우트
 @application.route("/submit_review", methods=['POST'])
 def submit_review():
+    # 세션에 사용자 ID가 없으면 로그인이 필요하다는 플래시 메시지를 표시하고 로그인 페이지로 리다이렉션함.
     if 'id' not in session:
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
+    # 세션에서 사용자 ID, 상품 이름, 역할을 가져옴.
     user_id = session['id']
     item_name = request.args.get('name')
     role = request.args.get('role')
 
+    # 폼 데이터에서 등급과 리뷰 내용을 가져옴.
     rating = request.form.get('rating')
     review_content = request.form.get('review')
 
+    # 판매자인 경우 판매자 리뷰를, 구매자인 경우 구매자 리뷰를 데이터베이스에 삽입함.
     if role == 'seller':
         DB.insert_seller_review(user_id, item_name, rating, review_content)
     else:
         DB.insert_buyer_review(user_id, item_name, rating, review_content)
 
+    # 리뷰 등록 성공 메시지를 플래시하고 상품 목록 페이지로 리다이렉션함.
     flash("리뷰가 성공적으로 등록되었습니다.")
     return redirect(url_for('view_list'))
 
+# 상품 리뷰 상세 정보 페이지 라우트
 @application.route("/reviewDetail/<name>/")
 def review_detail(name):
+    # 상품, 거래 정보, 판매자 및 구매자 리뷰를 데이터베이스에서 가져옴.
     item_data = DB.get_item_by_name(name)
     trans_info_data = DB.get_trans_info(name)
     seller_review = DB.get_seller_reviews(name)
     buyer_review = DB.get_buyer_reviews(name)
 
+    # 세션에서 사용자 ID를 가져옴.
     user_id = session.get('id') 
 
+    # 사용자가 판매자인지, 구매자인지 확인하고, 상대방의 ID와 역할을 설정함.
     if user_id == item_data['seller_id']:
         trader_id = trans_info_data['buyer_id']
         role = 'seller'
@@ -349,15 +356,20 @@ def review_detail(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
+    # 리뷰 상세 정보 페이지를 렌더링함.
     return render_template("reviewDetail.html", trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], name=name, user_id=user_id, seller_reviews=seller_review, buyer_reviews=buyer_review, price=item_data['price'])
 
+# 상품 리뷰 등록 페이지 라우트
 @application.route("/reviewRegister/<name>")
 def review_register(name):
+    # 상품 및 거래 정보를 데이터베이스에서 가져옴.
     item_data = DB.get_item_by_name(name)
     trans_info_data = DB.get_trans_info(name)
     
+    # 세션에서 사용자 ID를 가져옴.
     user_id = session.get('id') 
 
+    # 사용자가 판매자인지, 구매자인지 확인하고, 상대방의 ID와 역할을 설정함.
     if user_id == item_data['seller_id']:
         trader_id = trans_info_data['buyer_id']
         role = 'seller'
@@ -365,27 +377,34 @@ def review_register(name):
         trader_id = item_data['seller_id']
         role = 'buyer'
 
+    # 리뷰 등록 페이지를 렌더링함.
     return render_template("reviewRegister.html", name=name, trader_id=trader_id, seller_id=item_data['seller_id'], buyer_id=trans_info_data['buyer_id'], img_path=item_data['img_path'], user_id=user_id, price=item_data['price'])
 
+# 사용자의 리뷰 목록 페이지 라우트
 @application.route("/myReview/<user_id>")
 def my_review(user_id):
+    # 로그인되어 있지 않으면 로그인 페이지로 리다이렉션함.
     if 'id' not in session:
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
+    # 사용자의 판매자 및 구매자 리뷰를 데이터베이스에서 가져옴.
     seller_reviews = DB.get_seller_reviews_by_user_id(user_id)
     buyer_reviews = DB.get_buyer_reviews_by_user_id(user_id)
     user_reviews = seller_reviews + buyer_reviews
 
+    # 페이지 및 페이지당 리뷰 수를 설정함.
     page = request.args.get("page", 0, type=int)
     per_page = 3
 
     start_idx = per_page * page
     end_idx = per_page * (page + 1)
 
+    # 현재 페이지에 표시할 리뷰 데이터를 설정함.
     data = user_reviews[start_idx:end_idx]
     tot_count = len(user_reviews)
 
+    # 사용자의 리뷰 목록 페이지를 렌더링함.
     return render_template(
         "myReview.html",
         datas=data,
@@ -396,15 +415,21 @@ def my_review(user_id):
         user_id=user_id 
     )
 
-
+# 사용자의 진행 중인 거래 목록 페이지 라우트
 @application.route("/myPageIng/<user_id>")
 def my_page_ing(user_id):
+    # 로그인되어 있지 않으면 로그인 페이지로 리다이렉션함.
     if 'id' not in session:
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
+    # 사용자의 진행 중인 거래 목록을 데이터베이스에서 가져옴.
     ing_items = DB.get_ing_items_by_user_id(user_id)
+
+    # 정렬 모드를 가져옴. (기본값은 'all')
     sort_mode = request.args.get("sort", "all")
+
+    # 정렬 모드에 따라 거래 목록을 필터링함.
     if sort_mode == "direct":
         ing_items = [item for item in ing_items if item.get('trans_mode') == "direct"]
     elif sort_mode == "parcel":
@@ -412,15 +437,18 @@ def my_page_ing(user_id):
     elif sort_mode == "nondirect-box":
         ing_items = [item for item in ing_items if item.get('trans_mode') == "nondirect-box"]
 
+    # 페이지 및 페이지당 거래 수를 설정함.
     page = request.args.get("page", 0, type=int)
     per_page = 3
 
     start_idx = per_page * page
     end_idx = per_page * (page + 1)
 
+    # 현재 페이지에 표시할 거래 데이터를 설정함.
     data = ing_items[start_idx:end_idx]
     tot_count = len(ing_items)
 
+    # 사용자의 진행 중인 거래 목록 페이지를 렌더링함.
     return render_template(
         "myPageIng.html",
         ing_items=data,
@@ -430,17 +458,22 @@ def my_page_ing(user_id):
         sort_mode=sort_mode 
     )
 
-
+# 사용자의 완료된 거래 목록 페이지 라우트
 @application.route("/myPageDone/<user_id>")
 def my_page_done(user_id):
+    # 로그인되어 있지 않으면 로그인 페이지로 리다이렉션함.
     if 'id' not in session:
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
+    # 사용자의 완료된 거래 목록을 데이터베이스에서 가져옴.
     done_items = DB.get_done_items_by_user_id(user_id)
     print("Done Items:", done_items)
 
+    # 정렬 모드를 가져옴. (기본값은 'all')
     sort_mode = request.args.get("sort", "all")
+
+    # 정렬 모드에 따라 거래 목록을 필터링함.
     if sort_mode == "direct":
         done_items = [item for item in done_items if item.get('trans_mode') == "direct"]
     elif sort_mode == "parcel":
@@ -448,15 +481,18 @@ def my_page_done(user_id):
     elif sort_mode == "nondirect-box":
         done_items = [item for item in done_items if item.get('trans_mode') == "nondirect-box"]
 
+    # 페이지 및 페이지당 거래 수를 설정함.
     page = request.args.get("page", 0, type=int)
     per_page = 3
 
     start_idx = per_page * page
     end_idx = per_page * (page + 1)
 
+    # 현재 페이지에 표시할 거래 데이터를 설정함.
     data = done_items[start_idx:end_idx]
     tot_count = len(done_items)
 
+    # 사용자의 완료된 거래 목록 페이지를 렌더링함.
     return render_template(
         "myPageDone.html",
         done_items=data,
@@ -465,6 +501,7 @@ def my_page_done(user_id):
         user_id=user_id,
         sort_mode=sort_mode 
     )
+
 
 # 비대면 상자 정보
 @application.route("/myTradeBox/<name>/")
