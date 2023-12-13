@@ -28,7 +28,6 @@
 - 담당 파일:
   - 헤더&푸터: `header.html`, `footer.html`
   - 홈화면: `home.html`
-  - 메뉴바: `menuBar.html`
   - 진행&완료내역: `myPageDone.html`, `myPageIng.html`
   - 마이페이지기본화면: `myPage.html`
 
@@ -47,7 +46,6 @@
   - 리뷰작성페이지: `reviewRegister.html`
   - 리뷰상세: `reviewDetail.html`
   - 홈화면: `home.html`
-  - 메뉴바: `menuBar.html`
   - 진행&완료내역: `myPageDone.html`, `myPageIng.html`
   - `app.py`
   - `database.py`
