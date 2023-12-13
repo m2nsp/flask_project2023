@@ -250,7 +250,8 @@
                 }
             });
         }
-        
+
+        // 이미지 미리보기 함수
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -274,6 +275,7 @@
 
         <article>
             <form method="post" enctype="multipart/form-data" action="/submit_item_post">
+                <!--날짜와 아이디를 안 보이게 전달하기-->
                 <input type="hidden" name="post_date" value="{{ post_date }}">
                 <input type="hidden" name="seller_id" value="{{ seller_id }}">
 
@@ -341,6 +343,7 @@
 
 
                             <script>
+                                // 날짜, 시간 포맷하여 받아오기
                                 function getCurrentTime() {
                                     return new Date().toISOString();
                                 }
