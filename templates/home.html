@@ -114,22 +114,23 @@
     {% include 'header.html' %}
     <section>
         {% block section %}
+        <!-- 플립 뷰 컨테이너 -->
         <div class="flip-view-container">
             <div class="left-side">
-              <h2>넘기고,<br> 찜하세요!</h2>
-              <p>쇼핑은 하고싶은데, 사고싶은 물건이 눈에 띄지 않았나요?<br> 플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을 찜하세요! 감자마켓이 더욱 간편해진 물건 탐색을 도와드릴게요.</p><br><br>
-              <button class="go-to-flipview button" onclick="goToFlipView()">플립뷰 사용하기</button>
+                <h2>넘기고,<br> 찜하세요!</h2>
+                <p>쇼핑은 하고 싶은데, 사고 싶은 물건이 눈에 띄지 않았나요?<br> 플립뷰 기능을 사용해서 가볍게 넘기고, 마음에 드는 물건을 찜하세요! 감자마켓이 더욱 간편해진 물건 탐색을 도와드릴게요.</p><br><br>
+                <button class="go-to-flipview button" onclick="goToFlipView()">플립뷰 사용하기</button>
             </div>
             <div class="right-side"></div>
         </div>
-          
 
+        <!-- 상단에 올라온 신상품 컨테이너 -->
         <div class="upside-container">
             <span class="page-title">따끈따끈하게 올라온 신상품</span>
             <a href="{{ url_for('view_list') }}" class="view-button">전체보기 ></a>
         </div>
-        
 
+        <!-- 신상품 목록 -->
         <div class="Ing-list">
             {% for item_key, item_data in data['items'].items() %}
                 <div class="Ing-item">
@@ -152,12 +153,14 @@
             {% endfor %}
         </div>
 
+        <!-- 찜한 상품이 있는 경우에만 표시 -->
         {% if liked_items %}
         <div class="upside-container">
             <span class="page-title">회원님이 찜한 상품</span>
             <a href="{{ url_for('my_likes') }}" class="view-button">전체보기 ></a>
         </div>
 
+        <!-- 찜한 상품 목록 -->
         <div class="Ing-list">
             {% for item in liked_items %}
                 <div class="Ing-item">
@@ -181,9 +184,9 @@
                 </div>
             {% endfor %}
         </div>
-    {% endif %}
-    
+        {% endif %}
 
+        <!-- 연보라색 영역 우측 이미지 자동으로 바뀌게 업데이트 -->
         <script>
         document.addEventListener("DOMContentLoaded", function () {
             const rightSide = document.querySelector(".right-side");
@@ -210,11 +213,12 @@
             setInterval(updateImage, 1000);
         });
 
+        // 플립뷰 페이지로 이동하는 함수
         function goToFlipView() {
-        window.location.href = "/flip_view";
+            window.location.href = "/flip_view";
         }
-
         </script>
+
           
         {% endblock section %}
     </section>
