@@ -310,29 +310,35 @@ def submit_comment_purchased(name):
     return redirect(url_for("detail_purchased", name=name))     # 댓글 추가 후 구매한 상품 상세 페이지로 리다이렉트
 
 # 사용자가 리뷰를 제출하는 라우트
-@application.route("/submit_review", methods=['POST'])
-def submit_review():
-    # 세션에 사용자 ID가 없으면 로그인이 필요하다는 플래시 메시지를 표시하고 로그인 페이지로 리다이렉션함.
+@application.route("/submit_review/<name>", methods=['POST'])
+def submit_review(name):
+    item_data = DB.get_item_by_name(name)
+    trans_info_data = DB.get_trans_info(name)
+
     if 'id' not in session:
         flash("로그인이 필요한 서비스입니다.")
         return redirect(url_for('login'))
 
-    # 세션에서 사용자 ID, 상품 이름, 역할을 가져옴.
     user_id = session['id']
-    item_name = request.args.get('name')
-    role = request.args.get('role')
+    item_name = name 
 
-    # 폼 데이터에서 등급과 리뷰 내용을 가져옴.
+    if user_id == item_data['seller_id']:
+        trader_id = trans_info_data['buyer_id']
+        role = 'seller'
+    else:
+        trader_id = item_data['seller_id']
+        role = 'buyer'
+
     rating = request.form.get('rating')
     review_content = request.form.get('review')
 
-    # 판매자인 경우 판매자 리뷰를, 구매자인 경우 구매자 리뷰를 데이터베이스에 삽입함.
     if role == 'seller':
         DB.insert_seller_review(user_id, item_name, rating, review_content)
     else:
         DB.insert_buyer_review(user_id, item_name, rating, review_content)
 
-    # 리뷰 등록 성공 메시지를 플래시하고 상품 목록 페이지로 리다이렉션함.
+    print("role:", role)
+
     flash("리뷰가 성공적으로 등록되었습니다.")
     return redirect(url_for('view_list'))
 
