@@ -117,47 +117,64 @@
     {% include 'header.html' %}
 
     <section>
-        {% block section %}
+        <!-- 진행중인 거래 목록 페이지 상단 부분 -->
         <div class="upside-container">
+            <!-- 페이지 제목 -->
             <span class="page-title">진행중인 거래</span>
+            <!-- 진행중인 거래 아이템 수 표시 -->
             <!-- <span class="num-done"> {{ liked_items|length }}</span> -->
         </div>
-
+        
+        <!-- 진행중인 거래 목록 페이지 내비게이션 -->
         <nav class="review-nav">
             <ul>
+                <!-- 전체보기 링크 -->
                 <li class="{% if sort_mode == 'all' %}selected{% endif %}"><a href="{{ url_for('my_page_ing', user_id=user_id, sort='all') }}">전체보기</a></li>
+                <!-- 직거래 링크 -->
                 <li class="{% if sort_mode == 'direct' %}selected{% endif %}"><a href="{{ url_for('my_page_ing', user_id=user_id, sort='direct') }}">직거래</a></li>
+                <!-- 택배거래 링크 -->
                 <li class="{% if sort_mode == 'parcel' %}selected{% endif %}"><a href="{{ url_for('my_page_ing', user_id=user_id, sort='parcel') }}">택배거래</a></li>
+                <!-- 비대면상자 링크 -->
                 <li class="{% if sort_mode == 'nondirect-box' %}selected{% endif %}"><a href="{{ url_for('my_page_ing', user_id=user_id, sort='nondirect-box') }}">비대면상자</a></li>
-            </nav>
-
+            </ul>
+        </nav>
+        
+        <!-- 진행중인 거래 목록 표시 부분 -->
         <div class="Ing-list">
+            <!-- 진행중인 각 거래 아이템 표시 -->
             {% for item in ing_items %}
-                    <div class="Ing-item">
-                        {% if item.trans_mode == 'nondirect-box' %}
-                            <a href="{{ url_for('view_trade_box_detail', name=item.name) }}">
-                                <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
-                            </a>
-                        {% else %}
-                            <a href="{{ url_for('detail_purchased', name=item.name) }}">
-                                <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
-                            </a>
-                        {% endif %}
-                        <div class="Ing-item-text">
-                            <span class="item-name">{{ item.name }}</span><br><br>
-                            {{ item.trans_date }}<br>
-                            <span>{{ item.price }}원</span><br>
-                            {% if item.trans_mode == 'direct' %}
+                <div class="Ing-item">
+                    <!-- 거래 모드에 따라 상세 페이지로 이동하는 링크 -->
+                    {% if item.trans_mode == 'nondirect-box' %}
+                        <a href="{{ url_for('view_trade_box_detail', name=item.name) }}">
+                            <!-- 거래 상품 이미지 -->
+                            <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('detail_purchased', name=item.name) }}">
+                            <!-- 거래 상품 이미지 -->
+                            <img src="../../static/img/{{ item.img_path }}" width="150" height="200">
+                        </a>
+                    {% endif %}
+                    <div class="Ing-item-text">
+                        <!-- 상품명 -->
+                        <span class="item-name">{{ item.name }}</span><br><br>
+                        <!-- 거래 날짜 및 가격 -->
+                        {{ item.trans_date }}<br>
+                        <span>{{ item.price }}원</span><br>
+                        <!-- 거래 모드에 따른 아이콘 표시 -->
+                        {% if item.trans_mode == 'direct' %}
                             <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
-                            {% elif item.trans_mode == 'parcel' %}
-                                <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
-                            {% elif item.trans_mode == 'nondirect-box' %}
-                                <img src="../../static/img/box.png" style="width:30px; height: 30px;">
-                            {% endif %}  
-                        </div>
+                        {% elif item.trans_mode == 'parcel' %}
+                            <img src="../../static/img/pars.png" style="width:30px; height: 30px;">
+                        {% elif item.trans_mode == 'nondirect-box' %}
+                            <img src="../../static/img/box.png" style="width:30px; height: 30px;">
+                        {% endif %}  
                     </div>
+                </div>
             {% endfor %}
         </div>
+
 
     {% endblock section %}
     </section>
