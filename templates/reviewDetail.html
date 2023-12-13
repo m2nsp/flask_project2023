@@ -170,87 +170,106 @@
     <section>
         {% block section %}
 
-    <div class="product-title">거래품목</div>
-            <div class="div-container">
-                <div class="leftside">
-                    <div class="product-info">
-                        <div class="info-imglink">
-                            <img src="../../static/img/{{img_path}}" alt="Product Image">
-                            <button class="view-button" onclick="location.href='reviewDetail.html'">상품 상세보기</button>
+        <!-- 거래품목 정보 표시 부분 -->
+        <div class="product-title">거래품목</div>
+        <div class="div-container">
+            <div class="leftside">
+                <!-- 상품 정보 -->
+                <div class="product-info">
+                    <!-- 상품 이미지 및 상세보기 버튼 -->
+                    <div class="info-imglink">
+                        <img src="../../static/img/{{img_path}}" alt="Product Image">
+                        <button class="view-button" onclick="location.href='reviewDetail.html'">상품 상세보기</button>
+                    </div>
+                    <!-- 상품 상세 정보 -->
+                    <div class="info-details">
+                        <!-- 상품명 -->
+                        <div class="info-line">
+                            <span class="info-q">상품명</span><br>
+                            <span class="info-a">{{ name }}</span>
                         </div>
-                        <div class="info-details">
-                            <div class="info-line">
-                                <span class="info-q">상품명</span><br>
-                                <span class="info-a">{{ name }}</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-q">거래대상</span><br>
-                                <span class="info-a">{{ trader_id }}</span>
-                            </div>
-                            <div class="info-line">
-                                <span class="info-q">거래가격</span><br>
-                                <span class="info-a">{{ price }}</span>
-                            </div>
+                        <!-- 거래대상(판매자 또는 구매자) -->
+                        <div class="info-line">
+                            <span class="info-q">거래대상</span><br>
+                            <span class="info-a">{{ trader_id }}</span>
+                        </div>
+                        <!-- 거래가격 -->
+                        <div class="info-line">
+                            <span class="info-q">거래가격</span><br>
+                            <span class="info-a">{{ price }}</span>
                         </div>
                     </div>
                 </div>
-            </div>   
-            
-    
-            <div class="title">판매자리뷰</div>
-            <div class="review-info-seller">
-                {% if seller_reviews %}
-                    {% for name, review_info in seller_reviews.items() %}
-                        <div class="info-line">
-                            <div class="info-top">
-                                <div class="stars">
-                                    {% for i in range(1, 6) %}
-                                        <input type="radio" id="star{{ i }}" name="rating_{{ name }}" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %} disabled>
-                                        <span class="stars-label" {% if i|int <= review_info['rating']|int %}style="color: #F8D57E;"{% else %}style="color: #ccc;"{% endif %}>&#9733;</span>
-                                    {% endfor %}
-                                </div>
-                                <span class="trader">{{ name }}</span>
-                            </div>
-                            <span class="info-a">
-                                {{ review_info['review_content'] }}
-                            </span>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="info-line">
-                        <span class="info-a">아직 등록된 리뷰가 없습니다.</span>
-                    </div>
-                {% endif %}
             </div>
-            
-            <div class="title">구매자리뷰</div>
-            <div class="review-info-buyer">
-                {% if buyer_reviews %}
-                    {% for name, review_info in buyer_reviews.items() %}
-                        <div class="info-line">
-                            <div class="info-top">
-                                <div class="stars">
-                                    {% for i in range(1, 6) %}
-                                        <input type="radio" id="star{{ i }}" name="rating_{{ name }}" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %} disabled>
-                                        <span class="stars-label" {% if i|int <= review_info['rating']|int %}style="color: #F8D57E;"{% else %}style="color: #ccc;"{% endif %}>&#9733;</span>
-                                    {% endfor %}
-                                </div>
-                                <span class="trader">{{ name }}</span>
-                            </div>
-                            <span class="info-a">
-                                {{ review_info['review_content'] }}
-                            </span>
-                        </div>
-                    {% endfor %}
-                {% else %}
+        </div>
+        
+        <!-- 판매자 리뷰 정보 표시 부분 -->
+        <div class="title">판매자리뷰</div>
+        <div class="review-info-seller">
+            <!-- 판매자 리뷰 목록 -->
+            {% if seller_reviews %}
+                {% for name, review_info in seller_reviews.items() %}
                     <div class="info-line">
-                        <span class="info-a">아직 등록된 리뷰가 없습니다.</span>
+                        <div class="info-top">
+                            <!-- 별점 표시 -->
+                            <div class="stars">
+                                {% for i in range(1, 6) %}
+                                    <input type="radio" id="star{{ i }}" name="rating_{{ name }}" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %} disabled>
+                                    <span class="stars-label" {% if i|int <= review_info['rating']|int %}style="color: #F8D57E;"{% else %}style="color: #ccc;"{% endif %}>&#9733;</span>
+                                {% endfor %}
+                            </div>
+                            <!-- 거래자명 -->
+                            <span class="trader">{{ name }}</span>
+                        </div>
+                        <!-- 리뷰 내용 -->
+                        <span class="info-a">
+                            {{ review_info['review_content'] }}
+                        </span>
                     </div>
-                {% endif %}
-            </div>
-            
-            <button class="review-button" onclick="location.href='/reviewRegister/{{ name }}'">리뷰 등록하기</button>
-            
+                {% endfor %}
+            {% else %}
+                <!-- 리뷰가 없는 경우 -->
+                <div class="info-line">
+                    <span class="info-a">아직 등록된 리뷰가 없습니다.</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- 구매자 리뷰 정보 표시 부분 -->
+        <div class="title">구매자리뷰</div>
+        <div class="review-info-buyer">
+            <!-- 구매자 리뷰 목록 -->
+            {% if buyer_reviews %}
+                {% for name, review_info in buyer_reviews.items() %}
+                    <div class="info-line">
+                        <div class="info-top">
+                            <!-- 별점 표시 -->
+                            <div class="stars">
+                                {% for i in range(1, 6) %}
+                                    <input type="radio" id="star{{ i }}" name="rating_{{ name }}" value="{{ i }}" {% if i == review_info['rating'] %}checked{% endif %} disabled>
+                                    <span class="stars-label" {% if i|int <= review_info['rating']|int %}style="color: #F8D57E;"{% else %}style="color: #ccc;"{% endif %}>&#9733;</span>
+                                {% endfor %}
+                            </div>
+                            <!-- 거래자명 -->
+                            <span class="trader">{{ name }}</span>
+                        </div>
+                        <!-- 리뷰 내용 -->
+                        <span class="info-a">
+                            {{ review_info['review_content'] }}
+                        </span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- 리뷰가 없는 경우 -->
+                <div class="info-line">
+                    <span class="info-a">아직 등록된 리뷰가 없습니다.</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- 리뷰 등록 버튼 -->
+        <button class="review-button" onclick="location.href='/reviewRegister/{{ name }}'">리뷰 등록하기</button>
+
             {% endblock section %}
             </section>
             
