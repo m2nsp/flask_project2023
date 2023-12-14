@@ -309,6 +309,7 @@
                         <span class="item-name">{{ item.name }}</span><br><br>
                         {{ item.post_date }}<br>
                         <span>{{ item.price }}원</span><br>
+                        // 선택한 거래 정보 모두 이미지로 표시
                         {% for transaction_value in item.trans_mode %}
                         {% if transaction_value == 'direct' %}
                         <img src="../../static/img/dir.png" style="width:30px; height: 30px;">
